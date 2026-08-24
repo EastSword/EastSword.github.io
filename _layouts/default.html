@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if page.title %}{{ page.title }} · {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta name="description" content="{{ site.description }}">
+  <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <div class="brand">{{ site.title }}</div>
+      <div class="tagline">{{ site.tagline }}</div>
+      <nav>
+        <a href="{{ '/' | relative_url }}">话题索引</a>
+        <a href="{{ '/#about' | relative_url }}">关于</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    {{ content }}
+  </main>
+
+  <footer class="site">
+    <div class="wrap">
+      东方隐侠安全团队 · 千里 —— AI 安全 / 身份安全 / 软件供应链<br>
+      公众号「东方隐侠安全团队」首发 · 本站为全平台资源正典索引
+    </div>
+  </footer>
+</body>
+</html>

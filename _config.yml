@@ -1,0 +1,10 @@
+title: 千里的安全研究
+tagline: 东方隐侠安全团队 · 话题中枢站
+description: AI 安全 / 身份安全 / 软件供应链——每个研究主题的全平台资源索引
+url: https://eastsword.github.io
+
+markdown: kramdown
+collections:
+  topics:
+    output: true
+    permalink: /topics/:name/
