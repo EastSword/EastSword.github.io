@@ -1,11 +1,10 @@
 ---
 layout: default
 ---
+<div class="status-line">SYSTEM ONLINE · 全平台资源索引持续更新</div>
+
 <section id="topics">
-  <h1 style="font-size:24px;margin-bottom:8px;">研究话题</h1>
-  <p style="color:var(--text-dim);font-size:14.5px;margin-bottom:28px;">
-    每个话题是一份持续更新的研究，全平台各形态入口聚合在话题页内。
-  </p>
+  <div class="section-title">// RESEARCH TOPICS · 研究话题</div>
 
   {% assign topics = site.topics | sort: date | reverse %}
   {% for t in topics %}
@@ -21,18 +20,26 @@ layout: default
         <span class="badge drafting">撰写中</span>
       {% endif %}
       <span>{{ t.date | date: "%Y-%m-%d" }}</span>
-      {% if t.keyword %}<span>关键词</span><span class="badge keyword">{{ t.keyword }}</span>{% endif %}
+      {% if t.keyword %}<span>KEYWORD</span><span class="badge keyword">{{ t.keyword }}</span>{% endif %}
       {% assign link_count = t.links | size %}
-      <span>{{ link_count }} 个平台入口</span>
+      <span>{{ link_count }} PLATFORMS</span>
     </div>
   </div>
   {% endfor %}
+
+  {% if topics.size == 0 %}
+  <div class="placeholder-box">
+    <div class="glyph">▓▒░</div>
+    研究话题正整理入库，首发内容即将上线
+  </div>
+  {% endif %}
 </section>
 
-<section class="block" id="about" style="margin-top:64px;">
-  <h2>关于</h2>
+<section class="block" id="about" style="margin-top:72px;">
+  <h2>ABOUT · 关于</h2>
   <div class="body">
-    <p><strong>千里</strong>，东方隐侠安全团队成员。安全 BP，深耕 Web 安全，当前主攻方向：<strong>AI 安全（Agent / MCP / Skills 供应链）、身份安全（ITDR）、软件供应链</strong>。</p>
-    <p>这个站点不按时间流更新——它按<strong>研究主题</strong>组织。每个话题页聚合该研究在公众号、CSDN、FreeBuf、B站、知识大陆的全部形态入口与配套资产，地址失效或形态新增时持续修订。千里之堤，溃于蚁穴；本站专注找那些蚁穴。</p>
+    <p><strong>东方隐侠安全团队（DFYX-SEC）</strong>，一支专注于攻防前沿的安全研究团队。研究方向横跨 AI 安全（Agent / MCP / Skills 供应链）、身份安全（ITDR）、软件供应链三大领域，坚持「研究驱动、实战检验」——每个话题从第一性原理拆解，配真实事件与可落地的检测基线。</p>
+    <p><strong>千里</strong>，团队创始人，安全 BP。深耕 Web 安全多年，当前主攻 AI Agent 时代的新攻击面。负责本站全部研究话题的选题与撰写。</p>
+    <p>本站不按时间流更新，按<strong>研究主题</strong>组织：每个话题页聚合该研究在公众号、CSDN、FreeBuf、B站、知识大陆的全部形态入口与配套资产，地址持续修订。</p>
   </div>
 </section>
