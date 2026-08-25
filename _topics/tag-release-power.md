@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 layout: topic
 title: Tag 即发布权
 subtitle: GitLab / GitHub Tag 权限收敛与 CI 自动化管理实践
@@ -23,4 +23,15 @@ assets:
     url:
 ---
 
-研究进行中，本页为占位。正式内容随首发同步上线。
+## 核心问题
+
+Git 的历史不可变，但贴在历史上的标签可变。分支保护审内容，tag 保护审意图——企业普遍只配了前者，于是"发布一个版本"的权限实际掌握在每个 Developer 手里。tj-actions 事件用 15 小时和 23,000 个仓库证明了这份无人看守的权限在生产环境的杀伤力。
+
+## 覆盖内容
+
+- **六条攻击路径**：tag 绕过 MR 审核、retagging、版本号抢注、CI 配置注入偷凭证、产物漂移（xz 路数）、版本回滚——每条带复现命令与 ATT&CK 映射
+- **真实案例**：tj-actions / xz-utils / SolarWinds / Go Module Proxy / Repo Jacking
+- **权限收敛**：GitLab Protected Tags 与 GitHub Rulesets 双平台配置
+- **自动化接管**：GitLab Runner / TeamCity / Jenkins / GitHub Actions 四套生产脚本（TeamCity 版含五个真实踩坑记录）
+- **监控兜底**：漂移监控、祖先校验、审计接入三件套
+- **L0-L3 成熟度模型**与评审会十问
