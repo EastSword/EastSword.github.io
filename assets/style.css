@@ -78,14 +78,15 @@ body::after {
 .nav .brand {
   font-family: var(--serif);
   font-weight: 900;
-  font-size: 17px;
-  letter-spacing: 4px;
+  font-size: 15px;
+  letter-spacing: 2px;
   color: var(--gold-bright);
   text-decoration: none;
   text-shadow: 0 0 18px rgba(212, 175, 106, 0.35);
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 9px;
+  white-space: nowrap;
 }
 .nav .brand .logo {
   height: 26px;
