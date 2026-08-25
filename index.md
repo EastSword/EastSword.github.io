@@ -33,8 +33,8 @@ layout: default
 
     {% assign topics = site.topics | sort: date | reverse %}
     {% for t in topics %}
-    <a class="tile{% if forloop.first %} wide{% endif %}" href="{{ t.url | relative_url }}">
-      <div class="status-row">
+    <a class="tile" href="{{ t.url | relative_url }}">
+      <div class="row1">
         {% if t.status == "published" %}
           <span class="badge published">已发布</span>
         {% elsif t.status == "publishing" %}
@@ -42,15 +42,17 @@ layout: default
         {% else %}
           <span class="badge drafting">撰写中</span>
         {% endif %}
-        {% if t.keyword %}<span class="badge keyword">关键词 {{ t.keyword }}</span>{% endif %}
-        <span style="color:var(--paper-dim);">{{ t.date | date: "%Y-%m-%d" }}</span>
-      </div>
-      <h3>{{ t.title }}</h3>
-      <div class="sub">{{ t.subtitle }}</div>
-      <div class="foot">
-        {% assign link_count = t.links | size %}
-        <span>{{ link_count }}+ 平台形态</span>
+        {% if t.keyword %}<span class="badge keyword">{{ t.keyword }}</span>{% endif %}
+        <h3>{{ t.title }}</h3>
         <span class="arrow">→</span>
+      </div>
+      <div class="row2">
+        <span>{{ t.subtitle }}</span>
+        <span class="dot">·</span>
+        <span>{{ t.date | date: "%Y-%m-%d" }}</span>
+        {% assign link_count = t.links | size %}
+        <span class="dot">·</span>
+        <span>{{ link_count }}+ 平台形态</span>
       </div>
     </a>
     {% endfor %}
@@ -68,6 +70,7 @@ layout: default
 <section id="about">
   <div class="wrap">
     <div class="about">
+      <img class="team-logo" src="https://profile-avatar.csdnimg.cn/c2ceeafad85e436cb21db246253bd55f_qq_37865996.jpg!1" alt="东方隐侠安全团队">
       <h2>关于 <span>东方隐侠</span></h2>
       <p><strong>东方隐侠安全团队（DFYX-SEC）</strong>，专注于攻防前沿的安全研究团队。研究方向横跨 AI 安全（Agent / MCP / Skills 供应链）、身份安全（ITDR）、软件供应链三大领域，坚持「研究驱动、实战检验」——每个话题从第一性原理拆解，配真实事件与可落地的检测基线。</p>
       <p><strong>千里</strong>，团队创始人，安全 BP。深耕 Web 安全多年，当前主攻 AI Agent 时代的新攻击面，负责本站全部研究话题的选题与撰写。</p>
