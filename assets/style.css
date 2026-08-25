@@ -94,7 +94,7 @@ body::after {
   transition: filter .25s;
 }
 .nav .brand:hover .logo { filter: drop-shadow(0 0 14px rgba(212, 175, 106, 0.7)); }
-.nav .brand span { color: var(--teal-glow); }
+.nav .brand span { color: var(--gold-bright); }
 .nav .links { display: flex; gap: 26px; }
 .nav .links a {
   font-family: var(--mono);
@@ -502,6 +502,15 @@ footer.site .seal {
 }
 footer.site a { color: var(--paper-dim); text-decoration: none; }
 footer.site a:hover { color: var(--teal-glow); }
+footer.site .social {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+footer.site .social .sep { color: var(--gold); opacity: .4; }
 
 /* ---------- 响应式 ---------- */
 @media (max-width: 760px) {
