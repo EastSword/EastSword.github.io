@@ -9,6 +9,14 @@ keyword: tag
 tags: [CI/CD, 企业安全, 供应链安全]
 updated: 2026-08-26
 links:
+  - platform: 公众号
+    form: 上篇《六条绕过代码审核的攻击路径》
+    url: https://mp.weixin.qq.com/s/CrNGPlDPP1iy6il1eRzjgQ
+    note: 已发布 2026-08-26
+  - platform: 公众号
+    form: 下篇《从 Protected Tags 到 CI 自动化的收敛工程》
+    url: https://mp.weixin.qq.com/s/v9MwugW4AYunP53H9Vz5lg
+    note: 已发布 2026-08-26
   - platform: CSDN
     form: 自检避坑版《GitLab 任何人都能打 tag？5 分钟自测你公司的发布权限》
     url: https://blog.csdn.net/qq_37865996/article/details/164052810
