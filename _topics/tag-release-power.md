@@ -26,8 +26,8 @@ assets:
     desc: 四级成熟度自评表 + 五分钟自检命令，公众号回复 tag 获取
     location: 公众号（回复 tag）
     url:
-  - name: Tag 治理完整资产包
-    desc: 四套 CI 脚本整包（含 TeamCity 五坑全解）、监控三件套、检测基线矩阵、评审会十问
+  - name: Tag 治理完整资产包（v1.1）
+    desc: 五套 CI 脚本整包（含 Monorepo 模块化版本线、TeamCity 六坑全解）、监控三件套、检测基线矩阵、评审会十问
     location: 知识星球
     url:
 ---
