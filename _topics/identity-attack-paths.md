@@ -7,6 +7,7 @@ date: 2026-08-25
 updated: 2026-08-25
 status: drafting
 keyword: ITDR
+tags: [身份安全, 企业安全, 检测工程]
 links:
   - platform: 公众号
     form: 上中下三篇（东方隐侠安全团队）

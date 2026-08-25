@@ -44,5 +44,79 @@
       </div>
     </div>
   </footer>
+  <script>
+  (function () {
+    var list = document.getElementById('topic-list');
+    if (!list) return;
+    var tiles = Array.prototype.slice.call(list.querySelectorAll('.tile'));
+    var search = document.getElementById('topic-search');
+    var chips = document.getElementById('tag-chips');
+    var pager = document.getElementById('pager');
+    var empty = document.getElementById('empty-result');
+    var PER_PAGE = 6;
+    var state = { q: '', tag: '__all', page: 1 };
+
+    function norm(s) { return (s || '').toLowerCase().trim(); }
+
+    function filtered() {
+      return tiles.filter(function (t) {
+        var tags = (t.getAttribute('data-tags') || '').split(',');
+        if (state.tag !== '__all' && tags.indexOf(state.tag) === -1) return false;
+        if (state.q) {
+          var hay = norm([t.getAttribute('data-title'), t.getAttribute('data-subtitle'),
+                          t.getAttribute('data-keyword'), tags.join(' ')].join(' '));
+          if (hay.indexOf(norm(state.q)) === -1) return false;
+        }
+        return true;
+      });
+    }
+
+    function render() {
+      var items = filtered();
+      var pages = Math.max(1, Math.ceil(items.length / PER_PAGE));
+      if (state.page > pages) state.page = pages;
+      var start = (state.page - 1) * PER_PAGE;
+
+      tiles.forEach(function (t) { t.style.display = 'none'; });
+      items.slice(start, start + PER_PAGE).forEach(function (t) { t.style.display = ''; });
+      empty.hidden = items.length !== 0;
+
+      if (pages <= 1) { pager.innerHTML = ''; return; }
+      var html = '';
+      if (state.page > 1) html += '<button data-go="' + (state.page - 1) + '">‹</button>';
+      for (var i = 1; i <= pages; i++) {
+        html += '<button data-go="' + i + '"' + (i === state.page ? ' class="cur"' : '') + '>' + i + '</button>';
+      }
+      if (state.page < pages) html += '<button data-go="' + (state.page + 1) + '">›</button>';
+      pager.innerHTML = html;
+    }
+
+    if (search) {
+      search.addEventListener('input', function () { state.q = search.value; state.page = 1; render(); });
+    }
+    if (chips) {
+      chips.addEventListener('click', function (e) {
+        var b = e.target.closest('.chip');
+        if (!b) return;
+        chips.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('active'); });
+        b.classList.add('active');
+        state.tag = b.getAttribute('data-tag');
+        state.page = 1;
+        render();
+      });
+    }
+    if (pager) {
+      pager.addEventListener('click', function (e) {
+        var b = e.target.closest('button[data-go]');
+        if (!b) return;
+        state.page = parseInt(b.getAttribute('data-go'), 10);
+        render();
+        var top = document.getElementById('topics').getBoundingClientRect().top + window.pageYOffset - 90;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+      });
+    }
+    render();
+  })();
+  </script>
 </body>
 </html>

@@ -32,30 +32,60 @@ layout: default
     </div>
 
     {% assign topics = site.topics | sort: date | reverse %}
-    {% for t in topics %}
-    <a class="tile" href="{{ t.url | relative_url }}">
-      <div class="row1">
-        {% if t.status == "published" %}
-          <span class="badge published">已发布</span>
-        {% elsif t.status == "publishing" %}
-          <span class="badge publishing">发布中</span>
-        {% else %}
-          <span class="badge drafting">撰写中</span>
-        {% endif %}
-        {% if t.keyword %}<span class="badge keyword">{{ t.keyword }}</span>{% endif %}
-        <h3>{{ t.title }}</h3>
-        <span class="arrow">→</span>
+    {% if topics.size > 0 %}
+    <div class="filter-bar">
+      <div class="search-box">
+        <span class="icon">⌕</span>
+        <input id="topic-search" type="text" placeholder="搜索话题 / 关键词 / 简介…" autocomplete="off">
       </div>
-      <div class="row2">
-        <span>{{ t.subtitle }}</span>
-        <span class="dot">·</span>
-        <span>{{ t.date | date: "%Y-%m-%d" }}</span>
-        {% assign link_count = t.links | size %}
-        <span class="dot">·</span>
-        <span>{{ link_count }}+ 平台形态</span>
+      <div class="tag-chips" id="tag-chips">
+        <button class="chip active" data-tag="__all">全部</button>
+        {% assign all_tags = topics | map: "tags" | join: "," | split: "," | uniq | sort %}
+        {% for tg in all_tags %}
+        <button class="chip" data-tag="{{ tg }}">{{ tg }}</button>
+        {% endfor %}
       </div>
-    </a>
-    {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="bento" id="topic-list">
+      {% for t in topics %}
+      {% assign t_tags = t.tags | join: "," %}
+      <a class="tile" href="{{ t.url | relative_url }}"
+         data-title="{{ t.title | escape }}"
+         data-subtitle="{{ t.subtitle | escape }}"
+         data-keyword="{{ t.keyword | escape }}"
+         data-tags="{{ t_tags }}">
+        <div class="row1">
+          {% if t.status == "published" %}
+            <span class="badge published">已发布</span>
+          {% elsif t.status == "publishing" %}
+            <span class="badge publishing">发布中</span>
+          {% else %}
+            <span class="badge drafting">撰写中</span>
+          {% endif %}
+          {% if t.keyword %}<span class="badge keyword">{{ t.keyword }}</span>{% endif %}
+          <h3>{{ t.title }}</h3>
+          <span class="arrow">→</span>
+        </div>
+        <div class="row2">
+          <span>{{ t.subtitle }}</span>
+          <span class="dot">·</span>
+          <span>{{ t.date | date: "%Y-%m-%d" }}</span>
+          {% assign link_count = t.links | size %}
+          <span class="dot">·</span>
+          <span>{{ link_count }}+ 平台形态</span>
+          {% for tg in t.tags %}<span class="mini-tag">{{ tg }}</span>{% endfor %}
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+
+    <div class="pager" id="pager"></div>
+    <div class="empty-result" id="empty-result" hidden>
+      <div class="glyph">空</div>
+      没有匹配的话题，换个关键词试试
+    </div>
 
     {% if topics.size == 0 %}
     <div class="placeholder-box">

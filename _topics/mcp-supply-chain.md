@@ -7,6 +7,7 @@ date: 2026-08-22
 updated: 2026-08-25
 status: drafting
 keyword: MCP
+tags: [AI 安全, 供应链安全]
 links:
   - platform: 公众号
     form: 长文（东方隐侠安全团队）
