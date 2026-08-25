@@ -4,7 +4,7 @@ layout: topic
 title: Tag 即发布权
 subtitle: GitLab / GitHub Tag 权限收敛与 CI 自动化管理实践
 date: 2026-08-25
-status: publishing
+status: published
 keyword: tag
 tags: [CI/CD, 企业安全, 供应链安全]
 updated: 2026-08-26
@@ -29,7 +29,7 @@ assets:
   - name: Tag 治理完整资产包（v1.1）
     desc: 五套 CI 脚本整包（含 Monorepo 模块化版本线、TeamCity 六坑全解）、监控三件套、检测基线矩阵、评审会十问
     location: 知识星球
-    url:
+    url: https://t.zsxq.com/5FkZD
 ---
 
 ## 核心问题
