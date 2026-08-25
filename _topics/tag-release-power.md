@@ -1,4 +1,5 @@
 ---
+published: false
 layout: topic
 title: Tag 即发布权
 subtitle: GitLab / GitHub Tag 权限收敛与 CI 自动化管理实践

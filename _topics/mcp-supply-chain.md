@@ -1,4 +1,5 @@
 ---
+published: false
 layout: topic
 title: MCP 供应链攻击第一枪
 subtitle: filesystem-pro-plus 事件复盘——当 AI Agent 的能力扩展层成为攻击面
