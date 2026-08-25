@@ -1,8 +1,9 @@
-# 千里的安全研究 · 话题中枢站
+# 东方隐侠安全团队 · 话题中枢站
 
 以**研究主题**（而非时间流文章）组织的个人站点：每个话题一个页面，聚合该研究在公众号 / CSDN / FreeBuf / B站 / 知识大陆的全部形态入口与配套资产，地址持续修订。基于 GitHub Pages 原生 Jekyll，零依赖、零 CI。
 
 **线上地址**：https://eastsword.github.io （仓库：EastSword/eastsword.github.io）
+**鼠标悬停 favicon 显示**：东方隐侠安全团队（浏览器标题栏 / 书签名，取自 `_config.yml` 的 `title`）
 
 ## 日常维护（这就是全部）
 

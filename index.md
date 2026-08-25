@@ -6,7 +6,7 @@ layout: default
   <div class="bg"></div>
   <div class="veil"></div>
   <div class="wrap">
-    <div class="kicker">DFYX-SEC · EASTERN RONIN SECURITY</div>
+    <div class="kicker">DFYX-SEC · Eastern Sword Cyber Security</div>
     <h1>
       <span class="teal">追踪攻击面的</span><br>
       <span class="gold">每一次迁移</span>
