@@ -1,94 +1,103 @@
 ---
 layout: default
 ---
-<div class="topic-head">
-  <h1>{{ page.title }}</h1>
-  {% if page.subtitle %}<div class="sub">{{ page.subtitle }}</div>{% endif %}
-  <div class="meta">
-    {% if page.status == "published" %}
-      <span class="badge published">已发布</span>
-    {% elsif page.status == "publishing" %}
-      <span class="badge publishing">发布中</span>
-    {% else %}
-      <span class="badge drafting">撰写中</span>
-    {% endif %}
-    <span>创建于 {{ page.date | date: "%Y-%m-%d" }}</span>
-    {% if page.updated %}<span>资源索引更新于 {{ page.updated }}</span>{% endif %}
-    {% if page.keyword %}
-      <span>公众号回复</span><span class="badge keyword">{{ page.keyword }}</span><span>领取资料</span>
-    {% endif %}
+<div class="wrap">
+  <div class="topic-hero">
+    <div class="crumb"><a href="{{ '/' | relative_url }}">研究话题</a> / {{ page.title }}</div>
+    <h1>{{ page.title }}</h1>
+    {% if page.subtitle %}<div class="sub">{{ page.subtitle }}</div>{% endif %}
+    <div class="meta">
+      {% if page.status == "published" %}
+        <span class="badge published">已发布</span>
+      {% elsif page.status == "publishing" %}
+        <span class="badge publishing">发布中</span>
+      {% else %}
+        <span class="badge drafting">撰写中</span>
+      {% endif %}
+      <span>立项 {{ page.date | date: "%Y-%m-%d" }}</span>
+      {% if page.updated %}<span>索引更新 {{ page.updated }}</span>{% endif %}
+      {% if page.keyword %}
+        <span>公众号回复</span><span class="badge keyword">{{ page.keyword }}</span>
+      {% endif %}
+    </div>
   </div>
+
+  {% if page.links %}
+  <section class="block">
+    <h2>全平台阅读入口</h2>
+    <div class="table-shell">
+      <table>
+        <tr><th>平台</th><th>形态</th><th>地址</th></tr>
+        {% for l in page.links %}
+        <tr>
+          <td>{{ l.platform }}</td>
+          <td>{{ l.form }}</td>
+          <td>
+            {% if l.url %}
+              <a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.note | default: '前往阅读' }}</a>
+            {% else %}
+              <span class="todo">{{ l.note | default: '待上线' }}</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </section>
+  {% endif %}
+
+  {% if page.videos %}
+  <section class="block">
+    <h2>视频形态</h2>
+    <div class="table-shell">
+      <table>
+        <tr><th>平台</th><th>内容</th><th>地址</th></tr>
+        {% for v in page.videos %}
+        <tr>
+          <td>{{ v.platform }}</td>
+          <td>{{ v.form }}</td>
+          <td>
+            {% if v.url %}
+              <a href="{{ v.url }}" target="_blank" rel="noopener">{{ v.note | default: '观看' }}</a>
+            {% else %}
+              <span class="todo">{{ v.note | default: '待上线' }}</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </section>
+  {% endif %}
+
+  {% if page.assets %}
+  <section class="block">
+    <h2>配套资产</h2>
+    <div class="table-shell">
+      <table>
+        <tr><th>资产</th><th>说明</th><th>获取方式</th></tr>
+        {% for a in page.assets %}
+        <tr>
+          <td>{{ a.name }}</td>
+          <td>{{ a.desc }}</td>
+          <td>
+            {% if a.url %}
+              <a href="{{ a.url }}" target="_blank" rel="noopener">{{ a.location }}</a>
+            {% else %}
+              <span class="todo">{{ a.location }}</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="block">
+    <h2>话题摘要</h2>
+    <div class="body">
+      {{ content }}
+    </div>
+  </section>
 </div>
-
-{% if page.links %}
-<section class="block">
-  <h2>全平台阅读入口</h2>
-  <table>
-    <tr><th>平台</th><th>形态</th><th>地址</th></tr>
-    {% for l in page.links %}
-    <tr>
-      <td>{{ l.platform }}</td>
-      <td>{{ l.form }}</td>
-      <td>
-        {% if l.url %}
-          <a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.note | default: '前往阅读' }}</a>
-        {% else %}
-          <span class="todo">{{ l.note | default: '待上线' }}</span>
-        {% endif %}
-      </td>
-    </tr>
-    {% endfor %}
-  </table>
-</section>
-{% endif %}
-
-{% if page.assets %}
-<section class="block">
-  <h2>配套资产（脚本 / 工具 / 基线）</h2>
-  <table>
-    <tr><th>资产</th><th>说明</th><th>获取方式</th></tr>
-    {% for a in page.assets %}
-    <tr>
-      <td>{{ a.name }}</td>
-      <td>{{ a.desc }}</td>
-      <td>
-        {% if a.url %}
-          <a href="{{ a.url }}" target="_blank" rel="noopener">{{ a.location }}</a>
-        {% else %}
-          <span class="todo">{{ a.location }}</span>
-        {% endif %}
-      </td>
-    </tr>
-    {% endfor %}
-  </table>
-</section>
-{% endif %}
-
-{% if page.videos %}
-<section class="block">
-  <h2>视频形态</h2>
-  <table>
-    <tr><th>平台</th><th>内容</th><th>地址</th></tr>
-    {% for v in page.videos %}
-    <tr>
-      <td>{{ v.platform }}</td>
-      <td>{{ v.form }}</td>
-      <td>
-        {% if v.url %}
-          <a href="{{ v.url }}" target="_blank" rel="noopener">{{ v.note | default: '观看' }}</a>
-        {% else %}
-          <span class="todo">{{ v.note | default: '待上线' }}</span>
-        {% endif %}
-      </td>
-    </tr>
-    {% endfor %}
-  </table>
-</section>
-{% endif %}
-
-<section class="block">
-  <h2>话题摘要</h2>
-  <div class="body">
-    {{ content }}
-  </div>
-</section>

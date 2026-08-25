@@ -8,26 +8,31 @@
   <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
 </head>
 <body>
-  <header class="site">
-    <div class="wrap">
-      <div class="brand">{{ site.title }}<span class="cursor">_</span></div>
-      <div class="tagline">{{ site.tagline }}</div>
-      <nav>
-        <a href="{{ '/' | relative_url }}">// 话题索引</a>
-        <a href="{{ '/#about' | relative_url }}">// 关于</a>
-      </nav>
+  <nav class="nav">
+    <div class="inner">
+      <a class="brand" href="{{ '/' | relative_url }}">东方<span>隐侠</span></a>
+      <div class="links">
+        <a href="{{ '/' | relative_url }}#topics">研究话题</a>
+        <a href="{{ '/' | relative_url }}#about">关于团队</a>
+        <a href="https://github.com/EastSword" target="_blank" rel="noopener">GitHub</a>
+      </div>
     </div>
-  </header>
+  </nav>
 
-  <main class="wrap">
-    {{ content }}
-  </main>
+  {{ content }}
 
   <footer class="site">
     <div class="wrap">
-      EASTERN-RONIN SEC · DFYX-SEC TEAM<br>
-      <a href="https://github.com/EastSword" target="_blank" rel="noopener">GITHUB // EASTSWORD</a><br>
-      © 2026 — 追踪攻击面的每一次迁移
+      <div class="inner">
+        <div>
+          <div class="seal">东方隐侠</div>
+          DFYX-SEC · 追踪攻击面的每一次迁移
+        </div>
+        <div style="text-align:right;">
+          <a href="https://github.com/EastSword" target="_blank" rel="noopener">GITHUB // EASTSWORD</a><br>
+          © 2026 东方隐侠安全团队
+        </div>
+      </div>
     </div>
   </footer>
 </body>
