@@ -70,7 +70,7 @@ layout: default
 <section id="about">
   <div class="wrap">
     <div class="about">
-      <img class="team-logo" src="https://profile-avatar.csdnimg.cn/c2ceeafad85e436cb21db246253bd55f_qq_37865996.jpg!1" alt="东方隐侠安全团队">
+      <img class="team-logo" src="{{ '/assets/logo-full.png' | relative_url }}" alt="东方隐侠安全团队">
       <h2>关于 <span>东方隐侠</span></h2>
       <p><strong>东方隐侠安全团队（DFYX-SEC）</strong>，专注于攻防前沿的安全研究团队。研究方向横跨 AI 安全（Agent / MCP / Skills 供应链）、身份安全（ITDR）、软件供应链三大领域，坚持「研究驱动、实战检验」——每个话题从第一性原理拆解，配真实事件与可落地的检测基线。</p>
       <p><strong>千里</strong>，团队创始人，安全 BP。深耕 Web 安全多年，当前主攻 AI Agent 时代的新攻击面，负责本站全部研究话题的选题与撰写。</p>

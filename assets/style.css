@@ -88,12 +88,12 @@ body::after {
   gap: 11px;
 }
 .nav .brand .logo {
-  width: 30px; height: 30px;
-  border-radius: 50%;
-  border: 1px solid rgba(212, 175, 106, 0.45);
-  box-shadow: 0 0 14px rgba(212, 175, 106, 0.3);
-  object-fit: cover;
+  height: 26px;
+  width: auto;
+  filter: drop-shadow(0 0 8px rgba(212, 175, 106, 0.45));
+  transition: filter .25s;
 }
+.nav .brand:hover .logo { filter: drop-shadow(0 0 14px rgba(212, 175, 106, 0.7)); }
 .nav .brand span { color: var(--teal-glow); }
 .nav .links { display: flex; gap: 26px; }
 .nav .links a {
@@ -342,13 +342,11 @@ body::after {
 }
 .about h2 span { color: var(--gold-bright); }
 .about .team-logo {
-  width: 58px; height: 58px;
-  border-radius: 50%;
-  border: 1px solid rgba(212, 175, 106, 0.5);
-  box-shadow: 0 0 26px rgba(212, 175, 106, 0.3);
-  object-fit: cover;
+  height: 108px;
+  width: auto;
+  filter: drop-shadow(0 4px 26px rgba(212, 175, 106, 0.35));
   display: block;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
   position: relative;
   z-index: 1;
 }
