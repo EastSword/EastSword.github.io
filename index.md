@@ -104,7 +104,7 @@ layout: default
       <h2>关于 <span>东方隐侠</span></h2>
       <p><strong>东方隐侠安全团队（DFYX-SEC）</strong>，专注于攻防前沿的安全研究团队。研究方向横跨 AI 安全（Agent / MCP / Skills 供应链）、身份安全（ITDR）、软件供应链三大领域，坚持「研究驱动、实战检验」——每个话题从第一性原理拆解，配真实事件与可落地的检测基线。</p>
       <p><strong>千里</strong>，团队创始人，安全 BP。深耕 Web 安全多年，当前主攻 AI Agent 时代的新攻击面，负责本站全部研究话题的选题与撰写。</p>
-      <p>本站不按时间流更新，按<strong>研究主题</strong>组织：每个话题页聚合该研究在公众号、CSDN、FreeBuf、B站、知识大陆的全部形态入口与配套资产，地址持续修订。</p>
+      <p>本站不按时间流更新，按<strong>研究主题</strong>组织：每个话题页聚合该研究在公众号、CSDN、FreeBuf、B站、知识星球的全部形态入口与配套资产，地址持续修订。</p>
     </div>
   </div>
 </section>
