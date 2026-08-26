@@ -22,9 +22,9 @@ links:
     url:
     note: 待发布（与上中篇同批）
   - platform: CSDN
-    form: 完整版《密码对，MFA通过，零告警：七条身份攻击路径与ITDR检测指南》
-    url:
-    note: 待发布（删旧文163982749后重发）
+    form: 完整版《剖析合法认证身份攻击路径，ITDR有何应对效果》
+    url: https://blog.csdn.net/qq_37865996/article/details/163982749
+    note: 已发布（沿用原版）
   - platform: FreeBuf
     form: 管理层视角版《登录零告警：七条身份攻击路径复盘与ITDR建设优先级》
     url:
