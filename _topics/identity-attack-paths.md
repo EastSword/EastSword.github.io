@@ -10,11 +10,11 @@ keyword: ITDR
 tags: [身份安全, 企业安全, 检测工程]
 links:
   - platform: 公众号
-    form: 上篇《偷密码过时了：偷会话Cookie、拖浏览器数据库、轰炸MFA（上）》
+    form: 上篇《MFA通过了，账号还是没了：Evilginx、Infostealer与推送轰炸（上）》
     url:
     note: 待发布（D0上午，三篇一次推送）
   - platform: 公众号
-    form: 中篇《偷微软的签名密钥，骗MGM的帮助台：绕过登录的四条路（中）》
+    form: 中篇《不偷密码的入侵：偷微软签名密钥，骗MGM帮助台（中）》
     url:
     note: 待发布（与上篇同批）
   - platform: 公众号
