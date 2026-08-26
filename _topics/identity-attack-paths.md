@@ -10,15 +10,15 @@ keyword: ITDR
 tags: [身份安全, 企业安全, 检测工程]
 links:
   - platform: 公众号
-    form: 上篇《MFA通过了，账号还是没了：Evilginx、Infostealer与推送轰炸（上）》
+    form: 上篇《MFA能确保登录一定安全？未必（上）：Evilginx代理钓鱼与推送轰炸》
     url:
     note: 待发布（D0上午，三篇一次推送）
   - platform: 公众号
-    form: 中篇《不偷密码的入侵：偷微软签名密钥，骗MGM帮助台（中）》
+    form: 中篇《MFA能确保登录一定安全？未必（中）：不偷密码的入侵》
     url:
     note: 待发布（与上篇同批）
   - platform: 公众号
-    form: 下篇《零告警的入侵怎么抓：九个信号、五条KQL（下）》
+    form: 下篇《MFA能确保登录一定安全？未必（下）：零告警的入侵怎么抓》
     url:
     note: 待发布（与上中篇同批）
   - platform: CSDN
