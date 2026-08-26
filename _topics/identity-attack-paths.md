@@ -10,15 +10,15 @@ keyword: ITDR
 tags: [身份安全, 企业安全, 检测工程]
 links:
   - platform: 公众号
-    form: 上篇《密码对，MFA通过，零告警——七条身份攻击路径（上）》
+    form: 上篇《偷密码过时了：偷会话Cookie、拖浏览器数据库、轰炸MFA（上）》
     url:
     note: 待发布（D0上午，三篇一次推送）
   - platform: 公众号
-    form: 中篇《从崩溃转储里偷公章，一通电话放倒赌场——七条路径（中）》
+    form: 中篇《偷微软的签名密钥，骗MGM的帮助台：绕过登录的四条路（中）》
     url:
     note: 待发布（与上篇同批）
   - platform: 公众号
-    form: 下篇《摄像头全对着门，攻击者走的是窗户——七条路径（下）》
+    form: 下篇《零告警的入侵怎么抓：九个信号、五条KQL（下）》
     url:
     note: 待发布（与上中篇同批）
   - platform: CSDN
