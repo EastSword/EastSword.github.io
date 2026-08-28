@@ -25,10 +25,6 @@ links:
     form: 完整版《剖析合法认证身份攻击路径，ITDR有何应对效果》
     url: https://blog.csdn.net/qq_37865996/article/details/163982749
     note: 已发布（沿用原版）
-  - platform: FreeBuf
-    form: 管理层视角版《登录零告警：七条身份攻击路径复盘与ITDR建设优先级》
-    url:
-    note: 待投稿（审核3-7天不受控）
 videos:
   - platform: B站
     form: 10分钟讲解（Uber案+零告警原理）
@@ -38,15 +34,6 @@ videos:
     form: B站片60-90s切片
     url:
     note: 与B站同素材，间隔1-2小时
-assets:
-  - name: ITDR检测基线速查
-    desc: 九信号表+管理层十问，公众号回复ITDR获取
-    location: 公众号（回复ITDR）
-    url:
-  - name: ITDR检测基线矩阵完整资产包（v1.1）
-    desc: 五条KQL规则、七路径防御速查、带验收标准的路线图、泄露凭证情报源清单、NHI检查项
-    location: 知识星球
-    url:
 ---
 
 ## 核心问题
