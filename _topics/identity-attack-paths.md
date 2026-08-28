@@ -11,16 +11,16 @@ tags: [身份安全, 企业安全, 检测工程]
 links:
   - platform: 公众号
     form: 上篇《登录认证安全（上）MFA能确保登录一定安全？未必》
-    url:
-    note: 待发布（D0上午，三篇一次推送）
+    url: https://mp.weixin.qq.com/s/EM5qM81ApwvRTa8MtvNugA
+    note: 已发布 2026-08-28
   - platform: 公众号
     form: 中篇《登录认证安全（中）不偷密码的入侵》
     url:
-    note: 待发布（与上篇同批）
+    note: 待发布
   - platform: 公众号
     form: 下篇《登录认证安全（下）零告警的入侵怎么抓》
     url:
-    note: 待发布（与上中篇同批）
+    note: 待发布
   - platform: CSDN
     form: 完整版《剖析合法认证身份攻击路径，ITDR有何应对效果》
     url: https://blog.csdn.net/qq_37865996/article/details/163982749
