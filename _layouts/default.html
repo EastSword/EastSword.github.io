@@ -14,6 +14,7 @@
       <a class="brand" href="{{ '/' | relative_url }}"><img class="logo" src="{{ '/assets/logo-mark.png' | relative_url }}" alt="东方隐侠安全团队">东方隐侠安全团队</a>
       <div class="links">
         <a href="{{ '/' | relative_url }}#topics">研究话题</a>
+        <a href="{{ '/' | relative_url }}#wall">江湖留名</a>
         <a href="{{ '/' | relative_url }}#about">关于团队</a>
         <a href="https://github.com/EastSword" target="_blank" rel="noopener">GitHub</a>
       </div>
@@ -41,6 +42,13 @@
         <div style="text-align:right;">
           © 2026 东方隐侠安全团队
         </div>
+      </div>
+      <div class="stats">
+        <span class="stat-label">江湖足迹</span>
+        <span class="sep">/</span>
+        <span id="busuanzi_container_site_pv">总访问量 <b id="busuanzi_value_site_pv"></b> 次</span>
+        <span class="sep">/</span>
+        <span id="busuanzi_container_site_uv">到访侠客 <b id="busuanzi_value_site_uv"></b> 人</span>
       </div>
     </div>
   </footer>
@@ -116,6 +124,57 @@
       });
     }
     render();
+  })();
+  </script>
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <script>
+  (function () {
+    var mount = document.getElementById('giscus-mount');
+    if (!mount) return;
+    var loaded = false;
+
+    function loadWall() {
+      if (loaded) return;
+      loaded = true;
+      var s = document.createElement('script');
+      s.src = 'https://giscus.app/client.js';
+      s.async = true;
+      s.crossOrigin = 'anonymous';
+      s.setAttribute('data-repo', 'EastSword/EastSword.github.io');
+      s.setAttribute('data-repo-id', 'R_kgDOINsDXg');
+      s.setAttribute('data-category', 'General');
+      s.setAttribute('data-category-id', 'DIC_kwDOINsDXs4DEYFm');
+      s.setAttribute('data-mapping', 'specific');
+      s.setAttribute('data-term', '江湖留名 · 粉丝签名墙');
+      s.setAttribute('data-strict', '1');
+      s.setAttribute('data-reactions-enabled', '1');
+      s.setAttribute('data-emit-metadata', '0');
+      s.setAttribute('data-input-position', 'top');
+      s.setAttribute('data-theme', 'https://eastsword.github.io/assets/giscus-theme.css');
+      s.setAttribute('data-lang', 'zh-CN');
+      mount.appendChild(s);
+
+      var timer = setInterval(function () {
+        if (mount.querySelector('iframe')) {
+          clearInterval(timer);
+          var l = document.getElementById('wall-loading');
+          if (l) l.remove();
+        }
+      }, 400);
+      setTimeout(function () { clearInterval(timer); }, 30000);
+    }
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        if (entries.some(function (e) { return e.isIntersecting; })) {
+          io.disconnect();
+          loadWall();
+        }
+      }, { rootMargin: '300px' });
+      io.observe(mount);
+    } else {
+      loadWall();
+    }
   })();
   </script>
 </body>

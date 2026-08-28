@@ -631,3 +631,75 @@ footer.site .social .sep { color: var(--gold); opacity: .4; }
   .hero .bg { background-position: center; }
   .nav .links { gap: 16px; }
 }
+
+/* ---------- 江湖留名 / 签名墙 ---------- */
+#wall {
+  border-top: 1px solid var(--line);
+  background: linear-gradient(180deg, transparent, rgba(12, 43, 46, 0.28));
+  padding-bottom: 40px;
+}
+.wall-frame {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--card);
+  backdrop-filter: blur(14px);
+  padding: 26px 26px 18px;
+  overflow: hidden;
+}
+.wall-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(61, 232, 201, 0.04), transparent 40%, rgba(212, 175, 106, 0.05));
+  pointer-events: none;
+}
+.wall-hint {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  opacity: 0.85;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+}
+.giscus-mount { min-height: 140px; position: relative; z-index: 1; }
+.wall-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 56px 0;
+  color: var(--paper-dim);
+  font-size: 14px;
+}
+.wall-loading .glyph {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: 34px;
+  color: rgba(212, 175, 106, 0.5);
+}
+
+/* ---------- Footer 访问统计 ---------- */
+footer.site .stats {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--paper-dim);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+footer.site .stats b { color: var(--gold-bright); font-weight: 600; font-size: 13px; }
+footer.site .stats .stat-label { color: var(--teal-glow); }
+footer.site .stats .sep { color: var(--gold); opacity: 0.4; }
+
+@media (max-width: 640px) {
+  .wall-frame { padding: 16px 12px 10px; }
+}

@@ -1,0 +1,142 @@
+/*!
+ * 东方隐侠 · 江湖留名签名墙 giscus 主题
+ * 基于 giscus custom_example.css（GitHub Dark Dimmed, MIT License）改造
+ * 色板：墨黑 #0a0c10 / 暱金 #d4af6a / 青霓虹 #3de8c9 / 宣纸白 #e9e4d8
+ */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap');
+
+/*!
+ * Modified from GitHub's Dark Dimmed theme, licensed under the MIT License
+ * Copyright (c) 2018 GitHub Inc.
+ * https://github.com/primer/primitives/blob/main/LICENSE
+ */
+
+main {
+  --color-prettylights-syntax-comment: #768390;
+  --color-prettylights-syntax-constant: #3de8c9;
+  --color-prettylights-syntax-entity: #a78bfa;
+  --color-prettylights-syntax-storage-modifier-import: #adbac7;
+  --color-prettylights-syntax-entity-tag: #8ddb8c;
+  --color-prettylights-syntax-keyword: #f47067;
+  --color-prettylights-syntax-string: #96d0ff;
+  --color-prettylights-syntax-variable: #f69d50;
+  --color-prettylights-syntax-brackethighlighter-unmatched: #e5534b;
+  --color-prettylights-syntax-invalid-illegal-text: #cdd9e5;
+  --color-prettylights-syntax-invalid-illegal-bg: #922323;
+  --color-prettylights-syntax-carriage-return-text: #cdd9e5;
+  --color-prettylights-syntax-carriage-return-bg: #ad2e2c;
+  --color-prettylights-syntax-string-regexp: #8ddb8c;
+  --color-prettylights-syntax-markup-list: #d4af6a;
+  --color-prettylights-syntax-markup-heading: #316dca;
+  --color-prettylights-syntax-markup-italic: #adbac7;
+  --color-prettylights-syntax-markup-bold: #adbac7;
+  --color-prettylights-syntax-markup-deleted-text: #ffd8d3;
+  --color-prettylights-syntax-markup-deleted-bg: #78191b;
+  --color-prettylights-syntax-markup-inserted-text: #b4f1b4;
+  --color-prettylights-syntax-markup-inserted-bg: #1b4721;
+  --color-prettylights-syntax-markup-changed-text: #ffddb0;
+  --color-prettylights-syntax-markup-changed-bg: #682d0f;
+  --color-prettylights-syntax-markup-ignored-text: #adbac7;
+  --color-prettylights-syntax-markup-ignored-bg: #255ab2;
+  --color-prettylights-syntax-meta-diff-range: #dcbdfb;
+  --color-prettylights-syntax-brackethighlighter-angle: #768390;
+  --color-prettylights-syntax-sublimelinter-gutter-mark: #545d68;
+  --color-prettylights-syntax-constant-other-reference-link: #96d0ff;
+  --color-btn-text: #e9e4d8;
+  --color-btn-bg: rgba(212, 175, 106, 0.10);
+  --color-btn-border: rgb(212 175 106 / 14%);
+  --color-btn-shadow: 0 0 transparent;
+  --color-btn-inset-shadow: 0 0 transparent;
+  --color-btn-hover-bg: rgba(212, 175, 106, 0.18);
+  --color-btn-hover-border: rgba(61, 232, 201, 0.40);
+  --color-btn-active-bg: hsl(210deg 26% 12% / 100%);
+  --color-btn-active-border: rgba(61, 232, 201, 0.30);
+  --color-btn-selected-bg: rgba(61, 232, 201, 0.10);
+  --color-btn-primary-text: #06231f;
+  --color-btn-primary-bg: #3de8c9;
+  --color-btn-primary-border: rgb(212 175 106 / 14%);
+  --color-btn-primary-shadow: 0 0 transparent;
+  --color-btn-primary-inset-shadow: 0 0 transparent;
+  --color-btn-primary-hover-bg: #7ff5dd;
+  --color-btn-primary-hover-border: rgb(212 175 106 / 14%);
+  --color-btn-primary-selected-bg: #3de8c9;
+  --color-btn-primary-selected-shadow: 0 0 transparent;
+  --color-btn-primary-disabled-text: rgb(233 228 216 / 50%);
+  --color-btn-primary-disabled-bg: rgb(61 232 201 / 40%);
+  --color-btn-primary-disabled-border: rgb(212 175 106 / 14%);
+  --color-action-list-item-default-hover-bg: rgb(212 175 106 / 8%);
+  --color-segmented-control-bg: rgb(212 175 106 / 8%);
+  --color-segmented-control-button-bg: #10161f;
+  --color-segmented-control-button-selected-border: rgba(212, 175, 106, 0.45);
+  --color-fg-default: #e9e4d8;
+  --color-fg-muted: #9aa3ad;
+  --color-fg-subtle: rgba(154, 163, 173, 0.55);
+  --color-canvas-default: transparent;
+  --color-canvas-overlay: #0e1319;
+  --color-canvas-inset: rgb(16 22 30 / 100%);
+  --color-canvas-subtle: rgb(212 175 106 / 6%);
+  --color-border-default: rgba(212, 175, 106, 0.22);
+  --color-border-muted: rgba(212, 175, 106, 0.12);
+  --color-neutral-muted: rgb(154 163 173 / 40%);
+  --color-accent-fg: #3de8c9;
+  --color-accent-emphasis: #1d8f78;
+  --color-accent-muted: rgb(61 232 201 / 40%);
+  --color-accent-subtle: rgb(61 232 201 / 8%);
+  --color-success-fg: #3de8c9;
+  --color-attention-fg: #d4af6a;
+  --color-attention-muted: rgb(212 175 106 / 40%);
+  --color-attention-subtle: rgb(212 175 106 / 12%);
+  --color-danger-fg: #ff4d6d;
+  --color-danger-muted: rgb(255 77 109 / 40%);
+  --color-danger-subtle: rgb(255 77 109 / 10%);
+  --color-primer-shadow-inset: 0 0 transparent;
+  --color-scale-gray-7: rgba(212, 175, 106, 0.14);
+  --color-scale-blue-8: #0c2b2e;
+
+  /*! Extensions from @primer/css/alerts/flash.scss */
+  --color-social-reaction-bg-hover: var(--color-scale-gray-7);
+  --color-social-reaction-bg-reacted-hover: var(--color-scale-blue-8);
+}
+
+main .pagination-loader-container {
+  background-image: url("https://github.com/images/modules/pulls/progressive-disclosure-line-dark.svg");
+}
+
+/*! Custom CSS */
+main {
+  font-family: 'Noto Sans SC', 'PingFang SC', sans-serif;
+  font-size: 14.5px;
+}
+
+.gsc-reactions-count {
+  display: none;
+}
+
+.gsc-timeline {
+  flex-direction: column-reverse;
+}
+
+.gsc-header {
+  padding-bottom: 1rem;
+}
+
+.gsc-comments > .gsc-header {
+  order: 1;
+}
+
+.gsc-comments > .gsc-comment-box {
+  order: 2;
+  margin-bottom: 1rem;
+}
+
+.gsc-comments > .gsc-timeline {
+  order: 3;
+}
+
+.gsc-homepage-bg {
+  background-color: #0e1319;
+}
+
+main .gsc-loading-image {
+  background-image: url("https://github.githubassets.com/images/mona-loading-dimmed.gif");
+}
