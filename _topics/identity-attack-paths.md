@@ -15,12 +15,12 @@ links:
     note: 已发布 2026-08-28
   - platform: 公众号
     form: 中篇《登录认证安全（中）不偷密码的入侵》
-    url:
-    note: 待发布
+    url: https://mp.weixin.qq.com/s/BEj1NBVVyH9YYG0K1U_EPg
+    note: 已发布 2026-08-29
   - platform: 公众号
     form: 下篇《登录认证安全（下）零告警的入侵怎么抓》
-    url:
-    note: 待发布
+    url: https://mp.weixin.qq.com/s/5nU_Qawj3rbfoApbzhI3Ew
+    note: 已发布 2026-08-29
   - platform: CSDN
     form: 完整版《剖析合法认证身份攻击路径，ITDR有何应对效果》
     url: https://blog.csdn.net/qq_37865996/article/details/163982749
