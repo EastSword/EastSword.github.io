@@ -12,7 +12,7 @@ layout: default
       <span class="gold">每一次迁移</span>
     </h1>
     <p class="lead">
-      从 Web 安全到 AI Agent 时代，攻击者换了衣裳，走的是同一扇窗。东方隐侠安全团队以研究话题为单位，持续拆解身份、供应链与 AI 安的新战场。
+      从 Web 安全到 AI Agent 时代，攻击者换了兵器，攻的还是同一处命门。东方隐侠安全团队以研究话题为单位，持续拆解身份、供应链与 AI 安全新战场的攻击路径。
     </p>
     <div class="cta">
       <a class="primary" href="#topics">进入研究话题</a>
