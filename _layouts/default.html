@@ -35,6 +35,8 @@
           <span class="sep">/</span>
           <a href="https://space.bilibili.com/1565697864" target="_blank" rel="noopener">Bilibili</a>
           <span class="sep">/</span>
+          <button class="wx-link" type="button" id="wx-channel-link">视频号</button>
+          <span class="sep">/</span>
           <a href="https://wx.zsxq.com/group/51115811242514" target="_blank" rel="noopener">知识星球</a>
           <span class="sep">/</span>
           <a href="https://github.com/EastSword" target="_blank" rel="noopener">GitHub</a>
@@ -52,6 +54,24 @@
       </div>
     </div>
   </footer>
+  <!-- 视频号弹窗：sph ID 仅微信内可搜，外部浏览器无法直接跳转 -->
+  <div class="wx-modal" id="wx-modal" hidden>
+    <div class="wx-panel" role="dialog" aria-label="视频号添加指引">
+      <button class="wx-close" type="button" aria-label="关闭">×</button>
+      <div class="wx-title">视频号 · 东方隐侠安全团队</div>
+      <div class="wx-id-box">
+        <code>sphLfLFD0AYIAxQ</code>
+        <button class="wx-copy" type="button" id="wx-copy">复制 ID</button>
+      </div>
+      <ol class="wx-steps">
+        <li>打开微信，进入「<b>发现 → 视频号</b>」</li>
+        <li>点顶部搜索框，粘贴 ID 搜索</li>
+        <li>认准「东方隐侠安全团队」，点关注</li>
+      </ol>
+      <p class="wx-note">视频号主页不支持浏览器直接跳转，需在微信内搜索添加。</p>
+    </div>
+  </div>
+
   <script>
   (function () {
     var list = document.getElementById('topic-list');
@@ -127,6 +147,41 @@
   })();
   </script>
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <script>
+  (function () {
+    var modal = document.getElementById('wx-modal');
+    if (!modal) return;
+    var WX_ID = 'sphLfLFD0AYIAxQ';
+
+    function openModal() { modal.hidden = false; document.body.style.overflow = 'hidden'; }
+    function closeModal() { modal.hidden = true; document.body.style.overflow = ''; }
+
+    var link = document.getElementById('wx-channel-link');
+    if (link) link.addEventListener('click', openModal);
+    modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+    var closeBtn = modal.querySelector('.wx-close');
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) closeModal(); });
+
+    var copy = document.getElementById('wx-copy');
+    if (copy) copy.addEventListener('click', function () {
+      function done() {
+        copy.textContent = '已复制 ✓'; copy.classList.add('ok');
+        setTimeout(function () { copy.textContent = '复制 ID'; copy.classList.remove('ok'); }, 1600);
+      }
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = WX_ID; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); done(); } catch (err) {}
+        document.body.removeChild(ta);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(WX_ID).then(done, fallback);
+      } else fallback();
+    });
+  })();
+  </script>
   <script>
   (function () {
     var mount = document.getElementById('giscus-mount');
