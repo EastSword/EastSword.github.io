@@ -7,6 +7,7 @@
 用法：python3 scripts/sync_news.py [--no-push]
 """
 import json
+import os
 import subprocess
 import sys
 import urllib.request
@@ -113,7 +114,13 @@ def main():
         ["git", "commit", "-m", f"安全资讯自动同步 {today}：新增 {len(fresh)} 条"],
         cwd=SITE, check=True,
     )
-    subprocess.run(["git", "push", "origin", "main"], cwd=SITE, check=True)
+    env = dict(os.environ)
+    push = subprocess.run(["git", "push", "origin", "main"], cwd=SITE, capture_output=True, text=True)
+    if push.returncode != 0:
+        # 直连失败时走本地 Clash 代理兜底
+        env["HTTPS_PROXY"] = "http://127.0.0.1:7890"
+        env["HTTP_PROXY"] = "http://127.0.0.1:7890"
+        push = subprocess.run(["git", "push", "origin", "main"], cwd=SITE, env=env, check=True)
     print("已提交并推送，GitHub Pages 约 1 分钟后重建")
 
 
