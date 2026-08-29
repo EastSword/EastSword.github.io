@@ -6,6 +6,7 @@ subtitle: GitLab / GitHub Tag 权限收敛与 CI 自动化管理实践
 date: 2026-08-25
 status: published
 keyword: tag
+category: 供应链安全
 tags: [CI/CD, 企业安全, 供应链安全]
 updated: 2026-08-26
 links:

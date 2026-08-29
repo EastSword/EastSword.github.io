@@ -140,3 +140,12 @@ main {
 main .gsc-loading-image {
   background-image: url("https://github.githubassets.com/images/mona-loading-dimmed.gif");
 }
+
+/*!
+ * ===== 管理员屏蔽名单 =====
+ * 想隐藏某条签名：把下面 BLOCKED_LOGIN 替换为对方的 GitHub 登录名（可复制多行），
+ * push 后 giscus 内嵌评论即刻隐藏。彻底删除请到 GitHub Discussion：
+ * https://github.com/EastSword/EastSword.github.io/discussions/1
+ * 注意：作者主页链接形如 https://github.com/{login}，按后缀匹配。
+ */
+/* .gsc-comment:has(.gsc-comment-author a[href$="/BLOCKED_LOGIN"]) { display: none !important; } */

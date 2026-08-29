@@ -7,6 +7,7 @@ date: 2026-08-25
 updated: 2026-08-29
 status: published
 keyword: ITDR
+category: 身份安全
 tags: [身份安全, 企业安全, 检测工程]
 links:
   - platform: 公众号

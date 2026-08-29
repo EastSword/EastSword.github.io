@@ -13,9 +13,10 @@
     <div class="inner">
       <a class="brand" href="{{ '/' | relative_url }}"><img class="logo" src="{{ '/assets/logo-mark.png' | relative_url }}" alt="东方隐侠安全团队">东方隐侠安全团队</a>
       <div class="links">
-        <a href="{{ '/' | relative_url }}#topics">研究话题</a>
-        <a href="{{ '/' | relative_url }}#wall">江湖留名</a>
-        <a href="{{ '/' | relative_url }}#about">关于团队</a>
+        <a href="{{ '/topics/' | relative_url }}">研究话题</a>
+        <a href="{{ '/news/' | relative_url }}">安全资讯</a>
+        <a href="{{ '/wall/' | relative_url }}">江湖留名</a>
+        <a href="{{ '/about/' | relative_url }}">关于团队</a>
         <a href="https://github.com/EastSword" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
@@ -35,7 +36,9 @@
           <span class="sep">/</span>
           <a href="https://space.bilibili.com/1565697864" target="_blank" rel="noopener">Bilibili</a>
           <span class="sep">/</span>
-          <button class="wx-link" type="button" id="wx-channel-link">视频号</button>
+          <button class="wx-link" type="button" data-modal="modal-sph">视频号</button>
+          <span class="sep">/</span>
+          <button class="wx-link" type="button" data-modal="modal-gzh">公众号</button>
           <span class="sep">/</span>
           <a href="https://wx.zsxq.com/group/51115811242514" target="_blank" rel="noopener">知识星球</a>
           <span class="sep">/</span>
@@ -54,14 +57,15 @@
       </div>
     </div>
   </footer>
-  <!-- 视频号弹窗：sph ID 仅微信内可搜，外部浏览器无法直接跳转 -->
-  <div class="wx-modal" id="wx-modal" hidden>
+
+  <!-- 联系方式弹窗组：微信系 ID 仅微信内可达，浏览器内以引导面板呈现 -->
+  <div class="wx-modal" id="modal-sph" hidden>
     <div class="wx-panel" role="dialog" aria-label="视频号添加指引">
       <button class="wx-close" type="button" aria-label="关闭">×</button>
       <div class="wx-title">视频号 · 千里Trace-东方隐侠安全团队</div>
       <div class="wx-id-box">
         <code>sphLfLFD0AYIAxQ</code>
-        <button class="wx-copy" type="button" id="wx-copy">复制 ID</button>
+        <button class="wx-copy" type="button" data-copy="sphLfLFD0AYIAxQ">复制 ID</button>
       </div>
       <ol class="wx-steps">
         <li>打开微信，进入「<b>发现 → 视频号</b>」</li>
@@ -72,165 +76,94 @@
     </div>
   </div>
 
+  <div class="wx-modal" id="modal-wechat" hidden>
+    <div class="wx-panel" role="dialog" aria-label="团队微信添加指引">
+      <button class="wx-close" type="button" aria-label="关闭">×</button>
+      <div class="wx-title">团队微信 · 东方隐侠</div>
+      <div class="wx-id-box">
+        <code id="team-wechat-id">WeChat-ID-Placeholder</code>
+        <button class="wx-copy" type="button" id="team-wechat-copy">复制 ID</button>
+      </div>
+      <ol class="wx-steps">
+        <li>打开微信，点右上角「<b>＋ → 添加朋友</b>」</li>
+        <li>粘贴 ID 搜索，认准「东方隐侠」，添加好友</li>
+        <li>备注来意（合作 / 交流 / 加入），通过更快</li>
+      </ol>
+      <p class="wx-note">微信号不支持浏览器直接跳转，需在微信内搜索添加。</p>
+    </div>
+  </div>
+
+  <div class="wx-modal" id="modal-gzh" hidden>
+    <div class="wx-panel" role="dialog" aria-label="公众号关注指引">
+      <button class="wx-close" type="button" aria-label="关闭">×</button>
+      <div class="wx-title">微信公众号 · 东方隐侠安全团队</div>
+      <div class="wx-id-box">
+        <code id="gzh-name">公众号名称-Placeholder</code>
+        <button class="wx-copy" type="button" id="gzh-copy">复制名称</button>
+      </div>
+      <ol class="wx-steps">
+        <li>打开微信，「<b>通讯录 → 公众号</b>」右上角搜索</li>
+        <li>粘贴公众号名称搜索并关注</li>
+        <li>后台回复课题关键词（如 <b>ITDR</b> / <b>MCP</b>）获取配套资料</li>
+      </ol>
+      <p class="wx-note">关键词在各研究话题页均有标注。</p>
+    </div>
+  </div>
+
   <script>
   (function () {
-    var list = document.getElementById('topic-list');
-    if (!list) return;
-    var tiles = Array.prototype.slice.call(list.querySelectorAll('.tile'));
-    var search = document.getElementById('topic-search');
-    var chips = document.getElementById('tag-chips');
-    var pager = document.getElementById('pager');
-    var empty = document.getElementById('empty-result');
-    var PER_PAGE = 6;
-    var state = { q: '', tag: '__all', page: 1 };
-
-    function norm(s) { return (s || '').toLowerCase().trim(); }
-
-    function filtered() {
-      return tiles.filter(function (t) {
-        var tags = (t.getAttribute('data-tags') || '').split(',');
-        if (state.tag !== '__all' && tags.indexOf(state.tag) === -1) return false;
-        if (state.q) {
-          var hay = norm([t.getAttribute('data-title'), t.getAttribute('data-subtitle'),
-                          t.getAttribute('data-keyword'), tags.join(' ')].join(' '));
-          if (hay.indexOf(norm(state.q)) === -1) return false;
-        }
-        return true;
-      });
+    function openModal(id) {
+      var m = document.getElementById(id);
+      if (!m) return;
+      m.hidden = false;
+      document.body.style.overflow = 'hidden';
     }
-
-    function render() {
-      var items = filtered();
-      var pages = Math.max(1, Math.ceil(items.length / PER_PAGE));
-      if (state.page > pages) state.page = pages;
-      var start = (state.page - 1) * PER_PAGE;
-
-      tiles.forEach(function (t) { t.style.display = 'none'; });
-      items.slice(start, start + PER_PAGE).forEach(function (t) { t.style.display = ''; });
-      empty.hidden = items.length !== 0;
-
-      if (pages <= 1) { pager.innerHTML = ''; return; }
-      var html = '';
-      if (state.page > 1) html += '<button data-go="' + (state.page - 1) + '">‹</button>';
-      for (var i = 1; i <= pages; i++) {
-        html += '<button data-go="' + i + '"' + (i === state.page ? ' class="cur"' : '') + '>' + i + '</button>';
-      }
-      if (state.page < pages) html += '<button data-go="' + (state.page + 1) + '">›</button>';
-      pager.innerHTML = html;
+    function closeModal(m) {
+      m.hidden = true;
+      document.body.style.overflow = '';
     }
-
-    if (search) {
-      search.addEventListener('input', function () { state.q = search.value; state.page = 1; render(); });
-    }
-    if (chips) {
-      chips.addEventListener('click', function (e) {
-        var b = e.target.closest('.chip');
-        if (!b) return;
-        chips.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('active'); });
-        b.classList.add('active');
-        state.tag = b.getAttribute('data-tag');
-        state.page = 1;
-        render();
-      });
-    }
-    if (pager) {
-      pager.addEventListener('click', function (e) {
-        var b = e.target.closest('button[data-go]');
-        if (!b) return;
-        state.page = parseInt(b.getAttribute('data-go'), 10);
-        render();
-        var top = document.getElementById('topics').getBoundingClientRect().top + window.pageYOffset - 90;
-        window.scrollTo({ top: top, behavior: 'smooth' });
-      });
-    }
-    render();
-  })();
-  </script>
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-  <script>
-  (function () {
-    var modal = document.getElementById('wx-modal');
-    if (!modal) return;
-    var WX_ID = 'sphLfLFD0AYIAxQ';
-
-    function openModal() { modal.hidden = false; document.body.style.overflow = 'hidden'; }
-    function closeModal() { modal.hidden = true; document.body.style.overflow = ''; }
-
-    var link = document.getElementById('wx-channel-link');
-    if (link) link.addEventListener('click', openModal);
-    modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
-    var closeBtn = modal.querySelector('.wx-close');
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) closeModal(); });
-
-    var copy = document.getElementById('wx-copy');
-    if (copy) copy.addEventListener('click', function () {
+    document.addEventListener('click', function (e) {
+      var t = e.target.closest('[data-modal]');
+      if (t) { openModal(t.getAttribute('data-modal')); return; }
+      var c = e.target.closest('.wx-close');
+      if (c) { closeModal(c.closest('.wx-modal')); return; }
+      if (e.target.classList && e.target.classList.contains('wx-modal')) closeModal(e.target);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      document.querySelectorAll('.wx-modal:not([hidden])').forEach(closeModal);
+    });
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-copy]');
+      if (!b) return;
+      var v = b.getAttribute('data-copy');
       function done() {
-        copy.textContent = '已复制 ✓'; copy.classList.add('ok');
-        setTimeout(function () { copy.textContent = '复制 ID'; copy.classList.remove('ok'); }, 1600);
+        var o = b.textContent;
+        b.textContent = '已复制 ✓';
+        b.classList.add('ok');
+        setTimeout(function () { b.textContent = o; b.classList.remove('ok'); }, 1600);
       }
       function fallback() {
         var ta = document.createElement('textarea');
-        ta.value = WX_ID; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        ta.value = v; ta.style.position = 'fixed'; ta.style.opacity = '0';
         document.body.appendChild(ta); ta.select();
         try { document.execCommand('copy'); done(); } catch (err) {}
         document.body.removeChild(ta);
       }
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(WX_ID).then(done, fallback);
+        navigator.clipboard.writeText(v).then(done, fallback);
       } else fallback();
+    });
+    // 占位 ID 的复制按钮在填入真实值前禁用，避免复制无效内容
+    document.querySelectorAll('.wx-id-box code').forEach(function (c) {
+      if (/placeholder/i.test(c.textContent)) {
+        var btn = c.parentElement.querySelector('.wx-copy');
+        if (btn) { btn.disabled = true; btn.textContent = '待填写'; }
+        c.style.opacity = '.45';
+      }
     });
   })();
   </script>
-  <script>
-  (function () {
-    var mount = document.getElementById('giscus-mount');
-    if (!mount) return;
-    var loaded = false;
-
-    function loadWall() {
-      if (loaded) return;
-      loaded = true;
-      var s = document.createElement('script');
-      s.src = 'https://giscus.app/client.js';
-      s.async = true;
-      s.crossOrigin = 'anonymous';
-      s.setAttribute('data-repo', 'EastSword/EastSword.github.io');
-      s.setAttribute('data-repo-id', 'R_kgDOINsDXg');
-      s.setAttribute('data-category', 'General');
-      s.setAttribute('data-category-id', 'DIC_kwDOINsDXs4DEYFm');
-      s.setAttribute('data-mapping', 'specific');
-      s.setAttribute('data-term', '江湖留名 · 粉丝签名墙');
-      s.setAttribute('data-strict', '1');
-      s.setAttribute('data-reactions-enabled', '1');
-      s.setAttribute('data-emit-metadata', '0');
-      s.setAttribute('data-input-position', 'top');
-      s.setAttribute('data-theme', 'https://eastsword.github.io/assets/giscus-theme.css');
-      s.setAttribute('data-lang', 'zh-CN');
-      mount.appendChild(s);
-
-      var timer = setInterval(function () {
-        if (mount.querySelector('iframe')) {
-          clearInterval(timer);
-          var l = document.getElementById('wall-loading');
-          if (l) l.remove();
-        }
-      }, 400);
-      setTimeout(function () { clearInterval(timer); }, 30000);
-    }
-
-    if ('IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function (entries) {
-        if (entries.some(function (e) { return e.isIntersecting; })) {
-          io.disconnect();
-          loadWall();
-        }
-      }, { rootMargin: '300px' });
-      io.observe(mount);
-    } else {
-      loadWall();
-    }
-  })();
-  </script>
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </body>
 </html>

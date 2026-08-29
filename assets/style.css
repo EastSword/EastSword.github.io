@@ -419,7 +419,199 @@ body::after {
 .badge.publishing { color: var(--gold-bright); border-color: rgba(212,175,106,.45); background: rgba(212,175,106,.07); }
 .badge.drafting   { color: var(--paper-dim); border-color: rgba(154,163,173,.4); background: rgba(154,163,173,.06); }
 .badge.keyword    { color: var(--purple-glow); border-color: rgba(167,139,250,.45); background: rgba(167,139,250,.08); }
+.badge.cat-badge  { color: var(--gold-bright); border-color: rgba(212,175,106,.45); background: rgba(212,175,106,.07); }
+.badge.cat-sec    { color: var(--teal-glow); border-color: rgba(61,232,201,.45); background: rgba(61,232,201,.07); }
+.badge.cat-ai     { color: var(--purple-glow); border-color: rgba(167,139,250,.45); background: rgba(167,139,250,.08); }
 .todo { color: var(--paper-dim); }
+
+/* ---------- 首页四大板块 ---------- */
+.modules {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+.module {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+  backdrop-filter: blur(14px);
+  padding: 26px 22px 22px;
+  text-decoration: none;
+  color: var(--paper);
+  overflow: hidden;
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+}
+.module::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 2px;
+  opacity: .5;
+}
+.module.m-teal::before   { background: linear-gradient(90deg, transparent, var(--teal-glow), transparent); }
+.module.m-gold::before   { background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.module.m-purple::before { background: linear-gradient(90deg, transparent, var(--purple-glow), transparent); }
+.module:hover { transform: translateY(-4px); border-color: rgba(212, 175, 106, 0.4); box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45); }
+.module .glyph {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: 30px;
+  margin-bottom: 14px;
+}
+.module.m-teal .glyph   { color: var(--teal-glow); text-shadow: 0 0 20px rgba(61, 232, 201, 0.5); }
+.module.m-gold .glyph   { color: var(--gold-bright); text-shadow: 0 0 20px rgba(212, 175, 106, 0.5); }
+.module.m-purple .glyph { color: var(--purple-glow); text-shadow: 0 0 20px rgba(167, 139, 250, 0.5); }
+.module .m-title {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+.module .m-desc { font-size: 13px; color: var(--paper-dim); line-height: 1.7; min-height: 66px; }
+.module .m-meta {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--gold);
+  opacity: .85;
+  border-top: 1px dashed var(--line);
+  padding-top: 10px;
+  margin-top: 4px;
+}
+.more-link { text-align: center; margin-top: 26px; }
+.more-link a {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--paper-dim);
+  text-decoration: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 26px;
+  transition: color .2s, border-color .2s, box-shadow .2s;
+}
+.more-link a:hover { color: var(--teal-glow); border-color: rgba(61, 232, 201, 0.4); box-shadow: 0 0 18px rgba(61, 232, 201, 0.15); }
+
+/* ---------- 安全资讯 ---------- */
+.news-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--paper-dim);
+  margin-bottom: 28px;
+}
+.news-meta b { color: var(--gold-bright); font-weight: 600; }
+.news-meta .sep { color: var(--gold); opacity: .4; }
+.news-list { display: flex; flex-direction: column; gap: 8px; }
+.news-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  backdrop-filter: blur(10px);
+  padding: 13px 18px;
+  text-decoration: none;
+  color: var(--paper);
+  transition: border-color .2s, transform .2s, background .2s;
+}
+.news-item:hover { border-color: rgba(61, 232, 201, 0.35); transform: translateX(4px); background: rgba(16, 22, 30, 0.85); }
+.news-date { font-family: var(--mono); font-size: 12px; color: var(--paper-dim); letter-spacing: 1px; white-space: nowrap; }
+.news-title {
+  flex: 1;
+  font-size: 14.5px;
+  line-height: 1.55;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.news-item:hover .news-title { color: var(--teal-glow); }
+.news-source {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--gold);
+  opacity: .8;
+  white-space: nowrap;
+  letter-spacing: 1px;
+}
+.news-list.preview { margin-bottom: 0; }
+
+/* ---------- 关于页联系方式 ---------- */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 46px;
+}
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+  backdrop-filter: blur(14px);
+  padding: 22px;
+  text-decoration: none;
+  color: var(--paper);
+  cursor: pointer;
+  font-family: var(--sans);
+  text-align: left;
+  transition: transform .25s, border-color .25s, box-shadow .25s;
+}
+.contact-card:hover { transform: translateY(-4px); border-color: rgba(212, 175, 106, 0.4); box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45); }
+.c-glyph {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: 24px;
+  width: 46px; height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin-bottom: 6px;
+}
+.c-glyph.g-teal   { color: var(--teal-glow); text-shadow: 0 0 16px rgba(61, 232, 201, 0.5); border-color: rgba(61, 232, 201, 0.3); }
+.c-glyph.g-gold   { color: var(--gold-bright); text-shadow: 0 0 16px rgba(212, 175, 106, 0.5); border-color: rgba(212, 175, 106, 0.3); }
+.c-glyph.g-purple { color: var(--purple-glow); text-shadow: 0 0 16px rgba(167, 139, 250, 0.5); border-color: rgba(167, 139, 250, 0.3); }
+.c-title { font-family: var(--serif); font-weight: 700; font-size: 16px; letter-spacing: 2px; }
+.c-desc { font-size: 12.5px; color: var(--paper-dim); }
+
+/* ---------- 筛选条双层 ---------- */
+.chips-rows { display: flex; flex-direction: column; gap: 10px; }
+.chips-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.chips-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  opacity: .75;
+  white-space: nowrap;
+}
+.chip.cat.active { color: var(--gold-bright); border-color: rgba(212, 175, 106, 0.55); background: rgba(212, 175, 106, 0.1); }
+
+/* ---------- 签名墙管理入口 ---------- */
+.admin-link {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--paper-dim);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(154, 163, 173, 0.4);
+  padding-bottom: 1px;
+  opacity: .7;
+}
+.admin-link:hover { color: var(--red-glow); border-color: rgba(255, 77, 109, 0.5); opacity: 1; }
 
 /* ---------- 关于 ---------- */
 .about {
@@ -624,12 +816,21 @@ footer.site .social {
 footer.site .social .sep { color: var(--gold); opacity: .4; }
 
 /* ---------- 响应式 ---------- */
+@media (max-width: 960px) {
+  .modules { grid-template-columns: repeat(2, 1fr); }
+  .contact-grid { grid-template-columns: repeat(2, 1fr); }
+}
 @media (max-width: 760px) {
   .bento { grid-template-columns: 1fr; }
   .tile.wide { grid-column: auto; }
   .about { padding: 44px 30px; }
   .hero .bg { background-position: center; }
   .nav .links { gap: 16px; }
+  .modules { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .news-item { flex-wrap: wrap; gap: 8px; }
+  .news-title { white-space: normal; width: 100%; order: 5; flex: none; }
+  .filter-bar { flex-direction: column; align-items: stretch; }
 }
 
 /* ---------- 江湖留名 / 签名墙 ---------- */
@@ -663,6 +864,11 @@ footer.site .social .sep { color: var(--gold); opacity: .4; }
   margin-bottom: 14px;
   position: relative;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 .giscus-mount { min-height: 140px; position: relative; z-index: 1; }
 .wall-loading {

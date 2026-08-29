@@ -7,6 +7,7 @@ date: 2026-08-22
 updated: 2026-08-25
 status: drafting
 keyword: MCP
+category: AI安全
 tags: [AI 安全, 供应链安全]
 links:
   - platform: 公众号

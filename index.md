@@ -15,47 +15,64 @@ layout: default
       从 Web 安全到 AI Agent 时代，攻击者换了兵器，攻的仍是同一处命门。东方隐侠安全团队以研究话题为脉络，逐一拆解身份、供应链、AI 安全三大战场上的攻击路径。
     </p>
     <div class="cta">
-      <a class="primary" href="#topics">进入研究话题</a>
-      <a class="ghost" href="#about">关于团队</a>
+      <a class="primary" href="{{ '/topics/' | relative_url }}">进入研究话题</a>
+      <a class="ghost" href="{{ '/news/' | relative_url }}">今日安全资讯</a>
     </div>
   </div>
   <div class="scroll">SCROLL ▾</div>
 </section>
 
-<!-- TOPICS -->
-<section id="topics">
+<!-- MODULES -->
+<section id="modules">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="num">00 / SECTORS</div>
+      <h2>四大板块</h2>
+      <p class="desc">研究话题纵深拆解，安全资讯每日同步内网情报源，江湖留名汇聚同行足迹。</p>
+    </div>
+    <div class="modules">
+      <a class="module m-teal" href="{{ '/topics/' | relative_url }}">
+        <div class="glyph">研</div>
+        <div class="m-title">研究话题</div>
+        <div class="m-desc">每个话题是一次完整研究：第一性原理拆解 + 真实事件 + 检测基线</div>
+        <div class="m-meta">{{ site.topics | size }} 个课题 · 持续修订</div>
+      </a>
+      <a class="module m-gold" href="{{ '/news/' | relative_url }}">
+        <div class="glyph">讯</div>
+        <div class="m-title">安全资讯</div>
+        <div class="m-desc">内网情报聚合服务直连，覆盖全球安全源与 AI 安全源，每日自动同步</div>
+        <div class="m-meta">{% if site.data.news %}{{ site.data.news.items | size }} 条 · {{ site.data.news.generated_at }} 更新{% else %}情报源接入中{% endif %}</div>
+      </a>
+      <a class="module m-purple" href="{{ '/wall/' | relative_url }}">
+        <div class="glyph">俠</div>
+        <div class="m-title">江湖留名</div>
+        <div class="m-desc">以 GitHub 身份签下你的 ID 和一句话，签名实时上墙，支持表情回应</div>
+        <div class="m-meta">路过即缘分</div>
+      </a>
+      <a class="module m-teal" href="{{ '/about/' | relative_url }}">
+        <div class="glyph">盟</div>
+        <div class="m-title">关于团队</div>
+        <div class="m-desc">AI 安全 / 身份安全 / 软件供应链三大方向，联系与合作入口</div>
+        <div class="m-meta">团队微信 / 视频号 / 公众号</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- TOPICS PREVIEW -->
+<section id="topics-preview">
   <div class="wrap">
     <div class="section-head">
       <div class="num">01 / RESEARCH</div>
-      <h2>研究话题</h2>
-      <p class="desc">每个话题是一次完整的研究：从第一性原理拆解，配真实事件与可落地的检测基线，全平台形态入口聚合于话题页内，持续修订。</p>
+      <h2>最新研究话题</h2>
+      <p class="desc">全平台形态入口聚合于话题页内：公众号、CSDN、B站、视频号一站直达。</p>
     </div>
-
-    {% assign topics = site.topics | sort: date | reverse %}
-    {% if topics.size > 0 %}
-    <div class="filter-bar">
-      <div class="search-box">
-        <span class="icon">⌕</span>
-        <input id="topic-search" type="text" placeholder="搜索话题 / 关键词 / 简介…" autocomplete="off">
-      </div>
-      <div class="tag-chips" id="tag-chips">
-        <button class="chip active" data-tag="__all">全部</button>
-        {% assign all_tags = topics | map: "tags" | join: "," | split: "," | uniq | sort %}
-        {% for tg in all_tags %}
-        <button class="chip" data-tag="{{ tg }}">{{ tg }}</button>
-        {% endfor %}
-      </div>
-    </div>
-    {% endif %}
-
-    <div class="bento" id="topic-list">
-      {% for t in topics %}
+    <div class="bento">
+      {% assign topics = site.topics | sort: date | reverse %}
+      {% for t in topics limit: 3 %}
       {% assign t_tags = t.tags | join: "," %}
       <a class="tile" href="{{ t.url | relative_url }}"
-         data-title="{{ t.title | escape }}"
-         data-subtitle="{{ t.subtitle | escape }}"
-         data-keyword="{{ t.keyword | escape }}"
-         data-tags="{{ t_tags }}">
+         data-title="{{ t.title | escape }}" data-tags="{{ t_tags }}">
         <div class="row1">
           {% if t.status == "published" %}
             <span class="badge published">已发布</span>
@@ -64,7 +81,7 @@ layout: default
           {% else %}
             <span class="badge drafting">撰写中</span>
           {% endif %}
-          {% if t.keyword %}<span class="badge keyword">{{ t.keyword }}</span>{% endif %}
+          {% if t.category %}<span class="badge cat-badge">{{ t.category }}</span>{% endif %}
           <h3>{{ t.title }}</h3>
           <span class="arrow">→</span>
         </div>
@@ -72,55 +89,39 @@ layout: default
           <span>{{ t.subtitle }}</span>
           <span class="dot">·</span>
           <span>{{ t.date | date: "%Y-%m-%d" }}</span>
-          {% assign link_count = t.links | size %}
-          <span class="dot">·</span>
-          <span>{{ link_count }}+ 平台形态</span>
-          {% for tg in t.tags %}<span class="mini-tag">{{ tg }}</span>{% endfor %}
         </div>
       </a>
       {% endfor %}
     </div>
-
-    <div class="pager" id="pager"></div>
-    <div class="empty-result" id="empty-result" hidden>
-      <div class="glyph">空</div>
-      没有匹配的话题，换个关键词试试
-    </div>
-
-    {% if topics.size == 0 %}
-    <div class="placeholder-box">
-      <div class="glyph">墨 · 俠</div>
-      研究话题正整理入库，首发内容即将上线
-    </div>
-    {% endif %}
+    <div class="more-link"><a href="{{ '/topics/' | relative_url }}">查看全部课题 →</a></div>
   </div>
 </section>
 
-<!-- WALL -->
-<section id="wall">
+<!-- NEWS PREVIEW -->
+<section id="news-preview">
   <div class="wrap">
     <div class="section-head">
-      <div class="num">02 / GUESTBOOK</div>
-      <h2>江湖留名</h2>
-      <p class="desc">路过即缘分。以 GitHub 身份签下你的 ID 和一句话，签名实时上墙；路过他人的签名，也可以点个表情回应。</p>
+      <div class="num">03 / INTEL</div>
+      <h2>最新安全资讯</h2>
+      <p class="desc">每日 10:00 自动同步内网情报聚合服务（安全源 83 个，含 CISA / Mandiant / FreeBuf 等）。</p>
     </div>
-    <div class="wall-frame">
-      <div class="wall-hint">GITHUB 留名 · 实时上墙 · 支持表情回应</div>
-      <div id="giscus-mount" class="giscus-mount"></div>
-      <div class="wall-loading" id="wall-loading"><span class="glyph">墨</span><span>签名墙展开中…</span></div>
+    {% if site.data.news %}
+    <div class="news-list preview">
+      {% for n in site.data.news.items limit: 6 %}
+      <a class="news-item" href="{{ n.url }}" target="_blank" rel="noopener">
+        <span class="news-date">{{ n.published_date }}</span>
+        <span class="badge {% if n.category == 'AI安全' %}cat-ai{% else %}cat-sec{% endif %}">{{ n.category }}</span>
+        <span class="news-title">{{ n.title }}</span>
+        <span class="news-source">{{ n.source }}</span>
+      </a>
+      {% endfor %}
     </div>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="wrap">
-    <div class="about">
-      <img class="team-logo" src="{{ '/assets/logo-full.png' | relative_url }}" alt="东方隐侠安全团队">
-      <h2>关于 <span>东方隐侠</span></h2>
-      <p><strong>东方隐侠安全团队（DFYX-SEC）</strong>，专注于攻防前沿的安全研究团队。研究方向横跨 AI 安全（Agent / MCP / Skills 供应链）、身份安全（ITDR）、软件供应链三大领域，坚持「研究驱动、实战检验」——每个话题从第一性原理拆解，配真实事件与可落地的检测基线。</p>
-      <p><strong>千里</strong>，团队创始人，安全 BP。深耕 Web 安全多年，当前主攻 AI Agent 时代的新攻击面，负责本站全部研究话题的选题与撰写。</p>
-      <p>本站不按时间流更新，按<strong>研究主题</strong>组织：每个话题页聚合该研究在公众号、CSDN、FreeBuf、B站、知识星球的全部形态入口与配套资产，地址持续修订。</p>
+    <div class="more-link"><a href="{{ '/news/' | relative_url }}">进入资讯频道 →</a></div>
+    {% else %}
+    <div class="placeholder-box">
+      <div class="glyph">讯</div>
+      情报源接入中，运行 scripts/sync_news.py 首次同步
     </div>
+    {% endif %}
   </div>
 </section>
