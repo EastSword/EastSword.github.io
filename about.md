@@ -32,7 +32,7 @@ permalink: /about/
       <button class="contact-card" type="button" data-modal="modal-gzh">
         <span class="c-glyph g-purple">众</span>
         <span class="c-title">公众号</span>
-        <span class="c-desc">关键词回复获取课题资料</span>
+        <span class="c-desc">dfyx_sec · 关键词回复获取课题资料</span>
       </button>
       <a class="contact-card" href="https://wx.zsxq.com/group/51115811242514" target="_blank" rel="noopener">
         <span class="c-glyph g-gold">星</span>

@@ -23,7 +23,7 @@
 
 **安全资讯同步**：`python3 scripts/sync_news.py`（每日 10:00 由定时任务自动执行）。拉取内网 EchoMind 情报聚合服务（默认 192.168.1.7:10010，多 IP 自动探测；收录 security + ai-security 共 83 源，脚本顶部 `CATEGORIES` 可改）→ 合并去重写入 `_data/news.json` → 有变化自动 commit + push。手动跑加 `--no-push` 只写文件。
 
-**团队微信 / 公众号**：真实 ID 待填——改 `_layouts/default.html` 中 `#modal-wechat` 和 `#modal-gzh` 两个弹窗：`<code>` 内容换成真实值、复制按钮加 `data-copy="真实值"` 属性即可（占位态复制按钮自动禁用）。
+**团队微信 / 公众号**：真实 ID 已填入 `_layouts/default.html` 的 `#modal-wechat`（DFYX_SEC_TEAM）和 `#modal-gzh`（dfyx_sec）两个弹窗，如需修改直接改 `<code>` 内容和 `data-copy` 属性。
 
 ## 签名墙管理（删除不当签名）
 
