@@ -4,8 +4,8 @@ layout: topic
 title: 身份攻击七路径与ITDR
 subtitle: 密码对，MFA通过，零告警——合法认证身份的攻击面全景与检测之道
 date: 2026-08-25
-updated: 2026-08-26
-status: publishing
+updated: 2026-08-29
+status: published
 keyword: ITDR
 tags: [身份安全, 企业安全, 检测工程]
 links:
@@ -27,13 +27,13 @@ links:
     note: 已发布（沿用原版）
 videos:
   - platform: B站
-    form: 10分钟讲解（Uber案+零告警原理）
-    url:
-    note: 脚本已备，待录制（D0晚间8-10点，可延1-2天）
+    form: 53分钟讲解《身份认证问题讨论》（Uber案+零告警原理）
+    url: https://www.bilibili.com/video/BV1SX416mE6g
+    note: 已发布 2026-08-29
   - platform: 视频号
-    form: B站片60-90s切片
-    url:
-    note: 与B站同素材，间隔1-2小时
+    form: 《身份认证安全问题探讨》
+    url: https://weixin.qq.com/sph/AHY0zVteg
+    note: 已发布 2026-08-29（微信内打开）
 ---
 
 ## 核心问题
