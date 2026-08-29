@@ -1,6 +1,7 @@
 ---
 layout: default
 title: 研究话题
+permalink: /topics/
 ---
 <section id="topics">
   <div class="wrap">

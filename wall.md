@@ -1,6 +1,7 @@
 ---
 layout: default
 title: 江湖留名
+permalink: /wall/
 ---
 <section id="wall">
   <div class="wrap">

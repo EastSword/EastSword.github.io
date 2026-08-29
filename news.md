@@ -1,6 +1,7 @@
 ---
 layout: default
 title: 安全资讯
+permalink: /news/
 ---
 <section id="news">
   <div class="wrap">

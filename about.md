@@ -1,6 +1,7 @@
 ---
 layout: default
 title: 关于团队
+permalink: /about/
 ---
 <section id="about">
   <div class="wrap">
