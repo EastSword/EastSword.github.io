@@ -3,10 +3,15 @@
 """本地文章编辑器：浏览器改主稿 + 实时预览（与线上同引擎）+ 一键保存/发布
 
 用法:
-  python3 scripts/edit_article.py             # 打开 http://127.0.0.1:8917
-  python3 scripts/edit_article.py --port 8918
-  python3 scripts/edit_article.py --no-open   # 不自动开浏览器
+  python3 scripts/edit_article.py              # 后台启动并打开 http://127.0.0.1:8917（默认）
+  python3 scripts/edit_article.py --port 8918  # 换端口
+  python3 scripts/edit_article.py --no-open    # 后台启动但不自动开浏览器
+  python3 scripts/edit_article.py --stop       # 停止后台编辑器
+  python3 scripts/edit_article.py --status     # 查看运行状态
+  python3 scripts/edit_article.py --foreground # 前台运行（调试用，Ctrl+C 退出）
 
+后台模式：服务进程独立会话运行，关闭终端不受影响；重复执行命令时检测到
+已在运行则直接开浏览器。日志写在系统临时目录（不入仓库，publish 是 git add -A）。
 仅绑定 127.0.0.1，不对外网开放。保存 = 写回主稿 .md 与登记表；
 发布 = 保存后调用 publish_article.py（可仅生成不推送）。
 预览依赖本地 ruby + kramdown（gem install kramdown kramdown-parser-gfm）。
@@ -14,11 +19,16 @@
 
 import argparse
 import json
+import os
 import re
+import signal
 import subprocess
 import sys
+import tempfile
 import threading
+import time
 import webbrowser
+from urllib.request import urlopen
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import quote, unquote, urlparse
@@ -121,6 +131,8 @@ class Handler(BaseHTTPRequestHandler):
             path = unquote(urlparse(self.path).path)
             if path == "/":
                 return self._bytes(UI_FILE.read_bytes(), "text/html; charset=utf-8")
+            if path == "/api/ping":
+                return self._json({"app": "article-editor", "pid": os.getpid()})
             if path == "/api/articles":
                 return self._json(self.articles_list())
             m = re.fullmatch(r"/api/article/([a-z0-9-]+)", path)
@@ -251,21 +263,87 @@ class Handler(BaseHTTPRequestHandler):
         return {"ok": True, "slug": slug}
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--port", type=int, default=8917)
-    ap.add_argument("--no-open", action="store_true")
-    args = ap.parse_args()
+def ping(port, timeout=0.5):
+    """探测端口上是否跑着本编辑器，是则返回其 pid，否则 None"""
+    try:
+        with urlopen(f"http://127.0.0.1:{port}/api/ping", timeout=timeout) as r:
+            data = json.loads(r.read().decode("utf-8"))
+        if data.get("app") == "article-editor":
+            return data.get("pid")
+    except Exception:
+        pass
+    return None
 
-    httpd = ThreadingHTTPServer(("127.0.0.1", args.port), Handler)
-    url = f"http://127.0.0.1:{args.port}"
-    print(f"[编辑器] {url}  （Ctrl+C 退出）")
-    if not args.no_open:
+
+def serve(port, open_browser):
+    httpd = ThreadingHTTPServer(("127.0.0.1", port), Handler)
+    url = f"http://127.0.0.1:{port}"
+    print(f"[编辑器] {url}  （Ctrl+C 退出）", flush=True)
+    if open_browser:
         threading.Timer(0.8, lambda: webbrowser.open(url)).start()
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
         print("\n[退出]")
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--port", type=int, default=8917)
+    ap.add_argument("--no-open", action="store_true", help="不自动打开浏览器")
+    ap.add_argument("--foreground", action="store_true", help="前台运行（调试用，Ctrl+C 退出）")
+    ap.add_argument("--stop", action="store_true", help="停止后台运行的编辑器")
+    ap.add_argument("--status", action="store_true", help="查看运行状态")
+    args = ap.parse_args()
+
+    url = f"http://127.0.0.1:{args.port}"
+    pid = ping(args.port)
+
+    if args.stop:
+        if pid:
+            os.kill(pid, signal.SIGTERM)
+            print(f"[编辑器] 已停止（pid {pid}）")
+        else:
+            print(f"[编辑器] 未在运行（端口 {args.port}）")
+        return
+
+    if args.status:
+        print(f"[编辑器] 运行中 pid={pid}  {url}" if pid else "[编辑器] 未运行")
+        return
+
+    if pid:
+        print(f"[编辑器] 已在运行 pid={pid}  {url}")
+        if not args.no_open:
+            webbrowser.open(url)
+        return
+
+    if args.foreground:
+        serve(args.port, not args.no_open)
+        return
+
+    log = Path(tempfile.gettempdir()) / f"article-editor-{args.port}.log"
+    with open(log, "ab") as lf:
+        proc = subprocess.Popen(
+            [sys.executable, str(Path(__file__).resolve()),
+             "--foreground", "--no-open", "--port", str(args.port)],
+            stdout=lf, stderr=lf, stdin=subprocess.DEVNULL,
+            cwd=str(SITE), start_new_session=True,
+        )
+    for _ in range(60):
+        new_pid = ping(args.port)
+        if new_pid:
+            print(f"[编辑器] 后台已启动 pid={new_pid}  {url}")
+            print(f"  日志: {log}")
+            print("  停止: python3 scripts/edit_article.py --stop")
+            if not args.no_open:
+                webbrowser.open(url)
+            return
+        if proc.poll() is not None:
+            print(f"[编辑器] 启动失败，查看日志: {log}")
+            sys.exit(1)
+        time.sleep(0.1)
+    print(f"[编辑器] 启动超时，查看日志: {log}")
+    sys.exit(1)
 
 
 if __name__ == "__main__":

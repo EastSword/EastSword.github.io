@@ -101,7 +101,7 @@ toc:
     children: []
 ---
 
-2026 年 5 月 8 日，CISA 把 LiteLLM 的 CVE-2026-42208 列入已知利用漏洞目录（KEV）。KEV 的收录门槛是在野利用的确凿证据，收录即要求美国全体联邦机构限期修复。一个开源 AI 网关的 SQL 注入漏洞，就这样被提到了国家级应急响应的优先级。Cloud Security Alliance 的事后分析还原了攻击者的动作：漏洞公告进入公开数据库不到 36 小时，在野利用开始；攻击者用 17 个 UNION 载荷枚举出数据库结构后直奔三张表：`LiteLLM_VerificationToken`、`litellm_credentials`、`litellm_config`。这三张表正是 LiteLLM 存放全部上游供应商 Key 的地方。整个利用过程没碰别的数据，目标从第一步起就是凭据。CSA 对这类事件的定性是：存了组织级供应商凭据的 LiteLLM 实例被攻破，运营影响等同于整个云账户失陷。
+2026年5月8日，CISA 把 LiteLLM 的 CVE-2026-42208 列入已知利用漏洞目录（KEV）。KEV 的收录门槛是在野利用的确凿证据，收录即要求美国全体联邦机构限期修复。一个开源 AI 网关的 SQL 注入漏洞，就这样被提到了国家级应急响应的优先级。Cloud Security Alliance 的事后分析还原了攻击者的动作：漏洞公告进入公开数据库不到 36 小时，在野利用开始；攻击者用 17 个 UNION 载荷枚举出数据库结构后直奔三张表：`LiteLLM_VerificationToken`、`litellm_credentials`、`litellm_config`。这三张表正是 LiteLLM 存放全部上游供应商 Key 的地方。整个利用过程没碰别的数据，目标从第一步起就是凭据。CSA 对这类事件的定性是：存了组织级供应商凭据的 LiteLLM 实例被攻破，运营影响等同于整个云账户失陷。
 
 这不是孤立的漏洞事件，是一条已经跑通的产业链。Sysdig 2024 年命名 LLMjacking 时，测得受害账户的账单是每天 46,000 美元（AWS Bedrock 满配额消耗）；CSA 2026 年的追踪把旗舰模型场景的最坏情况推到每天 100,000 美元以上；Pillar Security 归因的 Operation Bizarre Bazaar 战役 40 天记录 35,000 多个攻击会话，变现方式从挖矿、暗网转售 API 访问到窃取提示词和对话历史。偷来的访问经反向代理包装成"低价 API"转售，买家永远碰不到凭据，追责在中间商断链。攻击者的纪律性已是商业水准：动手前先探测目标的调用日志是否开启，确认无审计再开始消费。泄露的入口规模同样量级惊人。GitGuardian [《2026 秘密蔓延状态报告》](https://blog.gitguardian.com/the-state-of-secrets-sprawl-2026/)（第五版，2026 年 3 月发布）统计：2025 年公开 GitHub 新泄露秘密 2,865 万个，同比增长 34%，是有记录以来最大的单年增幅；其中 AI 服务类凭据 1,275,105 个，同比暴涨 81%，仅 DeepSeek API Key 一项就流出 11.3 万个，全部类别里增长最快的 10 种有 8 种与 AI 服务相关。
 
