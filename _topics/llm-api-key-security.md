@@ -10,6 +10,10 @@ keyword: APIKEY
 category: AI安全
 tags: [AI 安全, 云安全, 检测工程]
 links:
+  - platform: 官网
+    form: 完整版长文（约 4.9 万字，14 章，先于全平台首发）
+    url: /articles/llm-api-key-leak/
+    note: 在线阅读完整版
   - platform: 公众号
     form: 系列三篇（上：攻击面与实测案例 / 中：七条提取路径 / 下：利用链与防御）
     url:

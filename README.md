@@ -8,14 +8,18 @@
 
 | 页面 | 文件 | 说明 |
 |------|------|------|
-| 首页 | `index.md` | Hero + 四大板块导航 + 课题/资讯预览 |
+| 首页 | `index.md` | Hero + 四大板块导航 + 课题/文章/资讯预览 |
 | 研究话题 | `topics.md` | 全部课题，**领域分类**（`category` 字段）+ 标签双层筛选 + 搜索 + 分页 |
+| 技术文章 | `articles.md` | 长文列表页，渲染 `_articles/` 集合 |
 | 安全资讯 | `news.md` | 渲染 `_data/news.json`，分类筛选 + 搜索 + 分页 |
 | 江湖留名 | `wall.md` | giscus 签名墙（GitHub Discussion #1） |
 | 关于团队 | `about.md` | 团队介绍 + 联系方式卡片 |
 | 话题详情 | `_topics/*.md` | 每课题一页，`layout: topic` |
+| 文章详情 | `_articles/*.md` | 每篇一页，`layout: article`（自动目录 + 锚点 + 阅读版式） |
 
 ## 日常维护
+
+**发布/修订长文（改完主稿直接上）**：主稿在本地改（如 `安全架构/公网大模型的密钥泄露：攻击面、提取手法与防御.md`），跑 `python3 scripts/publish_article.py`。脚本自动：剥 H1、给章节注入锚点并生成目录、把 `文章配图/` 图片搬运到 `assets/images/<slug>/` 并改写路径、计算阅读时长、更新 `updated` 日期（首发的 `date` 保持不变）→ commit + push，1 分钟后线上生效。加 `--no-push` 只生成不推送。新文章在脚本顶部 `ARTICLES` 列表登记一条即可。
 
 **发布新平台后回填地址**：打开 `_topics/<话题>.md`，填 `url:`、改 `note` 和 `updated`。commit + push，1 分钟后自动生效。
 
@@ -34,16 +38,19 @@
 
 ```
 blog-site/
-├── _config.yml          # 站点配置 + topics collection 声明
+├── _config.yml          # 站点配置 + topics/articles collection 声明
 ├── index.md             # 首页
-├── topics.md / news.md / wall.md / about.md   # 各板块子页面
+├── topics.md / articles.md / news.md / wall.md / about.md   # 各板块子页面
 ├── _layouts/
 │   ├── default.html     # 页面骨架：导航/页脚/联系方式弹窗（视频号/微信/公众号）
-│   └── topic.html       # 话题页：资源矩阵表格渲染
+│   ├── topic.html       # 话题页：资源矩阵表格渲染
+│   └── article.html     # 文章页：自动目录 + 长文阅读版式
 ├── _topics/             # ★ 课题：一个话题一个 md
+├── _articles/           # ★ 长文：publish_article.py 从主稿生成，勿手改
 ├── _data/news.json      # 安全资讯数据（脚本生成，勿手改）
-├── scripts/sync_news.py # 资讯同步脚本
-└── assets/              # 样式 / 图标 / giscus 主题
+├── scripts/sync_news.py        # 资讯同步脚本
+├── scripts/publish_article.py  # 长文发布脚本（主稿 → 文章页 → push）
+└── assets/              # 样式 / 图标 / 图片 / giscus 主题
 ```
 
 ## 本地预览（可选）

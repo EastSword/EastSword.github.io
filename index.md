@@ -35,7 +35,7 @@ layout: default
         <div class="glyph">研</div>
         <div class="m-title">研究话题</div>
         <div class="m-desc">每个话题是一次完整研究：第一性原理拆解 + 真实事件 + 检测基线</div>
-        <div class="m-meta">{{ site.topics | size }} 个课题 · 持续修订</div>
+        <div class="m-meta">{{ site.topics | size }} 个课题 · {{ site.articles | size }} 篇长文</div>
       </a>
       <a class="module m-gold" href="{{ '/news/' | relative_url }}">
         <div class="glyph">讯</div>
@@ -96,6 +96,37 @@ layout: default
     <div class="more-link"><a href="{{ '/topics/' | relative_url }}">查看全部课题 →</a></div>
   </div>
 </section>
+
+<!-- ARTICLES PREVIEW -->
+{% assign articles = site.articles | sort: date | reverse %}
+{% if articles.size > 0 %}
+<section id="articles-preview">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="num">02 / ARTICLES</div>
+      <h2>最新技术文章</h2>
+      <p class="desc">研究课题的完整版长文，先于全平台首发或同步刊登于此。</p>
+    </div>
+    <div class="bento">
+      {% for a in articles limit: 3 %}
+      <a class="tile" href="{{ a.url | relative_url }}">
+        <div class="row1">
+          {% if a.category %}<span class="badge cat-badge">{{ a.category }}</span>{% endif %}
+          <h3>{{ a.title }}</h3>
+          <span class="arrow">→</span>
+        </div>
+        <div class="row2">
+          <span>{{ a.subtitle }}</span>
+          <span class="dot">·</span>
+          <span>阅读约 {{ a.reading_time }} 分钟</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    <div class="more-link"><a href="{{ '/articles/' | relative_url }}">全部文章 →</a></div>
+  </div>
+</section>
+{% endif %}
 
 <!-- NEWS PREVIEW -->
 <section id="news-preview">

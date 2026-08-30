@@ -9,3 +9,8 @@ collections:
   topics:
     output: true
     permalink: /topics/:name/
+  articles:
+    output: true
+    permalink: /articles/:name/
+kramdown:
+  auto_ids: true
