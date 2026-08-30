@@ -66,6 +66,7 @@ API Key 的安全模型和密码不是一回事：配置一次长期有效、明
 - 2026 年 1-2 月 MCP 漏洞潮：30+ CVE，含 mcp-remote CVSS 9.6 RCE；GreyNoise 蜜罐 91,403 个攻击会话，60% 已转向 MCP 端点侦察
 - 2026-03-14 slopsquatting 首案 react-codeshift：AI 幻觉包名被抢注，一周 1,847 次下载，环境变量全量外发
 - 2026-04-29 TeamPCP 多生态协同攻击：72 小时内同时攻陷 npm/PyPI/Packagist 上 SAP、PyTorch Lightning、Intercom 的包
+- 2025-04 绿盟 Fusion 独立测绘：Dify 58,000+（中国 52%）、Open WebUI 104,000+、RAGFlow 4,800+，与本文 FOFA 数据互为交叉验证；OpenAI 官方 Key 安全最佳实践（IP 允许列表 / Key 级权限 / 用量监控轮换）与 API 易令牌纪律（额度上限 / 生产测试分离 / AI 对话不进生产 Key）已并入防御章
 - 2026-08-27 Wiz 蜜罐 90 天报告：MCP 命令注入、Agent 盲注、进程内存提取三条路径全捕获
 - 2026-08 阿里人工智能治理研究中心评述《Agent 资源劫持》：直接索取 7.39% vs 诱导代用 84.06%，现有防御最多压到 55.11%
 - 2026-06-17 Sysdig：偷来的 Ollama 算力驱动自主攻击 Agent（VAPTb3gin 哨兵串）
