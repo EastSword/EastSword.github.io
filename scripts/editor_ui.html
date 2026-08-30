@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>文章编辑器 · 东方隐侠安全团队</title>
+<style>
+:root{
+  --ink:#0a0c10;--ink2:#0e1319;--paper:#e9e4d8;--dim:#9aa3ad;
+  --teal:#3de8c9;--gold:#d4af6a;--goldb:#f0cd8a;
+  --line:rgba(212,175,106,.16);--card:rgba(16,22,30,.72);
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  --sans:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  --serif:'Songti SC','Noto Serif SC',serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:var(--ink);color:var(--paper);font-family:var(--sans);font-size:14px;display:flex;flex-direction:column}
+body.resizing{cursor:col-resize;user-select:none}
+body.resizing *{pointer-events:none}
+
+/* ---------- 顶栏 ---------- */
+header{flex:none;display:flex;align-items:center;gap:12px;padding:9px 16px;background:rgba(10,12,16,.92);border-bottom:1px solid var(--line)}
+header select{background:var(--ink2);color:var(--paper);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:13px;max-width:340px;font-family:var(--sans)}
+header select:focus{outline:none;border-color:rgba(61,232,201,.5)}
+.doc-title{font-family:var(--serif);font-weight:700;font-size:15px;color:var(--goldb);letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;text-align:center}
+.doc-stats{font-family:var(--mono);font-size:11.5px;color:var(--dim);white-space:nowrap}
+.hright{display:flex;align-items:center;gap:8px}
+.btn{border:1px solid var(--line);background:var(--ink2);color:var(--paper);border-radius:8px;padding:7px 14px;font-size:13px;cursor:pointer;font-family:var(--sans);transition:all .18s;white-space:nowrap}
+.btn:hover{border-color:rgba(61,232,201,.5);color:var(--teal)}
+.btn.primary{background:linear-gradient(135deg,rgba(61,232,201,.18),rgba(212,175,106,.18));border-color:rgba(61,232,201,.4);color:var(--teal);font-weight:600}
+.btn.primary:hover{box-shadow:0 0 16px rgba(61,232,201,.25)}
+.btn.danger:hover{border-color:rgba(255,77,109,.5);color:#ff4d6d}
+kbd{font-family:var(--mono);font-size:10px;background:rgba(212,175,106,.1);border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--gold)}
+.dot{width:9px;height:9px;border-radius:50%;background:rgba(154,163,173,.25);flex:none;transition:all .2s}
+.dot.dirty{background:var(--goldb);box-shadow:0 0 10px rgba(240,205,138,.7);animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.45}}
+
+/* ---------- 主区 ---------- */
+main{flex:1;display:flex;min-height:0}
+#editor-pane{flex:1 1 46%;min-width:280px;display:flex;flex-direction:column;border-right:1px solid var(--line)}
+#toolbar{flex:none;display:flex;gap:6px;padding:7px 12px;border-bottom:1px solid var(--line);background:rgba(14,19,25,.6);overflow-x:auto}
+#toolbar button{flex:none;background:none;border:1px solid transparent;color:var(--dim);border-radius:6px;padding:4px 9px;font-size:12px;cursor:pointer;font-family:var(--mono)}
+#toolbar button:hover{color:var(--teal);border-color:rgba(61,232,201,.3);background:rgba(61,232,201,.06)}
+#content{flex:1;width:100%;resize:none;border:none;background:transparent;color:var(--paper);font-family:var(--mono);font-size:13.5px;line-height:1.8;padding:18px 20px;outline:none;tab-size:2}
+#content::placeholder{color:rgba(154,163,173,.4)}
+#imgbar{flex:none;display:flex;gap:8px;align-items:center;padding:8px 12px;border-top:1px solid var(--line);background:rgba(14,19,25,.6);overflow-x:auto;max-height:96px}
+.img-item{flex:none;border:1px solid var(--line);border-radius:8px;padding:2px;background:var(--ink2);cursor:pointer;transition:border-color .2s}
+.img-item:hover{border-color:rgba(61,232,201,.6)}
+.img-item img{height:56px;width:auto;display:block;border-radius:6px}
+.img-empty{color:var(--dim);font-size:12px;font-family:var(--mono);white-space:nowrap}
+#splitter{flex:none;width:6px;cursor:col-resize;background:transparent;transition:background .2s}
+#splitter:hover{background:rgba(61,232,201,.25)}
+#preview-pane{flex:1 1 54%;min-width:300px;display:flex;flex-direction:column;background:rgba(14,19,25,.35)}
+.pv-head{flex:none;display:flex;justify-content:space-between;align-items:center;padding:9px 18px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11.5px;color:var(--gold);letter-spacing:2px}
+.pv-head .pv-stats{color:var(--dim);letter-spacing:0}
+body.no-preview #preview-pane,body.no-preview #splitter{display:none}
+#preview{flex:1;overflow-y:auto;padding:26px 34px 60px}
+.pv-err{color:#ff4d6d;font-family:var(--mono);font-size:12.5px}
+
+/* ---------- 预览正文（对齐线上文章版式） ---------- */
+.pv-body h1{font-family:var(--serif);font-size:26px;color:var(--goldb);margin:8px 0 18px}
+.pv-body h2{font-family:var(--serif);color:var(--goldb);font-size:21px;letter-spacing:2px;margin:38px 0 16px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.pv-body h3{font-family:var(--serif);color:var(--teal);font-size:17px;margin:28px 0 13px}
+.pv-body h4{font-size:15.5px;margin:22px 0 10px}
+.pv-body p{margin-bottom:15px;font-size:15px;line-height:2.05}
+.pv-body strong{color:var(--goldb)}
+.pv-body code{font-family:var(--mono);font-size:12.5px;color:var(--teal);background:rgba(61,232,201,.07);border:1px solid rgba(61,232,201,.16);border-radius:4px;padding:1px 6px;word-break:break-all}
+.pv-body pre{margin:16px 0;padding:14px 18px;border:1px solid rgba(61,232,201,.18);border-radius:10px;background:rgba(8,12,16,.85);overflow-x:auto}
+.pv-body pre code{background:none;border:none;padding:0;color:#b8e8dd;white-space:pre;word-break:normal}
+.pv-body img{max-width:100%;border:1px solid var(--line);border-radius:8px;margin:16px auto;display:block}
+.pv-body table{width:100%;border-collapse:collapse;font-size:13px;margin:18px 0;border:1px solid var(--line)}
+.pv-body th,.pv-body td{padding:9px 13px;border-bottom:1px solid rgba(212,175,106,.08);text-align:left;vertical-align:top}
+.pv-body th{font-family:var(--mono);font-size:10.5px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;background:rgba(212,175,106,.05)}
+.pv-body blockquote{margin:16px 0;padding:11px 18px;border-left:3px solid var(--gold);background:rgba(212,175,106,.05);border-radius:0 8px 8px 0;color:var(--dim)}
+.pv-body a{color:var(--teal);text-decoration:none;border-bottom:1px dashed rgba(61,232,201,.35)}
+.pv-body ul,.pv-body ol{margin:0 0 15px;padding-left:23px}
+.pv-body li{margin-bottom:6px;font-size:15px;line-height:1.9}
+.pv-body li::marker{color:var(--gold)}
+.pv-body hr{border:none;border-top:1px solid var(--line);margin:28px 0}
+
+/* ---------- 日志抽屉 ---------- */
+#logbar{flex:none;max-height:220px;display:flex;flex-direction:column;border-top:1px solid var(--line);background:rgba(8,12,16,.92)}
+#logbar[hidden]{display:none}
+.log-head{flex:none;display:flex;justify-content:space-between;align-items:center;padding:7px 14px;font-family:var(--mono);font-size:11.5px;color:var(--gold);letter-spacing:2px}
+.log-head button{background:none;border:none;color:var(--dim);font-size:15px;cursor:pointer}
+.log-head button:hover{color:#ff4d6d}
+#log{flex:1;overflow-y:auto;padding:4px 16px 12px;font-family:var(--mono);font-size:12px;line-height:1.7;color:#b8e8dd;white-space:pre-wrap}
+
+/* ---------- 弹窗 ---------- */
+.modal{position:fixed;inset:0;z-index:200;background:rgba(6,8,11,.72);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:24px}
+.modal[hidden]{display:none}
+.modal-card{width:min(640px,94vw);max-height:88vh;overflow-y:auto;background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:24px 26px;box-shadow:0 24px 80px rgba(0,0,0,.6)}
+.modal-title{font-family:var(--serif);font-size:17px;color:var(--goldb);letter-spacing:2px;margin-bottom:16px}
+.modal-text{color:var(--dim);font-size:13.5px;line-height:1.9;margin-bottom:16px}
+.modal label{display:block;font-size:12.5px;color:var(--dim);margin-bottom:12px}
+.modal input,.modal textarea{width:100%;margin-top:5px;background:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 11px;color:var(--paper);font-size:13.5px;font-family:var(--sans)}
+.modal textarea{font-family:var(--mono);font-size:12.5px;line-height:1.7;resize:vertical}
+.modal input:focus,.modal textarea:focus{outline:none;border-color:rgba(61,232,201,.5)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}
+
+/* ---------- Toast ---------- */
+#toast{position:fixed;right:20px;bottom:20px;z-index:300;background:rgba(12,43,46,.92);border:1px solid rgba(61,232,201,.4);color:var(--teal);border-radius:10px;padding:11px 18px;font-size:13px;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+#toast[hidden]{display:none}
+#toast.err{background:rgba(43,12,19,.92);border-color:rgba(255,77,109,.4);color:#ff4d6d}
+</style>
+</head>
+<body>
+<header>
+  <select id="article-select"><option>加载中…</option></select>
+  <button class="btn" id="btn-new" title="登记一篇新文章（创建主稿 + 登记表条目）">＋ 新建</button>
+  <span class="doc-title" id="doc-title">未加载</span>
+  <span class="doc-stats" id="doc-stats"></span>
+  <span class="dot" id="dirty-dot" title="未保存"></span>
+  <button class="btn" id="btn-meta">元信息</button>
+  <button class="btn" id="btn-reload" title="丢弃编辑器内修改，从磁盘重新加载主稿">重载</button>
+  <button class="btn" id="btn-save">保存 <kbd>⌘S</kbd></button>
+  <button class="btn primary" id="btn-publish">发布上线</button>
+</header>
+
+<main id="main">
+  <section id="editor-pane">
+    <div id="toolbar">
+      <button data-act="h2" title="二级标题">H2</button>
+      <button data-act="h3" title="三级标题">H3</button>
+      <button data-act="bold" title="粗体"><b>B</b></button>
+      <button data-act="code" title="行内代码">&lt;/&gt;</button>
+      <button data-act="link" title="链接">链接</button>
+      <button data-act="img" title="图片（文章配图）">图片</button>
+      <button data-act="fence" title="代码块">代码块</button>
+      <button data-act="table" title="表格">表格</button>
+    </div>
+    <textarea id="content" spellcheck="false" placeholder="选择文章后加载主稿…"></textarea>
+    <div id="imgbar"><span class="img-empty">图片库加载中…</span></div>
+  </section>
+  <div id="splitter" title="拖动调整宽度"></div>
+  <section id="preview-pane">
+    <div class="pv-head"><span>实时预览 · 与线上同引擎</span><span class="pv-stats" id="pv-stats"></span></div>
+    <div id="preview" class="pv-body"><p style="color:var(--dim)">选择文章后开始预览</p></div>
+  </section>
+</main>
+
+<div id="logbar" hidden>
+  <div class="log-head"><span>发布日志</span><button id="log-close" title="关闭">×</button></div>
+  <pre id="log"></pre>
+</div>
+
+<div class="modal" id="modal-meta" hidden>
+  <div class="modal-card">
+    <div class="modal-title">文章元信息 <span style="font-size:12px;color:var(--dim);letter-spacing:0">（随「保存」写入发布配置）</span></div>
+    <label>标题<input id="m-title"></label>
+    <label>副题<input id="m-subtitle" placeholder="一句话钩子，显示在标题下"></label>
+    <label>导语摘要<textarea id="m-abstract" rows="3" placeholder="文章页顶部的导语卡片"></textarea></label>
+    <div class="grid2">
+      <label>分类<input id="m-category" placeholder="AI安全"></label>
+      <label>公众号关键词<input id="m-keyword" placeholder="APIKEY"></label>
+      <label>标签（逗号分隔）<input id="m-tags" placeholder="AI 安全, 云安全"></label>
+      <label>课题 slug（选填）<input id="m-topic" placeholder="llm-api-key-security"></label>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" data-close>取消</button>
+      <button class="btn primary" id="meta-ok">确定</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-publish" hidden>
+  <div class="modal-card">
+    <div class="modal-title">发布上线</div>
+    <p class="modal-text">流程：保存主稿 → 生成文章页（目录 / 锚点 / 图片 / 链接）→ git push。推送后约 1 分钟线上生效；首次发布日期保持不变，只更新修订日期。</p>
+    <div class="modal-actions">
+      <button class="btn" data-close>取消</button>
+      <button class="btn" id="publish-nopush">仅生成（不推送）</button>
+      <button class="btn primary" id="publish-push">保存并推送上线</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-new" hidden>
+  <div class="modal-card">
+    <div class="modal-title">新建文章</div>
+    <p class="modal-text">登记表加一条 + 创建主稿文件（带 H1 标题），随后直接在这里写正文。</p>
+    <div class="grid2">
+      <label>slug（URL 路径）<input id="new-slug" placeholder="my-article"></label>
+      <label>标题<input id="new-title" placeholder="文章标题"></label>
+    </div>
+    <div class="grid2">
+      <label>分类<input id="new-category" placeholder="AI安全"></label>
+      <label>公众号关键词<input id="new-keyword" placeholder="APIKEY"></label>
+    </div>
+    <label>副题<input id="new-subtitle" placeholder="一句话钩子（选填）"></label>
+    <label>主稿文件（相对 blog-site，默认 ../标题.md）<input id="new-source" placeholder="../我的新文章.md"></label>
+    <div class="modal-actions">
+      <button class="btn" data-close>取消</button>
+      <button class="btn primary" id="new-ok">创建并打开</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" hidden></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const state = { slug: null, meta: {}, dirty: false, previewTimer: null, articles: [] };
+
+async function api(path, opts) {
+  const r = await fetch(path, Object.assign({ headers: { 'Content-Type': 'application/json' } }, opts || {}));
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(data.error || ('HTTP ' + r.status));
+  return data;
+}
+
+/* ---------- 文章加载 ---------- */
+async function loadArticles(keepSlug) {
+  const d = await api('/api/articles');
+  state.articles = d.articles;
+  const sel = $('article-select');
+  sel.innerHTML = '';
+  for (const a of state.articles) {
+    const o = document.createElement('option');
+    o.value = a.slug;
+    o.textContent = a.title + (a.category ? ' · ' + a.category : '') + (a.published ? '' : '（未发布）');
+    sel.appendChild(o);
+  }
+  const target = keepSlug && state.articles.some(a => a.slug === keepSlug)
+    ? keepSlug : (state.articles[0] && state.articles[0].slug);
+  if (target) { sel.value = target; await selectArticle(target, true); }
+}
+
+async function selectArticle(slug, force) {
+  if (!force && state.dirty && !confirm('当前文章未保存，切换将丢弃修改，继续？')) return;
+  state.slug = slug;
+  const d = await api('/api/article/' + slug);
+  state.meta = d.meta;
+  $('content').value = d.content;
+  $('doc-title').textContent = d.meta.title || slug;
+  $('doc-stats').textContent = d.source;
+  markClean();
+  updateCount();
+  loadImages();
+  schedulePreview(true);
+}
+
+/* ---------- 编辑 ---------- */
+function onInput() { state.dirty = true; markDirty(); updateCount(); schedulePreview(); }
+function updateCount() {
+  const n = $('content').value.replace(/\s/g, '').length;
+  $('doc-stats').textContent = ($('doc-stats').textContent.split(' · ')[0] || '') + ' · ' + n.toLocaleString() + ' 字';
+}
+function markDirty() { $('dirty-dot').classList.add('dirty'); $('dirty-dot').title = '未保存'; }
+function markClean() { $('dirty-dot').classList.remove('dirty'); $('dirty-dot').title = '已保存'; }
+
+function insertAtCursor(text, selStart, selEnd) {
+  const ta = $('content');
+  const s = ta.selectionStart;
+  ta.setRangeText(text, ta.selectionStart, ta.selectionEnd, 'end');
+  if (selStart != null) { ta.selectionStart = s + selStart; ta.selectionEnd = s + selEnd; }
+  ta.focus(); onInput();
+}
+function linePrefix(prefix) {
+  const ta = $('content');
+  const ls = ta.value.lastIndexOf('\n', ta.selectionStart - 1) + 1;
+  ta.setRangeText(prefix, ls, ls, 'end');
+  ta.focus(); onInput();
+}
+function wrapSelection(before, after, placeholder) {
+  const ta = $('content');
+  const sel = ta.value.substring(ta.selectionStart, ta.selectionEnd) || placeholder;
+  const s = ta.selectionStart;
+  ta.setRangeText(before + sel + after, ta.selectionStart, ta.selectionEnd, 'end');
+  ta.selectionStart = s + before.length;
+  ta.selectionEnd = s + before.length + sel.length;
+  ta.focus(); onInput();
+}
+function insertFence() {
+  const ta = $('content');
+  const s = ta.selectionStart;
+  ta.setRangeText('\n```\n\n```\n', s, ta.selectionEnd, 'end');
+  ta.selectionStart = ta.selectionEnd = s + 5;
+  ta.focus(); onInput();
+}
+
+/* ---------- 预览 ---------- */
+function schedulePreview(immediate) {
+  clearTimeout(state.previewTimer);
+  state.previewTimer = setTimeout(renderPreview, immediate ? 60 : 650);
+}
+async function renderPreview() {
+  if (!state.slug) return;
+  try {
+    const d = await api('/api/article/' + state.slug + '/preview', {
+      method: 'POST', body: JSON.stringify({ content: $('content').value })
+    });
+    if (d.html) $('preview').innerHTML = d.html;
+    else $('preview').innerHTML = '<p class="pv-err">预览渲染失败：' + (d.error || '未知错误') + '</p>';
+    $('pv-stats').textContent = d.toc && d.toc.length ? '共 ' + d.toc.length + ' 章' : '';
+  } catch (e) {
+    $('preview').innerHTML = '<p class="pv-err">预览失败: ' + e.message + '</p>';
+  }
+}
+
+/* ---------- 图片库 ---------- */
+async function loadImages() {
+  const bar = $('imgbar');
+  bar.innerHTML = '<span class="img-empty">图片库加载中…</span>';
+  if (!state.slug) return;
+  try {
+    const d = await api('/api/images/' + state.slug);
+    bar.innerHTML = '';
+    if (!d.images.length) {
+      bar.innerHTML = '<span class="img-empty">图片目录暂无图片（把图片放进主稿同级的「' + d.img_dir + '」目录后点重载）</span>';
+      return;
+    }
+    for (const img of d.images) {
+      const it = document.createElement('button');
+      it.className = 'img-item';
+      it.title = '点击插入：![](' + d.img_dir + '/' + img.name + ')';
+      const th = document.createElement('img');
+      th.src = img.url;
+      it.appendChild(th);
+      it.onclick = () => insertAtCursor(`![描述](${d.img_dir}/${img.name})`);
+      bar.appendChild(it);
+    }
+  } catch (e) {
+    bar.innerHTML = '<span class="img-empty">图片库加载失败</span>';
+  }
+}
+
+/* ---------- 保存 / 发布 ---------- */
+async function save() {
+  if (!state.slug) return;
+  try {
+    await api('/api/article/' + state.slug + '/save', {
+      method: 'POST', body: JSON.stringify({ content: $('content').value, meta: state.meta })
+    });
+    state.dirty = false; markClean();
+    toast('已保存到主稿 ' + timeStr());
+  } catch (e) { toast('保存失败：' + e.message, true); }
+}
+async function doPublish(noPush) {
+  closeModal('modal-publish');
+  showLog('执行中…\n');
+  try {
+    const d = await api('/api/article/' + state.slug + '/publish', {
+      method: 'POST',
+      body: JSON.stringify({ content: $('content').value, meta: state.meta, no_push: !!noPush })
+    });
+    state.dirty = false; markClean();
+    showLog(d.log || '(无输出)');
+    toast(d.ok ? (noPush ? '已生成（未推送）' : '发布完成，约 1 分钟后线上生效') : '发布失败，查看日志', !d.ok);
+    if (!noPush && d.ok) loadArticles(state.slug);
+  } catch (e) { showLog(String(e)); toast('发布失败：' + e.message, true); }
+}
+
+/* ---------- 新建 ---------- */
+async function createArticle() {
+  const payload = {
+    slug: $('new-slug').value.trim(),
+    title: $('new-title').value.trim(),
+    category: $('new-category').value.trim(),
+    keyword: $('new-keyword').value.trim(),
+    subtitle: $('new-subtitle').value.trim(),
+    source: $('new-source').value.trim()
+  };
+  try {
+    const d = await api('/api/articles/new', { method: 'POST', body: JSON.stringify(payload) });
+    closeModal('modal-new');
+    toast('已创建 ' + d.slug);
+    await loadArticles(d.slug);
+  } catch (e) { toast('创建失败：' + e.message, true); }
+}
+
+/* ---------- 弹窗 / 日志 / Toast ---------- */
+function openModal(id) { $(id).hidden = false; }
+function closeModal(id) { $(id).hidden = true; }
+document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => b.closest('.modal').hidden = true);
+document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', e => { if (e.target === m) m.hidden = true; }));
+
+let toastTimer = null;
+function toast(msg, err) {
+  const t = $('toast');
+  t.textContent = msg; t.hidden = false; t.classList.toggle('err', !!err);
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.hidden = true, 2800);
+}
+function showLog(text) {
+  $('logbar').hidden = false;
+  const pre = $('log');
+  pre.textContent = text;
+  pre.scrollTop = pre.scrollHeight;
+}
+function timeStr() { return new Date().toTimeString().slice(0, 5); }
+
+/* ---------- 元信息弹窗 ---------- */
+function openMeta() {
+  const m = state.meta || {};
+  $('m-title').value = m.title || '';
+  $('m-subtitle').value = m.subtitle || '';
+  $('m-abstract').value = m.abstract || '';
+  $('m-category').value = m.category || '';
+  $('m-keyword').value = m.keyword || '';
+  $('m-topic').value = m.topic || '';
+  $('m-tags').value = (m.tags || []).join(', ');
+  openModal('modal-meta');
+}
+$('meta-ok').onclick = () => {
+  state.meta = {
+    title: $('m-title').value.trim(),
+    subtitle: $('m-subtitle').value.trim(),
+    abstract: $('m-abstract').value.trim(),
+    category: $('m-category').value.trim(),
+    keyword: $('m-keyword').value.trim(),
+    topic: $('m-topic').value.trim(),
+    tags: $('m-tags').value.split(/[,，\s]+/).filter(Boolean)
+  };
+  $('doc-title').textContent = state.meta.title || state.slug;
+  state.dirty = true; markDirty();
+  closeModal('modal-meta');
+};
+
+/* ---------- 事件绑定 ---------- */
+$('article-select').onchange = e => selectArticle(e.target.value);
+$('content').addEventListener('input', onInput);
+$('content').addEventListener('keydown', e => {
+  if (e.key === 'Tab') { e.preventDefault(); insertAtCursor('  '); }
+});
+document.querySelectorAll('#toolbar button').forEach(b => {
+  b.onclick = () => {
+    const act = b.dataset.act;
+    if (act === 'h2') linePrefix('## ');
+    else if (act === 'h3') linePrefix('### ');
+    else if (act === 'bold') wrapSelection('**', '**', '粗体');
+    else if (act === 'code') wrapSelection('`', '`', '代码');
+    else if (act === 'link') wrapSelection('[', '](https://)', '描述');
+    else if (act === 'img') wrapSelection('![', '](文章配图/)', '描述');
+    else if (act === 'fence') insertFence();
+    else if (act === 'table') insertAtCursor('\n| 列1 | 列2 |\n|---|---|\n| 内容 | 内容 |\n');
+  };
+});
+$('btn-save').onclick = save;
+$('btn-reload').onclick = () => {
+  if (state.dirty && !confirm('丢弃编辑器内未保存的修改，从磁盘重新加载？')) return;
+  if (state.slug) selectArticle(state.slug, true);
+};
+$('btn-meta').onclick = openMeta;
+$('btn-publish').onclick = () => { if (state.slug) openModal('modal-publish'); };
+$('btn-new').onclick = () => {
+  $('new-slug').value = ''; $('new-title').value = '';
+  $('new-category').value = ''; $('new-keyword').value = '';
+  $('new-subtitle').value = ''; $('new-source').value = '';
+  openModal('modal-new');
+};
+$('new-ok').onclick = createArticle;
+$('publish-push').onclick = () => doPublish(false);
+$('publish-nopush').onclick = () => doPublish(true);
+$('log-close').onclick = () => $('logbar').hidden = true;
+
+document.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 's') { e.preventDefault(); save(); }
+});
+window.addEventListener('beforeunload', e => {
+  if (state.dirty) { e.preventDefault(); e.returnValue = ''; }
+});
+
+/* ---------- 分隔条拖动 ---------- */
+(function () {
+  const sp = $('splitter'), main = $('main'), ep = $('editor-pane');
+  let dragging = false;
+  sp.addEventListener('mousedown', () => { dragging = true; document.body.classList.add('resizing'); });
+  document.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    const r = main.getBoundingClientRect();
+    const pct = Math.min(80, Math.max(20, (e.clientX - r.left) / r.width * 100));
+    ep.style.flex = 'none';
+    ep.style.width = pct + '%';
+  });
+  document.addEventListener('mouseup', () => { dragging = false; document.body.classList.remove('resizing'); });
+})();
+
+/* ---------- 启动 ---------- */
+loadArticles();
+</script>
+</body>
+</html>

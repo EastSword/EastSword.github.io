@@ -8,7 +8,7 @@
   python3 scripts/publish_article.py --slug llm-api-key-leak   # 只处理这一篇
 
 流程:
-  1. 读主稿（ARTICLES 里登记的 source 路径）
+  1. 读主稿（scripts/articles.json 登记表里的 source 路径，相对 blog-site）
   2. 剥离文件首行 H1 标题
   3. 给 ## / ### 标题注入稳定锚点 id（ch01 / ch01-2 形式，跳过代码块内部）
   4. 由标题生成 front-matter 里的 toc（章 + 节两级）
@@ -16,11 +16,12 @@
   6. 计算阅读时长；首次发布写 date，再发布只更新 updated（读取已有文章的 date 保持稳定）
   7. 写 _articles/<slug>.md；git 有变更则 add/commit/push
 
-登记新文章: 往 ARTICLES 列表加一条字典即可。
+登记新文章: 编辑器 scripts/edit_article.py 里「＋新建」，或手改 scripts/articles.json。
 """
 
 import argparse
 import datetime
+import json
 import re
 import shutil
 import subprocess
@@ -31,21 +32,34 @@ SITE = Path(__file__).resolve().parent.parent
 ARTICLES_DIR = SITE / "_articles"
 IMG_ROOT = SITE / "assets" / "images"
 MASTER_ROOT = SITE.parent  # 安全架构/
+REGISTRY = Path(__file__).resolve().parent / "articles.json"
 
-ARTICLES = [
-    {
-        "slug": "llm-api-key-leak",
-        "source": MASTER_ROOT / "公网大模型的密钥泄露：攻击面、提取手法与防御.md",
-        "title": "公网大模型的密钥泄露：攻击面、提取手法与防御",
-        "subtitle": "口令不是关键，公网暴露才是。五家机构数据交叉验证 + FOFA 独立测量 + 422 台实例实测 + 四起国内暴露实证",
-        "topic": "llm-api-key-security",
-        "category": "AI安全",
-        "tags": ["AI 安全", "云安全", "API Key", "检测工程"],
-        "keyword": "APIKEY",
-        "img_dir": "文章配图",
-        "abstract": "LiteLLM 的 SQL 注入漏洞进 CISA KEV 后 36 小时内被在野利用，攻击者直奔存上游 Key 的三张表。这篇文章用 FOFA 测量、两个审计脚本和 47 条一手来源，把公网大模型系统的 Key 是怎么被拿的讲透：八条提取路径、四起国内暴露实证、三条产业链、九层防御。",
-    },
-]
+
+def load_registry():
+    data = json.loads(REGISTRY.read_text(encoding="utf-8"))
+    articles = []
+    for raw in data.get("articles", []):
+        cfg = dict(raw)
+        src = Path(str(cfg["source"]))
+        cfg["source"] = src if src.is_absolute() else (SITE / src).resolve()
+        articles.append(cfg)
+    return articles
+
+
+def save_registry(articles):
+    out = []
+    for cfg in articles:
+        e = dict(cfg)
+        src = Path(str(e["source"]))
+        if not src.is_absolute():
+            src = SITE / src
+        try:
+            e["source"] = str(src.resolve().relative_to(SITE))
+        except ValueError:
+            e["source"] = str(src.resolve())
+        out.append(e)
+    REGISTRY.write_text(json.dumps({"articles": out}, ensure_ascii=False, indent=2) + "\n",
+                        encoding="utf-8")
 
 FENCE_RE = re.compile(r"^(\s*)(`{3,}|~{3,})")
 H2_RE = re.compile(r"^##\s+(?!#)(.*)$")
@@ -243,7 +257,7 @@ def main():
     ap.add_argument("--slug", help="只处理指定 slug 的文章")
     args = ap.parse_args()
 
-    targets = [a for a in ARTICLES if not args.slug or a["slug"] == args.slug]
+    targets = [a for a in load_registry() if not args.slug or a["slug"] == args.slug]
     if not targets:
         print(f"未找到 slug={args.slug} 的登记文章")
         sys.exit(1)

@@ -3,6 +3,8 @@ tagline: 东方隐侠安全团队 · 话题中枢站
 description: AI 安全 / 身份安全 / 软件供应链——每个研究主题的全平台资源索引
 url: https://eastsword.github.io
 
+exclude: [scripts]  # 工具脚本（资讯同步/文章发布/编辑器/登记表）不进站点产物
+
 markdown: kramdown
 future: true # date 是话题创建时间元数据，不做定时发布；否则 UTC 未到当天的话题页会被跳过
 collections:

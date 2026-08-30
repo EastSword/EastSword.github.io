@@ -1230,3 +1230,32 @@ footer.site .wx-link:hover { color: var(--teal-glow); }
   .article-body { font-size: 15.5px; }
   .article-body h2 { font-size: 20px; margin: 48px 0 18px; }
 }
+
+/* ==================== 评论区（话题页 / 文章页通用） ==================== */
+.comments-block { margin: 64px 0 24px; }
+.comments-article { max-width: 860px; margin-left: auto; margin-right: auto; }
+.comments-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+.comments-head h2 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 3px;
+  color: var(--gold-bright);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.comments-head h2::before {
+  content: "";
+  width: 8px; height: 8px;
+  background: linear-gradient(135deg, var(--teal-glow), var(--gold));
+  transform: rotate(45deg);
+  box-shadow: 0 0 12px rgba(61, 232, 201, 0.5);
+}
+.comments-hint { font-size: 13px; color: var(--paper-dim); margin-bottom: 14px; }

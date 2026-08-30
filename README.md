@@ -19,7 +19,9 @@
 
 ## 日常维护
 
-**发布/修订长文（改完主稿直接上）**：主稿在本地改（如 `安全架构/公网大模型的密钥泄露：攻击面、提取手法与防御.md`），跑 `python3 scripts/publish_article.py`。脚本自动：剥 H1、给章节注入锚点并生成目录、把 `文章配图/` 图片搬运到 `assets/images/<slug>/` 并改写路径、计算阅读时长、更新 `updated` 日期（首发的 `date` 保持不变）→ commit + push，1 分钟后线上生效。加 `--no-push` 只生成不推送。新文章在脚本顶部 `ARTICLES` 列表登记一条即可。
+**文章编辑器（推荐写作入口）**：`python3 scripts/edit_article.py` 打开本地编辑器（仅绑定 127.0.0.1，默认端口 8917）。左侧改主稿（工具栏支持标题/加粗/代码/链接/图片/表格），右侧实时预览与线上同渲染引擎（kramdown + GFM，需本地 `gem install kramdown kramdown-parser-gfm`）；`⌘S` 保存写回主稿；右上「发布上线」一键 保存→生成→git push（可选仅生成不推送）；「＋新建」登记新文章（自动建主稿文件 + 登记表条目）；「元信息」改标题/副题/摘要/分类/标签/关键词；底部图片库点击即插入；分隔条可拖动。文章登记表为 `scripts/articles.json`。
+
+**发布/修订长文（命令行）**：主稿在本地改（如 `安全架构/公网大模型的密钥泄露：攻击面、提取手法与防御.md`），跑 `python3 scripts/publish_article.py`。脚本自动：剥 H1、给章节注入锚点并生成目录、把 `文章配图/` 图片搬运到 `assets/images/<slug>/` 并改写路径、计算阅读时长、更新 `updated` 日期（首发的 `date` 保持不变）→ commit + push，1 分钟后线上生效。加 `--no-push` 只生成不推送。新文章用编辑器「＋新建」或手改 `scripts/articles.json`（source 为相对 blog-site 的路径）。
 
 **发布新平台后回填地址**：打开 `_topics/<话题>.md`，填 `url:`、改 `note` 和 `updated`。commit + push，1 分钟后自动生效。
 
@@ -38,18 +40,23 @@
 
 ```
 blog-site/
-├── _config.yml          # 站点配置 + topics/articles collection 声明
+├── _config.yml          # 站点配置 + topics/articles collection 声明（scripts 目录不进产物）
 ├── index.md             # 首页
 ├── topics.md / articles.md / news.md / wall.md / about.md   # 各板块子页面
 ├── _layouts/
 │   ├── default.html     # 页面骨架：导航/页脚/联系方式弹窗（视频号/微信/公众号）
-│   ├── topic.html       # 话题页：资源矩阵表格渲染
-│   └── article.html     # 文章页：自动目录 + 长文阅读版式
+│   ├── topic.html       # 话题页：资源矩阵表格渲染 + 评论区
+│   └── article.html     # 文章页：自动目录 + 长文阅读版式 + 评论区
+├── _includes/
+│   └── comments.html    # giscus 评论区组件（pathname 映射，每页独立讨论串）
 ├── _topics/             # ★ 课题：一个话题一个 md
 ├── _articles/           # ★ 长文：publish_article.py 从主稿生成，勿手改
 ├── _data/news.json      # 安全资讯数据（脚本生成，勿手改）
 ├── scripts/sync_news.py        # 资讯同步脚本
 ├── scripts/publish_article.py  # 长文发布脚本（主稿 → 文章页 → push）
+├── scripts/edit_article.py     # 本地文章编辑器服务（127.0.0.1:8917）
+├── scripts/editor_ui.html      # 编辑器界面
+├── scripts/_preview_render.rb  # 预览渲染（kramdown+GFM，与线上同引擎）
 └── assets/              # 样式 / 图标 / 图片 / giscus 主题
 ```
 
