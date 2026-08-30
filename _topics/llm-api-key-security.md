@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 layout: topic
 title: 公网大模型系统的密钥泄露
 subtitle: 口令不是关键，公网暴露才是——API Key 的窃取路径、实测证据与防御方法论
