@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-08-29 23:19",
+ "generated_at": "2026-08-30 10:00",
  "source_count": 83,
  "items": [
   {
@@ -12,6 +12,50 @@
    "published_at": "Thu, 27 Aug 2026 23:48:28 +0800",
    "published_date": "2026-08-27",
    "description": "顶级C2 Nighthawk 1.0发布，号称比Cobalt Strike更硬核，披露绕过CET的调用栈伪装等免杀技术。"
+  },
+  {
+   "id": "THN-7e7b8b04",
+   "title": "五个关键的WordPress插件和主题漏洞可导致网站被接管或远程代码执行",
+   "url": "https://thehackernews.com/2026/08/five-critical-wordpress-plugin-and.html",
+   "source": "The Hacker News",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Sat, 29 Aug 2026 21:55:03 +0530",
+   "published_date": "2026-08-29",
+   "description": "WordPress插件和主题中披露了多个严重安全漏洞，包括WPMU DEV Dashboard、Avada、TranslatePress、Pods和GiveWP，这些漏洞可能导致身份验证绕过、账户接管和任意代码执行。"
+  },
+  {
+   "id": "SECAFFAIRS-3aaf27ec",
+   "title": "黑掉一台机器人，触及下一台：宇树G1安全漏洞",
+   "url": "https://securityaffairs.com/198085/hacking/hack-one-robot-reach-the-next-unitree-g1-security-flaws.html",
+   "source": "Security Affairs",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Sat, 29 Aug 2026 11:55:44 +0000",
+   "published_date": "2026-08-29",
+   "description": "一名研究人员将宇树G1的两个漏洞串联利用，实现了远程获取根权限，并展示了被入侵的机器人如何攻击附近的其他机器人。安全研究员Olivier Laflamme花了大约三个月时间深入研究宇树G1人形机器人，最终找到了一种无需插入任何线缆即可完全攻破它的方法。在他的技术[……]"
+  },
+  {
+   "id": "SECURITYWEEK-fff3c3f7",
+   "title": "孩之宝数据泄露事件暴露员工个人信息",
+   "url": "https://www.securityweek.com/hasbro-data-breach-exposed-employee-personal-information/",
+   "source": "SecurityWeek",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Sat, 29 Aug 2026 11:55:00 +0000",
+   "published_date": "2026-08-29",
+   "description": "今年早些时候，一场网络攻击导致这家玩具和游戏巨头业务中断，该公司现已披露一起数据泄露事件。"
+  },
+  {
+   "id": "SECAFFAIRS-8ab59de2",
+   "title": "勒索软件组织Rhysida在柏林投票前攻击政府机构",
+   "url": "https://securityaffairs.com/198064/cyber-crime/rhysida-ransomware-group-targets-berlin-government-ahead-of-vote.html",
+   "source": "Security Affairs",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Sat, 29 Aug 2026 10:55:47 +0000",
+   "published_date": "2026-08-29",
+   "description": "柏林政府在大选前数周遭遇Rhysida勒索软件攻击，官员拒绝支付赎金，尽管对方声称窃取了5.79 TB数据。柏林州政府本周证实，在8月该城邦行政网络遭受网络攻击后，正处理一起勒索企图，官员已拒绝支付所要求的赎金。该勒索软件组织[…]"
   },
   {
    "id": "SECAFFAIRS-ba517c2a",
@@ -155,6 +199,17 @@
    "published_at": "Fri, 28 Aug 2026 20:14:36 +0000",
    "published_date": "2026-08-28",
    "description": "Love Electric涉嫌数据泄露事件暴露了敏感驾驶员数据，并凸显了第三方薪资牺牲计划提供商所带来的身份风险。一名卖家于8月26日在英语数据泄露论坛上声称，已获取Love Electric的驾驶员数据库。Love Electric是一家运营电动汽车薪资牺牲计划的英国经纪商。该卖家以[…]名义运营。"
+  },
+  {
+   "id": "FREEBUF-60b99e79",
+   "title": "Frida 替换 WebView JS 实现 Android 明文抓包",
+   "url": "https://www.freebuf.com/articles/497893.html",
+   "source": "FreeBuf",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 18:40:33 +0800",
+   "published_date": "2026-08-28",
+   "description": "AI没分析出？H5套壳APP国密动态加密，前端JS随机生成SM4密钥，Frida替换+mitm解密拿下。"
   },
   {
    "id": "FREEBUF-a2c14b93",
@@ -457,6 +512,17 @@
    "id": "SECAFFAIRS-40792154",
    "title": "PaperCut零日漏洞遭主动攻击：紧急补丁已发布",
    "url": "https://securityaffairs.com/197980/uncategorized/papercut-zero-day-under-active-attack-emergency-patch-released.html",
+   "source": "Security Affairs",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 09:43:35 +0000",
+   "published_date": "2026-08-28",
+   "description": "PaperCut警告称，其NG和MF产品中的一个零日漏洞正在被利用。该公司已发布紧急补丁来解决该问题。PaperCut Software警告称，攻击者正在积极利用其NG和MF打印管理产品中的一个零日漏洞。该漏洞尚无CVE编号，公司也未发布技术细节。PaperCut发布了[……]"
+  },
+  {
+   "id": "SECAFFAIRS-1db8fb75",
+   "title": "PaperCut零日漏洞遭主动攻击：紧急补丁已发布",
+   "url": "https://securityaffairs.com/197980/hacking/papercut-zero-day-under-active-attack-emergency-patch-released.html",
    "source": "Security Affairs",
    "category": "网络安全",
    "priority": "P1",
@@ -1255,6 +1321,17 @@
    "published_at": "Fri, 28 Aug 2026 00:00:00 -0400",
    "published_date": "2026-08-28",
    "description": "arXiv:2608.26204v1 公告类型：新"
+  },
+  {
+   "id": "SECWIKI-11405434",
+   "title": "SecWiki新闻 2026-08-29 回顾",
+   "url": "http://www.sec-wiki.com/?2026-08-29",
+   "source": "SecWiki",
+   "category": "网络安全",
+   "priority": "P2",
+   "published_at": "\nSat, 29 Aug 2026 23:58:20 +0800",
+   "published_date": "2026-08-29",
+   "description": "今日暂未更新资讯~更多最新文章，请访问SecWiki"
   },
   {
    "id": "SECWIKI-a9149e85",
