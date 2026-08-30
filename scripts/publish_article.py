@@ -64,7 +64,7 @@ def strip_leading_h1(text: str) -> str:
 
 
 def inject_ids_and_toc(text: str):
-    """给 h2/h3 注入 {:#id} 属性并生成 toc 列表，跳过代码围栏内部"""
+    """给 h2/h3 注入锚点（ALD 写在标题下一行，kramdown 2.x 不认同行尾部语法）并生成 toc"""
     lines = text.split("\n")
     out = []
     toc = []
@@ -77,6 +77,8 @@ def inject_ids_and_toc(text: str):
             out.append(line)
             continue
         if not in_fence:
+            if re.match(r"^\{:\s*#ch[\d-]+\}\s*$", line):
+                continue
             m2 = H2_RE.match(line)
             m3 = H3_RE.match(line)
             if m2:
@@ -84,19 +86,40 @@ def inject_ids_and_toc(text: str):
                 sub = 0
                 title = ATTR_RE.sub("", m2.group(1)).strip()
                 hid = f"ch{ch:02d}"
-                out.append(f"## {title} {{:#{hid}}}")
+                out.append(f"## {title}")
+                out.append(f"{{: #{hid}}}")
                 toc.append({"id": hid, "title": title, "children": []})
                 continue
             if m3:
                 sub += 1
                 title = ATTR_RE.sub("", m3.group(1)).strip()
                 hid = f"ch{ch:02d}-{sub}"
-                out.append(f"### {title} {{:#{hid}}}")
+                out.append(f"### {title}")
+                out.append(f"{{: #{hid}}}")
                 if toc:
                     toc[-1]["children"].append({"id": hid, "title": title})
                 continue
         out.append(line)
     return "\n".join(out), toc
+
+
+def autolink_urls(text: str) -> str:
+    """把裸 URL 转成 markdown 链接（附录来源可直接点击）。跳过代码块，不动已有 [x](url) 链接"""
+    url_re = re.compile(r"(?<![\(\[/\w])(https?://[^\s\)\]\<\u3000，。；、\"']+)")
+
+    def repl(m):
+        url = m.group(1)
+        return f"[{url}]({url})"
+
+    out = []
+    in_fence = False
+    for line in text.split("\n"):
+        if FENCE_RE.match(line):
+            in_fence = not in_fence
+            out.append(line)
+            continue
+        out.append(url_re.sub(repl, line) if not in_fence else line)
+    return "\n".join(out)
 
 
 def rewrite_images(text: str, img_dir: str, slug: str):
@@ -192,6 +215,7 @@ def publish(cfg, push=True):
     text = src.read_text(encoding="utf-8")
     text = strip_leading_h1(text)
     text, toc = inject_ids_and_toc(text)
+    text = autolink_urls(text)
     text, used = rewrite_images(text, cfg["img_dir"], slug)
     copied = copy_images(used, src.parent / cfg["img_dir"], slug)
 
