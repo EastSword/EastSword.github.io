@@ -177,10 +177,20 @@ class Handler(BaseHTTPRequestHandler):
                 cmd = [sys.executable, str(SCRIPTS / "publish_article.py")]
                 if data.get("no_push"):
                     cmd.append("--no-push")
-                r = subprocess.run(cmd, capture_output=True, text=True,
-                                   cwd=str(SITE), timeout=600)
-                log = ((r.stdout or "") + "\n" + (r.stderr or "")).strip()
-                return self._json({"ok": r.returncode == 0, "log": log[-6000:]})
+                proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                        text=True, cwd=str(SITE), start_new_session=True)
+                try:
+                    out, err = proc.communicate(timeout=300)
+                except subprocess.TimeoutExpired:
+                    os.killpg(proc.pid, signal.SIGKILL)
+                    out, err = proc.communicate()
+                    return self._json({
+                        "ok": False,
+                        "log": ("发布超时（300 秒），已强制终止（git push 可能被网络挂起）\n"
+                                + (out or "") + "\n" + (err or "")).strip()[-6000:],
+                    })
+                log = ((out or "") + "\n" + (err or "")).strip()
+                return self._json({"ok": proc.returncode == 0, "log": log[-6000:]})
             if path == "/api/articles/new":
                 return self._json(self.create_article(self._body()))
             self._json({"error": "not found"}, 404)

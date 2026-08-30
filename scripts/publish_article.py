@@ -213,9 +213,32 @@ def existing_date(slug: str):
     return m.group(1) if m else None
 
 
-def git(*args, check=True):
+def git(*args, check=True, timeout=60):
+    """所有 git 调用必须带超时：直连 GitHub 网络不通时 git 会无限挂起，拖死整个发布流程"""
     return subprocess.run(["git", "-C", str(SITE), *args],
-                          capture_output=True, text=True, check=check)
+                          capture_output=True, text=True, check=check, timeout=timeout)
+
+
+def push():
+    """先直连，超时或失败自动走本地代理 7890；两次都失败返回 False（exit code 非零）"""
+    attempts = [("直连", []), ("代理 127.0.0.1:7890", ["-c", "http.proxy=http://127.0.0.1:7890"])]
+    last_err = ""
+    for name, extra in attempts:
+        try:
+            r = git(*extra, "push", check=False, timeout=120)
+        except subprocess.TimeoutExpired:
+            last_err = f"{name} push 超时（120s），已中断"
+            print(f"  [push] {last_err}")
+            continue
+        if r.returncode == 0:
+            print(r.stderr.strip() or r.stdout.strip())
+            print(f"\n[上线] 已推送（{name}），GitHub Pages 约 1 分钟后生效")
+            return True
+        last_err = (r.stderr or r.stdout).strip()
+        print(f"  [push] {name} 失败: {last_err[-300:]}")
+    print(f"\n[失败] push 未成功：{last_err[-300:]}")
+    print("  可稍后手动执行：git -C blog-site push，或重试发布（commit 已在本地）")
+    return False
 
 
 def publish(cfg, push=True):
@@ -278,16 +301,9 @@ def main():
 
     git("add", "-A")
     git("commit", "-m", "发布/更新技术文章", check=False)
-    try:
-        r = git("push")
-        print(r.stderr.strip() or r.stdout.strip())
-        print("\n[上线] 已推送，GitHub Pages 约 1 分钟后生效")
-    except subprocess.CalledProcessError as e:
-        print("直连失败，改走本地代理 127.0.0.1:7890 重试…")
-        r = subprocess.run(["git", "-C", str(SITE), "-c", "http.proxy=http://127.0.0.1:7890", "push"],
-                           capture_output=True, text=True, check=True)
-        print(r.stderr.strip() or r.stdout.strip())
-        print("\n[上线] 已推送（经代理），GitHub Pages 约 1 分钟后生效")
+
+    if not push():
+        sys.exit(1)
 
 
 if __name__ == "__main__":
