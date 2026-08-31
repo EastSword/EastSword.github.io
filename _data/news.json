@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-08-30 10:00",
+ "generated_at": "2026-08-31 10:02",
  "source_count": 83,
  "items": [
   {
@@ -12,6 +12,61 @@
    "published_at": "Thu, 27 Aug 2026 23:48:28 +0800",
    "published_date": "2026-08-27",
    "description": "顶级C2 Nighthawk 1.0发布，号称比Cobalt Strike更硬核，披露绕过CET的调用栈伪装等免杀技术。"
+  },
+  {
+   "id": "SECAFFAIRS-a889ec1b",
+   "title": "敲诈组织FulcrumSec声称窃取曼彻斯特机场集团86GB数据",
+   "url": "https://securityaffairs.com/198143/cyber-crime/extortion-group-fulcrumsec-claims-86gb-manchester-airports-group-data-theft.html",
+   "source": "Security Affairs",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Sun, 30 Aug 2026 17:21:51 +0000",
+   "published_date": "2026-08-30",
+   "description": "勒索组织FulcrumSec声称，他们在客户端JavaScript中发现暴露的API凭据后，窃取了曼彻斯特机场集团86GB的数据。曼彻斯特机场集团（MAG）于8月27日披露了一起数据泄露事件，影响曼彻斯特、伦敦斯坦斯特德和东米德兰兹机场的客户。两天后，据BleepingComputer报道，勒索组织FulcrumSec宣称对此负责，并表示他们窃取了[……]"
+  },
+  {
+   "id": "THN-45d64c4f",
+   "title": "TerminalFix利用虚假的Cloudflare验证码部署反向隧道后门",
+   "url": "https://thehackernews.com/2026/08/terminalfix-uses-fake-cloudflare.html",
+   "source": "The Hacker News",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Sun, 30 Aug 2026 13:06:33 +0530",
+   "published_date": "2026-08-30",
+   "description": "微软披露了一种名为TerminalFix的新型ClickFix变体的细节，该变体旨在诱骗用户在Windows终端或PowerShell中运行恶意命令。"
+  },
+  {
+   "id": "SECAFFAIRS-615aeb8e",
+   "title": "安全事务恶意软件新闻通讯第112期",
+   "url": "https://securityaffairs.com/198133/malware/security-affairs-malware-newsletter-round-112.html",
+   "source": "Security Affairs",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Sun, 30 Aug 2026 12:31:00 +0000",
+   "published_date": "2026-08-30",
+   "description": "《安全事务》恶意软件新闻通讯汇集了国际范围内关于恶意软件的最佳文章与研究。恶意软件新闻通讯 QUICSILVER行动：与中国有关联的行为者通过VHD投递的Go后门瞄准缅甸外交官 FTP横幅：新型死信解析器投递新型远程访问木马 2026年8月AI赋能恶意软件现状：从品牌滥用到智能体化[…]"
+  },
+  {
+   "id": "SECAFFAIRS-8526a659",
+   "title": "黑客正在探测PaperCut服务器，而47%仍未安装补丁",
+   "url": "https://securityaffairs.com/198107/uncategorized/hackers-are-probing-papercut-servers-and-47-still-have-no-patch.html",
+   "source": "Security Affairs",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Sun, 30 Aug 2026 11:26:29 +0000",
+   "published_date": "2026-08-30",
+   "description": "PaperCut服务器正遭受主动攻击，而47%的受监控安装仍运行未修补版本，存在远程代码执行漏洞。PaperCut是一款在全球学校、医院和办公室运行的打印管理软件，于8月27日确认，一个预认证远程代码执行漏洞正被积极利用攻击真实客户。Huntress的研究人员发现了证据[……]"
+  },
+  {
+   "id": "SECAFFAIRS-f2199fcb",
+   "title": "安全事务通讯第592期，作者：Pierluigi Paganini – 国际版",
+   "url": "https://securityaffairs.com/198124/security/security-affairs-newsletter-round-592-by-pierluigi-paganini-international-edition.html",
+   "source": "Security Affairs",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Sun, 30 Aug 2026 08:38:01 +0000",
+   "published_date": "2026-08-30",
+   "description": "新一期每周安全事务通讯已送达！每周，来自Security Affairs的最佳安全文章都会免费发送到您的邮箱。享受新一期每周SecurityAffairs通讯，包括国际媒体报道。黑掉一台机器人，触及下一台：Unitree G1安全漏洞 Rhysida勒索软件团伙瞄准柏林政府 Ahead [&#8230;]"
   },
   {
    "id": "THN-7e7b8b04",
@@ -1321,6 +1376,17 @@
    "published_at": "Fri, 28 Aug 2026 00:00:00 -0400",
    "published_date": "2026-08-28",
    "description": "arXiv:2608.26204v1 公告类型：新"
+  },
+  {
+   "id": "SECWIKI-594b4848",
+   "title": "SecWiki新闻 2026-08-30 回顾",
+   "url": "http://www.sec-wiki.com/?2026-08-30",
+   "source": "SecWiki",
+   "category": "网络安全",
+   "priority": "P2",
+   "published_at": "\nSun, 30 Aug 2026 23:58:20 +0800",
+   "published_date": "2026-08-30",
+   "description": "今日暂未更新资讯~更多最新文章，请访问SecWiki"
   },
   {
    "id": "SECWIKI-11405434",
