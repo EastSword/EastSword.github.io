@@ -44,11 +44,17 @@ main{flex:1;display:flex;min-height:0}
 #toolbar button:hover{color:var(--teal);border-color:rgba(61,232,201,.3);background:rgba(61,232,201,.06)}
 #content{flex:1;width:100%;resize:none;border:none;background:transparent;color:var(--paper);font-family:var(--mono);font-size:13.5px;line-height:1.8;padding:18px 20px;outline:none;tab-size:2}
 #content::placeholder{color:rgba(154,163,173,.4)}
-#imgbar{flex:none;display:flex;gap:8px;align-items:center;padding:8px 12px;border-top:1px solid var(--line);background:rgba(14,19,25,.6);overflow-x:auto;max-height:96px}
+#imgbar{flex:none;display:flex;gap:8px;align-items:stretch;padding:8px 12px;border-top:1px solid var(--line);background:rgba(14,19,25,.6);max-height:96px}
+#img-list{flex:1;display:flex;gap:8px;align-items:center;overflow-x:auto}
 .img-item{flex:none;border:1px solid var(--line);border-radius:8px;padding:2px;background:var(--ink2);cursor:pointer;transition:border-color .2s}
 .img-item:hover{border-color:rgba(61,232,201,.6)}
 .img-item img{height:56px;width:auto;display:block;border-radius:6px}
 .img-empty{color:var(--dim);font-size:12px;font-family:var(--mono);white-space:nowrap}
+.img-upload{flex:none;display:flex;align-items:center;justify-content:center;min-width:64px;padding:0 10px;border:1px dashed var(--line);border-radius:8px;color:var(--dim);font-size:12.5px;cursor:pointer;background:var(--ink2);transition:all .2s;white-space:nowrap}
+.img-upload:hover{border-color:rgba(61,232,201,.6);color:var(--teal)}
+.img-upload.busy{border-color:var(--gold);color:var(--goldb);pointer-events:none}
+#editor-pane{position:relative}
+#editor-pane.drop-hot::after{content:'松开鼠标，上传图片到文章配图';position:absolute;inset:6px;z-index:5;border:2px dashed rgba(61,232,201,.55);border-radius:10px;background:rgba(8,12,16,.85);display:flex;align-items:center;justify-content:center;color:var(--teal);font-size:14px;letter-spacing:2px;pointer-events:none}
 #splitter{flex:none;width:6px;cursor:col-resize;background:transparent;transition:background .2s}
 #splitter:hover{background:rgba(61,232,201,.25)}
 #preview-pane{flex:1 1 54%;min-width:300px;display:flex;flex-direction:column;background:rgba(14,19,25,.35)}
@@ -132,7 +138,10 @@ body.no-preview #preview-pane,body.no-preview #splitter{display:none}
       <button data-act="table" title="表格">表格</button>
     </div>
     <textarea id="content" spellcheck="false" placeholder="选择文章后加载主稿…"></textarea>
-    <div id="imgbar"><span class="img-empty">图片库加载中…</span></div>
+    <div id="imgbar">
+      <label class="img-upload" id="img-upload" title="点击选择图片上传（支持多选）">＋上传<input type="file" id="img-file" accept=".png,.jpg,.jpeg,.gif,.webp,.svg" multiple hidden></label>
+      <div id="img-list"><span class="img-empty">图片库加载中…</span></div>
+    </div>
   </section>
   <div id="splitter" title="拖动调整宽度"></div>
   <section id="preview-pane">
@@ -302,14 +311,14 @@ async function renderPreview() {
 
 /* ---------- 图片库 ---------- */
 async function loadImages() {
-  const bar = $('imgbar');
+  const bar = $('img-list');
   bar.innerHTML = '<span class="img-empty">图片库加载中…</span>';
   if (!state.slug) return;
   try {
     const d = await api('/api/images/' + state.slug);
     bar.innerHTML = '';
     if (!d.images.length) {
-      bar.innerHTML = '<span class="img-empty">图片目录暂无图片（把图片放进主稿同级的「' + d.img_dir + '」目录后点重载）</span>';
+      bar.innerHTML = '<span class="img-empty">暂无图片：点「＋上传」或把图片直接拖进左侧编辑区</span>';
       return;
     }
     for (const img of d.images) {
@@ -326,6 +335,58 @@ async function loadImages() {
     bar.innerHTML = '<span class="img-empty">图片库加载失败</span>';
   }
 }
+
+/* ---------- 图片上传 / 拖入 ---------- */
+async function uploadImages(files) {
+  if (!state.slug) { toast('先选择一篇文章再上传图片', true); return; }
+  const imgs = files.filter(f => /\.(png|jpe?g|gif|webp|svg)$/i.test(f.name));
+  if (!imgs.length) { toast('没有可识别的图片文件（png/jpg/gif/webp/svg）', true); return; }
+  const btn = $('img-upload');
+  btn.classList.add('busy');
+  btn.firstChild.textContent = '上传中…';
+  const snippets = [];
+  let failed = 0;
+  try {
+    for (const f of imgs) {
+      try {
+        const r = await fetch('/api/article/' + state.slug + '/image', {
+          method: 'POST',
+          headers: { 'X-Filename': encodeURIComponent(f.name), 'Content-Type': 'application/octet-stream' },
+          body: f
+        });
+        const d = await r.json().catch(() => ({}));
+        if (!r.ok || d.error) { toast('上传失败（' + f.name + '）：' + (d.error || 'HTTP ' + r.status), true); failed++; continue; }
+        snippets.push(`![描述](${d.img_dir}/${d.name})`);
+      } catch (e) { toast('上传失败（' + f.name + '）：' + e.message, true); failed++; }
+    }
+  } finally {
+    btn.classList.remove('busy');
+    btn.firstChild.textContent = '＋上传';
+  }
+  if (snippets.length) {
+    insertAtCursor(snippets.join('\n') + '\n');
+    toast('已上传 ' + snippets.length + ' 张并插入到光标处' + (failed ? '（' + failed + ' 张失败）' : ''));
+    loadImages();
+  }
+}
+
+$('img-file').onchange = e => {
+  const files = [...e.target.files];
+  e.target.value = '';
+  if (files.length) uploadImages(files);
+};
+
+(function () {
+  const pane = $('editor-pane');
+  pane.addEventListener('dragover', e => { e.preventDefault(); pane.classList.add('drop-hot'); });
+  pane.addEventListener('dragleave', e => { if (!pane.contains(e.relatedTarget)) pane.classList.remove('drop-hot'); });
+  pane.addEventListener('drop', e => {
+    e.preventDefault();
+    pane.classList.remove('drop-hot');
+    const files = [...(e.dataTransfer.files || [])];
+    if (files.length) uploadImages(files);
+  });
+})();
 
 /* ---------- 保存 / 发布 ---------- */
 async function save() {

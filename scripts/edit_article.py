@@ -54,6 +54,16 @@ def find_cfg(slug):
     return None
 
 
+def safe_filename(name):
+    """只留字母数字/中文/点横线，其余替换成 -：文件名里的空格和括号会破坏发布脚本的图片路径改写"""
+    name = Path((name or "").replace("\\", "/")).name.strip()
+    name = "".join(
+        c if (c.isalnum() or c in "._-" or "\u4e00" <= c <= "\u9fff") else "-"
+        for c in name
+    )
+    return name.lstrip(".")[:80]
+
+
 def render_preview(content: str, cfg: dict):
     text = pub.strip_leading_h1(content)
     text, toc = pub.inject_ids_and_toc(text)
@@ -191,6 +201,9 @@ class Handler(BaseHTTPRequestHandler):
                     })
                 log = ((out or "") + "\n" + (err or "")).strip()
                 return self._json({"ok": proc.returncode == 0, "log": log[-6000:]})
+            m = re.fullmatch(r"/api/article/([a-z0-9-]+)/image", path)
+            if m:
+                return self.upload_image(m.group(1))
             if path == "/api/articles/new":
                 return self._json(self.create_article(self._body()))
             self._json({"error": "not found"}, 404)
@@ -240,6 +253,36 @@ class Handler(BaseHTTPRequestHandler):
         if not f.is_file():
             return self._json({"error": "图片不存在"}, 404)
         self._bytes(f.read_bytes(), CONTENT_TYPES.get(f.suffix.lower(), "application/octet-stream"))
+
+    def upload_image(self, slug):
+        cfg = find_cfg(slug)
+        if not cfg:
+            return self._json({"error": "文章不存在"}, 404)
+        name = safe_filename(unquote(self.headers.get("X-Filename", "")))
+        ext = Path(name).suffix.lower() if name else ""
+        if not name or ext not in IMG_EXTS:
+            return self._json({"error": "仅支持 " + "/".join(sorted(IMG_EXTS)) + " 格式"}, 400)
+        n = int(self.headers.get("Content-Length") or 0)
+        if n <= 0:
+            return self._json({"error": "上传内容为空"}, 400)
+        if n > 30 * 1024 * 1024:
+            return self._json({"error": "图片超过 30MB，拒绝上传"}, 400)
+        raw = self.rfile.read(n)
+        img_dir = Path(cfg["source"]).parent / cfg.get("img_dir", "文章配图")
+        img_dir.mkdir(parents=True, exist_ok=True)
+        stem = name[: -len(ext)]
+        dest = img_dir / name
+        i = 2
+        while dest.exists():
+            dest = img_dir / f"{stem}-{i}{ext}"
+            i += 1
+        dest.write_bytes(raw)
+        return self._json({
+            "ok": True,
+            "name": dest.name,
+            "img_dir": cfg.get("img_dir", "文章配图"),
+            "url": f"/preview-img/{slug}/{quote(dest.name)}",
+        })
 
     def create_article(self, d):
         slug = (d.get("slug") or "").strip()
