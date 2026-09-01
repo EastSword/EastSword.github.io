@@ -14,6 +14,7 @@ layout: default
       {% if page.subtitle %}<div class="sub">{{ page.subtitle }}</div>{% endif %}
       <div class="meta">
         {% if page.category %}<span class="badge cat-badge">{{ page.category }}</span>{% endif %}
+        {% if page.author %}<span class="badge author">作者 · {{ page.author }}</span>{% endif %}
         <span>发布 {{ page.date | date: "%Y-%m-%d" }}</span>
         {% if page.updated and page.updated != page.date %}<span>修订 {{ page.updated | date: "%Y-%m-%d" }}</span>{% endif %}
         {% if page.reading_time %}<span>阅读约 {{ page.reading_time }} 分钟</span>{% endif %}

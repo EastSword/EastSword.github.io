@@ -99,7 +99,7 @@ def persist(slug, content, meta):
         arts = pub.load_registry()
         for a in arts:
             if a["slug"] == slug:
-                for k in ("title", "subtitle", "abstract", "category", "keyword", "topic"):
+                for k in ("title", "subtitle", "abstract", "category", "keyword", "topic", "author"):
                     if meta.get(k) is not None:
                         a[k] = str(meta[k]).strip()
                 if isinstance(meta.get("tags"), list):
@@ -229,7 +229,7 @@ class Handler(BaseHTTPRequestHandler):
             return {"error": "文章不存在"}
         src = Path(cfg["source"])
         content = src.read_text(encoding="utf-8") if src.exists() else ""
-        meta = {k: cfg.get(k, "") for k in ("title", "subtitle", "abstract", "category", "keyword", "topic")}
+        meta = {k: cfg.get(k, "") for k in ("title", "subtitle", "abstract", "category", "keyword", "topic", "author")}
         meta["tags"] = cfg.get("tags", [])
         return {"meta": meta, "content": content, "source": str(src)}
 

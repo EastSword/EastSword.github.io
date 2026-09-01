@@ -163,6 +163,7 @@ body.no-preview #preview-pane,body.no-preview #splitter{display:none}
     <label>导语摘要<textarea id="m-abstract" rows="3" placeholder="文章页顶部的导语卡片"></textarea></label>
     <div class="grid2">
       <label>分类<input id="m-category" placeholder="AI安全"></label>
+      <label>作者<input id="m-author" placeholder="千里"></label>
       <label>公众号关键词<input id="m-keyword" placeholder="APIKEY"></label>
       <label>标签（逗号分隔）<input id="m-tags" placeholder="AI 安全, 云安全"></label>
       <label>课题 slug（选填）<input id="m-topic" placeholder="llm-api-key-security"></label>
@@ -507,6 +508,7 @@ function openMeta() {
   $('m-subtitle').value = m.subtitle || '';
   $('m-abstract').value = m.abstract || '';
   $('m-category').value = m.category || '';
+  $('m-author').value = m.author || '';
   $('m-keyword').value = m.keyword || '';
   $('m-topic').value = m.topic || '';
   $('m-tags').value = (m.tags || []).join(', ');
@@ -518,6 +520,7 @@ $('meta-ok').onclick = () => {
     subtitle: $('m-subtitle').value.trim(),
     abstract: $('m-abstract').value.trim(),
     category: $('m-category').value.trim(),
+    author: $('m-author').value.trim(),
     keyword: $('m-keyword').value.trim(),
     topic: $('m-topic').value.trim(),
     tags: $('m-tags').value.split(/[,，\s]+/).filter(Boolean)

@@ -422,6 +422,7 @@ body::after {
 .badge.cat-badge  { color: var(--gold-bright); border-color: rgba(212,175,106,.45); background: rgba(212,175,106,.07); }
 .badge.cat-sec    { color: var(--teal-glow); border-color: rgba(61,232,201,.45); background: rgba(61,232,201,.07); }
 .badge.cat-ai     { color: var(--purple-glow); border-color: rgba(167,139,250,.45); background: rgba(167,139,250,.08); }
+.badge.author     { color: #7fd4ff; border-color: rgba(105,196,255,.45); background: rgba(105,196,255,.07); }
 .todo { color: var(--paper-dim); }
 
 /* ---------- 首页四大板块 ---------- */

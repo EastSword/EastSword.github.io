@@ -6,6 +6,7 @@
       "title": "公网大模型的密钥泄露：攻击面、提取手法与防御",
       "subtitle": "口令不是关键，公网暴露才是。五家机构数据交叉验证 + FOFA 独立测量 + 422 台实例实测 + 四起国内暴露实证",
       "topic": "llm-api-key-security",
+      "author": "千里",
       "category": "AI安全",
       "tags": [
         "AI 安全",

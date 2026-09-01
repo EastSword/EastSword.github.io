@@ -25,6 +25,7 @@ permalink: /articles/
           <span>{{ a.subtitle }}</span>
         </div>
         <div class="row3">
+          {% if a.author %}<span>作者 {{ a.author }}</span><span class="dot">·</span>{% endif %}
           <span>{{ a.date | date: "%Y-%m-%d" }}</span>
           <span class="dot">·</span>
           <span>阅读约 {{ a.reading_time }} 分钟</span>

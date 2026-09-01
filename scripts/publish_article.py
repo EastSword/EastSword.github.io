@@ -186,6 +186,8 @@ def build_front_matter(cfg, toc, minutes, date, updated):
     if cfg.get("topic"):
         fm.append(f"topic: {cfg['topic']}")
     fm.append(f"category: {yaml_str(cfg['category'])}")
+    if cfg.get("author"):
+        fm.append(f"author: {yaml_str(cfg['author'])}")
     tags = ", ".join(yaml_str(t) for t in cfg.get("tags", []))
     fm.append(f"tags: [{tags}]")
     if cfg.get("keyword"):
