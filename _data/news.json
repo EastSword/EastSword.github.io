@@ -3,193 +3,6 @@
  "source_count": 83,
  "items": [
   {
-   "id": "FREEBUF-5ac8c624",
-   "title": "顶级C2免杀技术介绍",
-   "url": "https://www.freebuf.com/articles/endpoint/497695.html",
-   "source": "FreeBuf",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Thu, 27 Aug 2026 23:48:28 +0800",
-   "published_date": "2026-08-27",
-   "description": "顶级C2 Nighthawk 1.0发布，号称比Cobalt Strike更硬核，披露绕过CET的调用栈伪装等免杀技术。"
-  },
-  {
-   "id": "SECAFFAIRS-a889ec1b",
-   "title": "敲诈组织FulcrumSec声称窃取曼彻斯特机场集团86GB数据",
-   "url": "https://securityaffairs.com/198143/cyber-crime/extortion-group-fulcrumsec-claims-86gb-manchester-airports-group-data-theft.html",
-   "source": "Security Affairs",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Sun, 30 Aug 2026 17:21:51 +0000",
-   "published_date": "2026-08-30",
-   "description": "勒索组织FulcrumSec声称，他们在客户端JavaScript中发现暴露的API凭据后，窃取了曼彻斯特机场集团86GB的数据。曼彻斯特机场集团（MAG）于8月27日披露了一起数据泄露事件，影响曼彻斯特、伦敦斯坦斯特德和东米德兰兹机场的客户。两天后，据BleepingComputer报道，勒索组织FulcrumSec宣称对此负责，并表示他们窃取了[……]"
-  },
-  {
-   "id": "THN-45d64c4f",
-   "title": "TerminalFix利用虚假的Cloudflare验证码部署反向隧道后门",
-   "url": "https://thehackernews.com/2026/08/terminalfix-uses-fake-cloudflare.html",
-   "source": "The Hacker News",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Sun, 30 Aug 2026 13:06:33 +0530",
-   "published_date": "2026-08-30",
-   "description": "微软披露了一种名为TerminalFix的新型ClickFix变体的细节，该变体旨在诱骗用户在Windows终端或PowerShell中运行恶意命令。"
-  },
-  {
-   "id": "SECAFFAIRS-615aeb8e",
-   "title": "安全事务恶意软件新闻通讯第112期",
-   "url": "https://securityaffairs.com/198133/malware/security-affairs-malware-newsletter-round-112.html",
-   "source": "Security Affairs",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Sun, 30 Aug 2026 12:31:00 +0000",
-   "published_date": "2026-08-30",
-   "description": "《安全事务》恶意软件新闻通讯汇集了国际范围内关于恶意软件的最佳文章与研究。恶意软件新闻通讯 QUICSILVER行动：与中国有关联的行为者通过VHD投递的Go后门瞄准缅甸外交官 FTP横幅：新型死信解析器投递新型远程访问木马 2026年8月AI赋能恶意软件现状：从品牌滥用到智能体化[…]"
-  },
-  {
-   "id": "SECAFFAIRS-8526a659",
-   "title": "黑客正在探测PaperCut服务器，而47%仍未安装补丁",
-   "url": "https://securityaffairs.com/198107/uncategorized/hackers-are-probing-papercut-servers-and-47-still-have-no-patch.html",
-   "source": "Security Affairs",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Sun, 30 Aug 2026 11:26:29 +0000",
-   "published_date": "2026-08-30",
-   "description": "PaperCut服务器正遭受主动攻击，而47%的受监控安装仍运行未修补版本，存在远程代码执行漏洞。PaperCut是一款在全球学校、医院和办公室运行的打印管理软件，于8月27日确认，一个预认证远程代码执行漏洞正被积极利用攻击真实客户。Huntress的研究人员发现了证据[……]"
-  },
-  {
-   "id": "SECAFFAIRS-f2199fcb",
-   "title": "安全事务通讯第592期，作者：Pierluigi Paganini – 国际版",
-   "url": "https://securityaffairs.com/198124/security/security-affairs-newsletter-round-592-by-pierluigi-paganini-international-edition.html",
-   "source": "Security Affairs",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Sun, 30 Aug 2026 08:38:01 +0000",
-   "published_date": "2026-08-30",
-   "description": "新一期每周安全事务通讯已送达！每周，来自Security Affairs的最佳安全文章都会免费发送到您的邮箱。享受新一期每周SecurityAffairs通讯，包括国际媒体报道。黑掉一台机器人，触及下一台：Unitree G1安全漏洞 Rhysida勒索软件团伙瞄准柏林政府 Ahead [&#8230;]"
-  },
-  {
-   "id": "THN-7e7b8b04",
-   "title": "五个关键的WordPress插件和主题漏洞可导致网站被接管或远程代码执行",
-   "url": "https://thehackernews.com/2026/08/five-critical-wordpress-plugin-and.html",
-   "source": "The Hacker News",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Sat, 29 Aug 2026 21:55:03 +0530",
-   "published_date": "2026-08-29",
-   "description": "WordPress插件和主题中披露了多个严重安全漏洞，包括WPMU DEV Dashboard、Avada、TranslatePress、Pods和GiveWP，这些漏洞可能导致身份验证绕过、账户接管和任意代码执行。"
-  },
-  {
-   "id": "SECAFFAIRS-3aaf27ec",
-   "title": "黑掉一台机器人，触及下一台：宇树G1安全漏洞",
-   "url": "https://securityaffairs.com/198085/hacking/hack-one-robot-reach-the-next-unitree-g1-security-flaws.html",
-   "source": "Security Affairs",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Sat, 29 Aug 2026 11:55:44 +0000",
-   "published_date": "2026-08-29",
-   "description": "一名研究人员将宇树G1的两个漏洞串联利用，实现了远程获取根权限，并展示了被入侵的机器人如何攻击附近的其他机器人。安全研究员Olivier Laflamme花了大约三个月时间深入研究宇树G1人形机器人，最终找到了一种无需插入任何线缆即可完全攻破它的方法。在他的技术[……]"
-  },
-  {
-   "id": "SECURITYWEEK-fff3c3f7",
-   "title": "孩之宝数据泄露事件暴露员工个人信息",
-   "url": "https://www.securityweek.com/hasbro-data-breach-exposed-employee-personal-information/",
-   "source": "SecurityWeek",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Sat, 29 Aug 2026 11:55:00 +0000",
-   "published_date": "2026-08-29",
-   "description": "今年早些时候，一场网络攻击导致这家玩具和游戏巨头业务中断，该公司现已披露一起数据泄露事件。"
-  },
-  {
-   "id": "SECAFFAIRS-8ab59de2",
-   "title": "勒索软件组织Rhysida在柏林投票前攻击政府机构",
-   "url": "https://securityaffairs.com/198064/cyber-crime/rhysida-ransomware-group-targets-berlin-government-ahead-of-vote.html",
-   "source": "Security Affairs",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Sat, 29 Aug 2026 10:55:47 +0000",
-   "published_date": "2026-08-29",
-   "description": "柏林政府在大选前数周遭遇Rhysida勒索软件攻击，官员拒绝支付赎金，尽管对方声称窃取了5.79 TB数据。柏林州政府本周证实，在8月该城邦行政网络遭受网络攻击后，正处理一起勒索企图，官员已拒绝支付所要求的赎金。该勒索软件组织[…]"
-  },
-  {
-   "id": "SECAFFAIRS-ba517c2a",
-   "title": "疑似中国运营商袭击菲律宾核设施与海军目标",
-   "url": "https://securityaffairs.com/198041/intelligence/philippine-nuclear-and-naval-targets-hit-by-suspected-chinese-operator.html",
-   "source": "Security Affairs",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Sat, 29 Aug 2026 09:16:52 +0000",
-   "published_date": "2026-08-29",
-   "description": "一名涉嫌讲中文的行为者利用已知漏洞，入侵了菲律宾核设施和海军目标，窃取了敏感数据。一名疑似讲中文的操作者针对菲律宾核研究机构及一家为菲律宾海军提供支持的船舶工程公司，利用互联网可访问的ownCloud和WordPress系统中的已知漏洞实施攻击。该活动是在Hunt.io发现一处暴露的[……]后被揭露的。"
-  },
-  {
-   "id": "FREEBUF-cb6274d5",
-   "title": "曼彻斯特机场集团确认客户数据遭窃取",
-   "url": "https://www.freebuf.com/news/497854.html",
-   "source": "FreeBuf",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Sat, 29 Aug 2026 03:00:52 +0800",
-   "published_date": "2026-08-29",
-   "description": "柏林遭黑客窃取5.79TB数据，市长称“柏林州正在遭受勒索”拒付赎金；曼彻斯特机场也确认客户数据泄露。"
-  },
-  {
-   "id": "THN-e391db7d",
-   "title": "柏林拒绝向从该市州网络中窃取数据的黑客支付赎金",
-   "url": "https://thehackernews.com/2026/08/berlin-refuses-to-pay-hackers-who-stole.html",
-   "source": "The Hacker News",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Sat, 29 Aug 2026 03:00:52 +0530",
-   "published_date": "2026-08-29",
-   "description": "柏林州政府已确认，在8月该州行政网络遭到入侵后，其成为勒索企图的目标，并表示不会满足勒索者的要求。"
-  },
-  {
-   "id": "THN-313baae0",
-   "title": "Cosmos EVM漏洞被利用，此前Cosmos Labs已知所有运行该漏洞的区块链均存在风险",
-   "url": "https://thehackernews.com/2026/08/cosmos-evm-flaw-exploited-after-cosmos.html",
-   "source": "The Hacker News",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Sat, 29 Aug 2026 02:08:47 +0530",
-   "published_date": "2026-08-29",
-   "description": "Cosmos Labs警告称，共享Cosmos EVM模块中的一个关键余额处理漏洞在2026年8月20日至8月25日期间被利用，从六条区块链中抽走了资金。"
-  },
-  {
-   "id": "FREEBUF-aeaddbb4",
-   "title": "700个AI Agent突破隔离后秘密协调攻击Hugging Face",
-   "url": "https://www.freebuf.com/articles/ai-security/497858.html",
-   "source": "FreeBuf",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Sat, 29 Aug 2026 01:57:59 +0800",
-   "published_date": "2026-08-29",
-   "description": "700个AI Agent突破隔离秘密协调，利用包仓库作留言板，对Hugging Face发动攻击并实现远程代码执行。"
-  },
-  {
-   "id": "FREEBUF-11bac9ed",
-   "title": "攻击者可通过蓝牙完全控制 Unitree G1 人形机器人",
-   "url": "https://www.freebuf.com/articles/endpoint/497860.html",
-   "source": "FreeBuf",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Sat, 29 Aug 2026 01:52:56 +0800",
-   "published_date": "2026-08-29",
-   "description": "标签：无线安全、终端安全"
-  },
-  {
-   "id": "THN-74da898b",
-   "title": "North Korean Job Fraud Expands Beyond IT Into Healthcare and Sales",
-   "url": "https://thehackernews.com/2026/08/north-korean-job-fraud-expands-beyond.html",
-   "source": "The Hacker News",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Mon, 31 Aug 2026 22:54:28 +0530",
-   "published_date": "2026-08-31",
-   "description": "Threat actors with ties to the Democratic People's Republic of Korea (aka DPRK or North Korea) have been observed seeking job opportunities beyond the information technology (IT) sector, with recent investigations identifying suspected workers employed in sales and marketing and the medical profession.\n\nThe ongoing insider threat is part of what has been described as the IT worker scheme,"
-  },
-  {
    "id": "SECAFFAIRS-5d284b8a",
    "title": "ValleyRAT: When Legitimate Software Becomes a Malware Delivery Tool",
    "url": "https://securityaffairs.com/198191/security/valleyrat-when-legitimate-software-becomes-a-malware-delivery-tool.html",
@@ -199,17 +12,6 @@
    "published_at": "Mon, 31 Aug 2026 19:45:08 +0000",
    "published_date": "2026-08-31",
    "description": "ValleyRAT hides behind legitimate adware, using DLL sideloading to evade detection, steal data and give Silver Fox control of infected systems. ValleyRAT doesn&#8217;t always need to disguise itself as a cracked game or a fake browser update. It can also hide behind something much more ordinary: an application that looks like adware and appears to [&#8230;]"
-  },
-  {
-   "id": "THN-b47d47ea",
-   "title": "⚡ 每周回顾：中国间谍代理、AI代理偏离任务、路由器后门等更多内容",
-   "url": "https://thehackernews.com/2026/08/weekly-recap-chinese-spy-proxy-ai.html",
-   "source": "The Hacker News",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Mon, 31 Aug 2026 19:20:00 +0530",
-   "published_date": "2026-08-31",
-   "description": "无聊的部分引发了大部分麻烦。"
   },
   {
    "id": "SCHNEIER-3a691d80",
@@ -223,81 +25,26 @@
    "description": "<p>It sure <a href=\"https://www.militarytimes.com/news/your-military/2026/08/28/dod-confirms-refrigeration-disruption-at-military-commissaries/\">seems</a> <a>like</a> it.</p>\n<blockquote><p>The stores confirmed to be affected include <a href=\"https://www.facebook.com/FTirwin/posts/pfbid0bkY1LoQRDustXmQjfLGXYhaDGTXHU6VxBB6or9nL78FE14CeVFQUJHyAkmKWBTi9l\">Fort Irwin</a>, Calif.; <a href=\"https://www.facebook.com/FEWarrenAirForceBase/posts/pfbid0fm9piUzNegdz97zDwT7FtgkDCojLFUXwXiWzUYu2Wc3vhGh1YYtoLd"
   },
   {
-   "id": "FREEBUF-0be2a319",
-   "title": "新手勇闯网络安全 | 网络通信基础（三）",
-   "url": "https://www.freebuf.com/articles/web/498071.html",
-   "source": "FreeBuf",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Mon, 31 Aug 2026 18:01:14 +0800",
-   "published_date": "2026-08-31",
-   "description": "从零掌握 Wireshark 抓包实战：抓包原理与边界、抓包过滤器与显示过滤器差异、数据包四层解析。"
-  },
-  {
-   "id": "THN-2908bffe",
-   "title": "ValleyRAT后门藏身于用户加入杀毒软件排除项的有签名广告软件中",
-   "url": "https://thehackernews.com/2026/08/valleyrat-backdoor-hides-in-signed.html",
+   "id": "THN-74da898b",
+   "title": "North Korean Job Fraud Expands Beyond IT Into Healthcare and Sales",
+   "url": "https://thehackernews.com/2026/08/north-korean-job-fraud-expands-beyond.html",
    "source": "The Hacker News",
    "category": "网络安全",
    "priority": "P1",
-   "published_at": "Mon, 31 Aug 2026 17:44:00 +0530",
+   "published_at": "Mon, 31 Aug 2026 22:54:28 +0530",
    "published_date": "2026-08-31",
-   "description": "被称为“银狐”的威胁行为者被发现以伪装成已签名中文广告软件应用的方式传播ValleyRAT后门，在受信任进程下运行恶意软件，以绕过那些将此类软件加入杀毒软件白名单的用户。"
+   "description": "Threat actors with ties to the Democratic People's Republic of Korea (aka DPRK or North Korea) have been observed seeking job opportunities beyond the information technology (IT) sector, with recent investigations identifying suspected workers employed in sales and marketing and the medical profession.\n\nThe ongoing insider threat is part of what has been described as the IT worker scheme,"
   },
   {
-   "id": "FREEBUF-18610409",
-   "title": "FreeBuf早报 | 宇树G1 EDU人形机器人漏洞可致root级远程代码执行；Claude平台遭攻击",
-   "url": "https://www.freebuf.com/news/498066.html",
-   "source": "FreeBuf",
+   "id": "SECWIKI-24630379",
+   "title": "SecWiki News 2026-08-31 Review",
+   "url": "http://www.sec-wiki.com/?2026-08-31",
+   "source": "SecWiki",
    "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Mon, 31 Aug 2026 17:39:04 +0800",
+   "priority": "P2",
+   "published_at": "\nMon, 31 Aug 2026 23:58:20 +0800",
    "published_date": "2026-08-31",
-   "description": "Unitree G1 EDU被曝两处root级RCE：chat_go与蓝牙路径可攻破，云授权缺陷已修复。"
-  },
-  {
-   "id": "THN-a65d71ad",
-   "title": "Aurora勒索软件运营者在针对10个目标的攻击中使用Cursor AI",
-   "url": "https://thehackernews.com/2026/08/aurora-ransomware-operators-use-cursor.html",
-   "source": "The Hacker News",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Mon, 31 Aug 2026 17:17:24 +0530",
-   "published_date": "2026-08-31",
-   "description": "根据CloudSEK和Gambit Security的调查结果，与Aurora（又名Aur0ra）勒索软件相关的威胁行为者已被观察到使用SpaceX的人工智能（AI）驱动的编程助手Cursor来入侵目标网络。这两项独立分析基于与该俄语网络犯罪团伙相关的暴露基础设施，从而发现了其"
-  },
-  {
-   "id": "FREEBUF-28f9ad71",
-   "title": "保障Claude Code安全：全新合规API、本地可见性与身份治理",
-   "url": "https://www.freebuf.com/articles/ai-security/498104.html",
-   "source": "FreeBuf",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Mon, 31 Aug 2026 17:01:47 +0800",
-   "published_date": "2026-08-31",
-   "description": "标签：终端安全、企业安全"
-  },
-  {
-   "id": "THN-08421d47",
-   "title": "确保Claude Code安全：新的合规API、本地可见性与身份治理",
-   "url": "https://thehackernews.com/2026/08/securing-claude-code-new-compliance-api.html",
-   "source": "The Hacker News",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Mon, 31 Aug 2026 17:01:47 +0530",
-   "published_date": "2026-08-31",
-   "description": "Claude Code读取文件、运行Shell命令、调用MCP工具，并通过开发者机器上可用的凭据执行操作。Anthropic新增的Compliance API端点让安全团队对这类活动有了迄今最清晰的视野。但它们也暴露了一个更大的问题：仅凭活动日志无法判断代理的访问是否合法。"
-  },
-  {
-   "id": "THN-eae36ff4",
-   "title": "与中国有关联的火蚁劫持思科路由器，窃取凭据并屏蔽安全日志",
-   "url": "https://thehackernews.com/2026/08/china-linked-fire-ant-hijacks-cisco.html",
-   "source": "The Hacker News",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Mon, 31 Aug 2026 14:34:55 +0530",
-   "published_date": "2026-08-31",
-   "description": "被追踪为“火蚁”的一个与中国有关联的网络间谍行为者，已将其长期活动范围从VMware虚拟机监控程序扩展至思科IOS XR路由器、终端访问控制器访问控制系统（TACACS）服务器，以及用于路由、认证和管理高价值网络的Linux管理主机。"
+   "description": "\n今日暂未更新资讯~<br>更多最新文章，请访问<a href=http://www.sec-wiki.com/>SecWiki</a>\n"
   },
   {
    "id": "SECURITYWEEK-060821de",
@@ -322,6 +69,17 @@
    "description": "攻击者可能利用这些安全缺陷执行任意代码，并访问或篡改数据。"
   },
   {
+   "id": "THN-b47d47ea",
+   "title": "⚡ 每周回顾：中国间谍代理、AI代理偏离任务、路由器后门等更多内容",
+   "url": "https://thehackernews.com/2026/08/weekly-recap-chinese-spy-proxy-ai.html",
+   "source": "The Hacker News",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Mon, 31 Aug 2026 19:20:00 +0530",
+   "published_date": "2026-08-31",
+   "description": "无聊的部分引发了大部分麻烦。"
+  },
+  {
    "id": "CHECKPOINT-ad3f495f",
    "title": "打破封印：JSCeal编译的V8字节码的静态反混淆",
    "url": "https://research.checkpoint.com/2026/breaking-the-seal-static-deobfuscation-of-jsceals-compiled-v8-bytecode/",
@@ -331,17 +89,6 @@
    "published_at": "Mon, 31 Aug 2026 13:38:28 +0000",
    "published_date": "2026-08-31",
    "description": "研究作者：hasherezade 关键要点 引言 JSCeal是一种以编译后的V8字节码（.jsc）形式分发、并由捆绑的Node.js运行时执行的窃密程序，针对加密货币应用程序（其他厂商也将其标记为WEEVILPROXY或MeadowLocust）。其攻击活动可追溯至2024年3月[1]；Check Point Research自早期起便一直在追踪该恶意软件[……]"
-  },
-  {
-   "id": "THN-3ab513ab",
-   "title": "司法部更正对中国黑客指控，称美国机构是目标而非受害者",
-   "url": "https://thehackernews.com/2026/08/doj-corrects-china-hacking-claim-says.html",
-   "source": "The Hacker News",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Mon, 31 Aug 2026 13:26:53 +0530",
-   "published_date": "2026-08-31",
-   "description": "美国司法部（DoJ）周五更正了此前发布的一份新闻声明，该声明称其多个机构是遭受中国威胁行为者攻击的受害者，如今则指出这些机构只是被攻击的目标之一。"
   },
   {
    "id": "SECURITYWEEK-bf301f34",
@@ -377,6 +124,17 @@
    "description": "安全团队必须将自主代理视为高权限身份。"
   },
   {
+   "id": "THN-2908bffe",
+   "title": "ValleyRAT后门藏身于用户加入杀毒软件排除项的有签名广告软件中",
+   "url": "https://thehackernews.com/2026/08/valleyrat-backdoor-hides-in-signed.html",
+   "source": "The Hacker News",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Mon, 31 Aug 2026 17:44:00 +0530",
+   "published_date": "2026-08-31",
+   "description": "被称为“银狐”的威胁行为者被发现以伪装成已签名中文广告软件应用的方式传播ValleyRAT后门，在受信任进程下运行恶意软件，以绕过那些将此类软件加入杀毒软件白名单的用户。"
+  },
+  {
    "id": "SECURITYWEEK-1e8b2ddf",
    "title": "Anthropic警告Claude用户遭遇信息窃取恶意软件感染",
    "url": "https://www.securityweek.com/anthropic-warns-claude-users-of-infostealer-malware-infections/",
@@ -386,6 +144,28 @@
    "published_at": "Mon, 31 Aug 2026 12:11:58 +0000",
    "published_date": "2026-08-31",
    "description": "这家AI巨头正在将客户从账户中登出，并移除支付数据，以防止未经授权的Claude使用。"
+  },
+  {
+   "id": "THN-a65d71ad",
+   "title": "Aurora勒索软件运营者在针对10个目标的攻击中使用Cursor AI",
+   "url": "https://thehackernews.com/2026/08/aurora-ransomware-operators-use-cursor.html",
+   "source": "The Hacker News",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Mon, 31 Aug 2026 17:17:24 +0530",
+   "published_date": "2026-08-31",
+   "description": "根据CloudSEK和Gambit Security的调查结果，与Aurora（又名Aur0ra）勒索软件相关的威胁行为者已被观察到使用SpaceX的人工智能（AI）驱动的编程助手Cursor来入侵目标网络。这两项独立分析基于与该俄语网络犯罪团伙相关的暴露基础设施，从而发现了其"
+  },
+  {
+   "id": "THN-08421d47",
+   "title": "确保Claude Code安全：新的合规API、本地可见性与身份治理",
+   "url": "https://thehackernews.com/2026/08/securing-claude-code-new-compliance-api.html",
+   "source": "The Hacker News",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Mon, 31 Aug 2026 17:01:47 +0530",
+   "published_date": "2026-08-31",
+   "description": "Claude Code读取文件、运行Shell命令、调用MCP工具，并通过开发者机器上可用的凭据执行操作。Anthropic新增的Compliance API端点让安全团队对这类活动有了迄今最清晰的视野。但它们也暴露了一个更大的问题：仅凭活动日志无法判断代理的访问是否合法。"
   },
   {
    "id": "SECURITYWEEK-085bca8b",
@@ -408,17 +188,6 @@
    "published_at": "Mon, 31 Aug 2026 11:10:44 +0000",
    "published_date": "2026-08-31",
    "description": "火蚁劫持了思科路由器，窃取凭据并篡改日志以掩盖踪迹，利用可信基础设施侵入高价值网络。与中国有关联的网络间谍组织火蚁在过去一年中悄然升级，从入侵单个计算机发展到入侵连接这些计算机的基础设施。Sygnia的新报告追踪了该组织如何从攻破[……]逐步扩展。"
-  },
-  {
-   "id": "FREEBUF-e8a7c382",
-   "title": "Apache Shiro rememberMe反序列化漏洞：从Cookie到RCE",
-   "url": "https://www.freebuf.com/articles/web/498029.html",
-   "source": "FreeBuf",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Mon, 31 Aug 2026 11:07:09 +0800",
-   "published_date": "2026-08-31",
-   "description": "Apache Shiro 是一个 Java 安全框架，提供身份认证、授权、加密和会话管理功能。在很多 Java Web 项目中，Shiro 被用来处理登录、权限控制和“记住我”功能。"
   },
   {
    "id": "SCHNEIER-e9324b30",
@@ -454,6 +223,17 @@
    "description": "FulcrumSec 声称从曼彻斯特机场集团窃取了超过 80 GB 的数据，并计划将其泄露到网上。"
   },
   {
+   "id": "FREEBUF-0be2a319",
+   "title": "新手勇闯网络安全 | 网络通信基础（三）",
+   "url": "https://www.freebuf.com/articles/web/498071.html",
+   "source": "FreeBuf",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Mon, 31 Aug 2026 18:01:14 +0800",
+   "published_date": "2026-08-31",
+   "description": "从零掌握 Wireshark 抓包实战：抓包原理与边界、抓包过滤器与显示过滤器差异、数据包四层解析。"
+  },
+  {
    "id": "UNIT42-01370e67",
    "title": "春季铃声：深入解析Microsoft Teams中的语音钓鱼活动",
    "url": "https://unit42.paloaltonetworks.com/spring-ring-voice-phishing-campaigns/",
@@ -474,6 +254,17 @@
    "published_at": "Mon, 31 Aug 2026 10:00:21 +0000",
    "published_date": "2026-08-31",
    "description": "威胁行为者正在以广告软件为伪装分发ValleyRAT后门。我们分析了从恶意安装程序到最终载荷的感染链。"
+  },
+  {
+   "id": "FREEBUF-18610409",
+   "title": "FreeBuf早报 | 宇树G1 EDU人形机器人漏洞可致root级远程代码执行；Claude平台遭攻击",
+   "url": "https://www.freebuf.com/news/498066.html",
+   "source": "FreeBuf",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Mon, 31 Aug 2026 17:39:04 +0800",
+   "published_date": "2026-08-31",
+   "description": "Unitree G1 EDU被曝两处root级RCE：chat_go与蓝牙路径可攻破，云授权缺陷已修复。"
   },
   {
    "id": "SECAFFAIRS-edba3569",
@@ -498,6 +289,28 @@
    "description": "这项裁决是Anthropic与五角大楼法律斗争的一部分，此前政府于今年早些时候将该公司列为供应链风险。"
   },
   {
+   "id": "THN-eae36ff4",
+   "title": "与中国有关联的火蚁劫持思科路由器，窃取凭据并屏蔽安全日志",
+   "url": "https://thehackernews.com/2026/08/china-linked-fire-ant-hijacks-cisco.html",
+   "source": "The Hacker News",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Mon, 31 Aug 2026 14:34:55 +0530",
+   "published_date": "2026-08-31",
+   "description": "被追踪为“火蚁”的一个与中国有关联的网络间谍行为者，已将其长期活动范围从VMware虚拟机监控程序扩展至思科IOS XR路由器、终端访问控制器访问控制系统（TACACS）服务器，以及用于路由、认证和管理高价值网络的Linux管理主机。"
+  },
+  {
+   "id": "FREEBUF-28f9ad71",
+   "title": "保障Claude Code安全：全新合规API、本地可见性与身份治理",
+   "url": "https://www.freebuf.com/articles/ai-security/498104.html",
+   "source": "FreeBuf",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Mon, 31 Aug 2026 17:01:47 +0800",
+   "published_date": "2026-08-31",
+   "description": "标签：终端安全、企业安全"
+  },
+  {
    "id": "SECURITYWEEK-338d2fee",
    "title": "柏林不会向声称数据被盗的勒索组织付款",
    "url": "https://www.securityweek.com/berlin-wont-pay-extortion-group-claiming-data-theft/",
@@ -509,15 +322,15 @@
    "description": "Rhysida勒索软件组织声称已窃取超过5TB的数据，包括个人信息和凭据。"
   },
   {
-   "id": "FREEBUF-6cb76b28",
-   "title": "黑名单只防了 AWS？Directus 默认配置下 SSRF 直通国产云 metadata",
-   "url": "https://www.freebuf.com/articles/vuls/498005.html",
-   "source": "FreeBuf",
+   "id": "THN-3ab513ab",
+   "title": "司法部更正对中国黑客指控，称美国机构是目标而非受害者",
+   "url": "https://thehackernews.com/2026/08/doj-corrects-china-hacking-claim-says.html",
+   "source": "The Hacker News",
    "category": "网络安全",
    "priority": "P1",
-   "published_at": "Mon, 31 Aug 2026 08:47:43 +0800",
+   "published_at": "Mon, 31 Aug 2026 13:26:53 +0530",
    "published_date": "2026-08-31",
-   "description": "Directus 默认 SSRF 黑名单只防了 AWS 那个 metadata 地址——国产云（腾讯云 169.254.0.23、阿里云 100.100.100.200）一个都没拦。"
+   "description": "美国司法部（DoJ）周五更正了此前发布的一份新闻声明，该声明称其多个机构是遭受中国威胁行为者攻击的受害者，如今则指出这些机构只是被攻击的目标之一。"
   },
   {
    "id": "SECAFFAIRS-6f37422b",
@@ -540,28 +353,6 @@
    "published_at": "Mon, 31 Aug 2026 06:51:31 +0000",
    "published_date": "2026-08-31",
    "description": "PaperCut已针对被利用的漏洞发布了第二个紧急补丁，这些漏洞现已被追踪为CVE-2026-82078和CVE-2026-81578。"
-  },
-  {
-   "id": "FREEBUF-b8bea88b",
-   "title": "免费路由器DNS调整可拦截家庭网络中的恶意软件和钓鱼攻击",
-   "url": "https://www.freebuf.com/articles/network/498032.html",
-   "source": "FreeBuf",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Mon, 31 Aug 2026 03:58:08 +0800",
-   "published_date": "2026-08-31",
-   "description": "路由器DNS调整可免费拦截恶意软件与钓鱼，覆盖全网设备，但非万能，需配合其他安全措施。"
-  },
-  {
-   "id": "FREEBUF-502da803",
-   "title": "黑客利用信息窃取恶意软件窃取Claude登录会话，劫持账户",
-   "url": "https://www.freebuf.com/articles/endpoint/498037.html",
-   "source": "FreeBuf",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Mon, 31 Aug 2026 02:36:07 +0800",
-   "published_date": "2026-08-31",
-   "description": "标签：终端安全、Web安全"
   },
   {
    "id": "ZDI-PUBLISHED-a5117991",
@@ -1180,15 +971,180 @@
    "description": "arXiv:2608.27492v1 公告类型：新"
   },
   {
-   "id": "THN-bb72af58",
-   "title": "攻击者利用两个PaperCut漏洞，无需认证即可执行代码",
-   "url": "https://thehackernews.com/2026/08/attackers-chain-two-papercut-flaws-to.html",
+   "id": "FREEBUF-e8a7c382",
+   "title": "Apache Shiro rememberMe反序列化漏洞：从Cookie到RCE",
+   "url": "https://www.freebuf.com/articles/web/498029.html",
+   "source": "FreeBuf",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Mon, 31 Aug 2026 11:07:09 +0800",
+   "published_date": "2026-08-31",
+   "description": "Apache Shiro 是一个 Java 安全框架，提供身份认证、授权、加密和会话管理功能。在很多 Java Web 项目中，Shiro 被用来处理登录、权限控制和“记住我”功能。"
+  },
+  {
+   "id": "FREEBUF-6cb76b28",
+   "title": "黑名单只防了 AWS？Directus 默认配置下 SSRF 直通国产云 metadata",
+   "url": "https://www.freebuf.com/articles/vuls/498005.html",
+   "source": "FreeBuf",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Mon, 31 Aug 2026 08:47:43 +0800",
+   "published_date": "2026-08-31",
+   "description": "Directus 默认 SSRF 黑名单只防了 AWS 那个 metadata 地址——国产云（腾讯云 169.254.0.23、阿里云 100.100.100.200）一个都没拦。"
+  },
+  {
+   "id": "FREEBUF-b8bea88b",
+   "title": "免费路由器DNS调整可拦截家庭网络中的恶意软件和钓鱼攻击",
+   "url": "https://www.freebuf.com/articles/network/498032.html",
+   "source": "FreeBuf",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Mon, 31 Aug 2026 03:58:08 +0800",
+   "published_date": "2026-08-31",
+   "description": "路由器DNS调整可免费拦截恶意软件与钓鱼，覆盖全网设备，但非万能，需配合其他安全措施。"
+  },
+  {
+   "id": "FREEBUF-502da803",
+   "title": "黑客利用信息窃取恶意软件窃取Claude登录会话，劫持账户",
+   "url": "https://www.freebuf.com/articles/endpoint/498037.html",
+   "source": "FreeBuf",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Mon, 31 Aug 2026 02:36:07 +0800",
+   "published_date": "2026-08-31",
+   "description": "标签：终端安全、Web安全"
+  },
+  {
+   "id": "SECAFFAIRS-a889ec1b",
+   "title": "敲诈组织FulcrumSec声称窃取曼彻斯特机场集团86GB数据",
+   "url": "https://securityaffairs.com/198143/cyber-crime/extortion-group-fulcrumsec-claims-86gb-manchester-airports-group-data-theft.html",
+   "source": "Security Affairs",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Sun, 30 Aug 2026 17:21:51 +0000",
+   "published_date": "2026-08-30",
+   "description": "勒索组织FulcrumSec声称，他们在客户端JavaScript中发现暴露的API凭据后，窃取了曼彻斯特机场集团86GB的数据。曼彻斯特机场集团（MAG）于8月27日披露了一起数据泄露事件，影响曼彻斯特、伦敦斯坦斯特德和东米德兰兹机场的客户。两天后，据BleepingComputer报道，勒索组织FulcrumSec宣称对此负责，并表示他们窃取了[……]"
+  },
+  {
+   "id": "SECWIKI-594b4848",
+   "title": "SecWiki新闻 2026-08-30 回顾",
+   "url": "http://www.sec-wiki.com/?2026-08-30",
+   "source": "SecWiki",
+   "category": "网络安全",
+   "priority": "P2",
+   "published_at": "\nSun, 30 Aug 2026 23:58:20 +0800",
+   "published_date": "2026-08-30",
+   "description": "今日暂未更新资讯~更多最新文章，请访问SecWiki"
+  },
+  {
+   "id": "SECAFFAIRS-615aeb8e",
+   "title": "安全事务恶意软件新闻通讯第112期",
+   "url": "https://securityaffairs.com/198133/malware/security-affairs-malware-newsletter-round-112.html",
+   "source": "Security Affairs",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Sun, 30 Aug 2026 12:31:00 +0000",
+   "published_date": "2026-08-30",
+   "description": "《安全事务》恶意软件新闻通讯汇集了国际范围内关于恶意软件的最佳文章与研究。恶意软件新闻通讯 QUICSILVER行动：与中国有关联的行为者通过VHD投递的Go后门瞄准缅甸外交官 FTP横幅：新型死信解析器投递新型远程访问木马 2026年8月AI赋能恶意软件现状：从品牌滥用到智能体化[…]"
+  },
+  {
+   "id": "SECAFFAIRS-8526a659",
+   "title": "黑客正在探测PaperCut服务器，而47%仍未安装补丁",
+   "url": "https://securityaffairs.com/198107/uncategorized/hackers-are-probing-papercut-servers-and-47-still-have-no-patch.html",
+   "source": "Security Affairs",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Sun, 30 Aug 2026 11:26:29 +0000",
+   "published_date": "2026-08-30",
+   "description": "PaperCut服务器正遭受主动攻击，而47%的受监控安装仍运行未修补版本，存在远程代码执行漏洞。PaperCut是一款在全球学校、医院和办公室运行的打印管理软件，于8月27日确认，一个预认证远程代码执行漏洞正被积极利用攻击真实客户。Huntress的研究人员发现了证据[……]"
+  },
+  {
+   "id": "SECAFFAIRS-f2199fcb",
+   "title": "安全事务通讯第592期，作者：Pierluigi Paganini – 国际版",
+   "url": "https://securityaffairs.com/198124/security/security-affairs-newsletter-round-592-by-pierluigi-paganini-international-edition.html",
+   "source": "Security Affairs",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Sun, 30 Aug 2026 08:38:01 +0000",
+   "published_date": "2026-08-30",
+   "description": "新一期每周安全事务通讯已送达！每周，来自Security Affairs的最佳安全文章都会免费发送到您的邮箱。享受新一期每周SecurityAffairs通讯，包括国际媒体报道。黑掉一台机器人，触及下一台：Unitree G1安全漏洞 Rhysida勒索软件团伙瞄准柏林政府 Ahead [&#8230;]"
+  },
+  {
+   "id": "THN-45d64c4f",
+   "title": "TerminalFix利用虚假的Cloudflare验证码部署反向隧道后门",
+   "url": "https://thehackernews.com/2026/08/terminalfix-uses-fake-cloudflare.html",
    "source": "The Hacker News",
    "category": "网络安全",
    "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 22:42:15 +0530",
-   "published_date": "2026-08-28",
-   "description": "恶意行为者正在利用PaperCut NG和MF中一个刚刚修补的安全漏洞，在易受攻击的实例上执行任意代码，与此同时该公司发布了一项新的紧急修复程序并加强了防护。"
+   "published_at": "Sun, 30 Aug 2026 13:06:33 +0530",
+   "published_date": "2026-08-30",
+   "description": "微软披露了一种名为TerminalFix的新型ClickFix变体的细节，该变体旨在诱骗用户在Windows终端或PowerShell中运行恶意命令。"
+  },
+  {
+   "id": "THN-7e7b8b04",
+   "title": "五个关键的WordPress插件和主题漏洞可导致网站被接管或远程代码执行",
+   "url": "https://thehackernews.com/2026/08/five-critical-wordpress-plugin-and.html",
+   "source": "The Hacker News",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Sat, 29 Aug 2026 21:55:03 +0530",
+   "published_date": "2026-08-29",
+   "description": "WordPress插件和主题中披露了多个严重安全漏洞，包括WPMU DEV Dashboard、Avada、TranslatePress、Pods和GiveWP，这些漏洞可能导致身份验证绕过、账户接管和任意代码执行。"
+  },
+  {
+   "id": "SECWIKI-11405434",
+   "title": "SecWiki新闻 2026-08-29 回顾",
+   "url": "http://www.sec-wiki.com/?2026-08-29",
+   "source": "SecWiki",
+   "category": "网络安全",
+   "priority": "P2",
+   "published_at": "\nSat, 29 Aug 2026 23:58:20 +0800",
+   "published_date": "2026-08-29",
+   "description": "今日暂未更新资讯~更多最新文章，请访问SecWiki"
+  },
+  {
+   "id": "SECAFFAIRS-3aaf27ec",
+   "title": "黑掉一台机器人，触及下一台：宇树G1安全漏洞",
+   "url": "https://securityaffairs.com/198085/hacking/hack-one-robot-reach-the-next-unitree-g1-security-flaws.html",
+   "source": "Security Affairs",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Sat, 29 Aug 2026 11:55:44 +0000",
+   "published_date": "2026-08-29",
+   "description": "一名研究人员将宇树G1的两个漏洞串联利用，实现了远程获取根权限，并展示了被入侵的机器人如何攻击附近的其他机器人。安全研究员Olivier Laflamme花了大约三个月时间深入研究宇树G1人形机器人，最终找到了一种无需插入任何线缆即可完全攻破它的方法。在他的技术[……]"
+  },
+  {
+   "id": "SECURITYWEEK-fff3c3f7",
+   "title": "孩之宝数据泄露事件暴露员工个人信息",
+   "url": "https://www.securityweek.com/hasbro-data-breach-exposed-employee-personal-information/",
+   "source": "SecurityWeek",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Sat, 29 Aug 2026 11:55:00 +0000",
+   "published_date": "2026-08-29",
+   "description": "今年早些时候，一场网络攻击导致这家玩具和游戏巨头业务中断，该公司现已披露一起数据泄露事件。"
+  },
+  {
+   "id": "SECAFFAIRS-8ab59de2",
+   "title": "勒索软件组织Rhysida在柏林投票前攻击政府机构",
+   "url": "https://securityaffairs.com/198064/cyber-crime/rhysida-ransomware-group-targets-berlin-government-ahead-of-vote.html",
+   "source": "Security Affairs",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Sat, 29 Aug 2026 10:55:47 +0000",
+   "published_date": "2026-08-29",
+   "description": "柏林政府在大选前数周遭遇Rhysida勒索软件攻击，官员拒绝支付赎金，尽管对方声称窃取了5.79 TB数据。柏林州政府本周证实，在8月该城邦行政网络遭受网络攻击后，正处理一起勒索企图，官员已拒绝支付所要求的赎金。该勒索软件组织[…]"
+  },
+  {
+   "id": "SECAFFAIRS-ba517c2a",
+   "title": "疑似中国运营商袭击菲律宾核设施与海军目标",
+   "url": "https://securityaffairs.com/198041/intelligence/philippine-nuclear-and-naval-targets-hit-by-suspected-chinese-operator.html",
+   "source": "Security Affairs",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Sat, 29 Aug 2026 09:16:52 +0000",
+   "published_date": "2026-08-29",
+   "description": "一名涉嫌讲中文的行为者利用已知漏洞，入侵了菲律宾核设施和海军目标，窃取了敏感数据。一名疑似讲中文的操作者针对菲律宾核研究机构及一家为菲律宾海军提供支持的船舶工程公司，利用互联网可访问的ownCloud和WordPress系统中的已知漏洞实施攻击。该活动是在Hunt.io发现一处暴露的[……]后被揭露的。"
   },
   {
    "id": "UNIT42-e1fcfeb1",
@@ -1202,26 +1158,15 @@
    "description": "新研究揭示，AI安全拒绝机制存在于一个薄薄的神经层中，凸显了外部多层安全防护的关键必要性。"
   },
   {
-   "id": "THN-df619b2f",
-   "title": "Android 17新增系统级ECH，向网络提供商隐藏网站访问记录",
-   "url": "https://thehackernews.com/2026/08/android-17-adds-os-wide-ech-to-hide.html",
+   "id": "THN-e391db7d",
+   "title": "柏林拒绝向从该市州网络中窃取数据的黑客支付赎金",
+   "url": "https://thehackernews.com/2026/08/berlin-refuses-to-pay-hackers-who-stole.html",
    "source": "The Hacker News",
    "category": "网络安全",
    "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 21:50:46 +0530",
-   "published_date": "2026-08-28",
-   "description": "谷歌周四宣布在Android 17中新增网络安全保护措施，以增强连接隐私、解决蜂窝网络漏洞，并保护用户家庭网络的隐私安全。"
-  },
-  {
-   "id": "THN-46de9a99",
-   "title": "ownCloud漏洞被利用窃取菲律宾研究机构核记录",
-   "url": "https://thehackernews.com/2026/08/snowflake-github-actions-flaw-lets.html",
-   "source": "The Hacker News",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 21:26:55 +0530",
-   "published_date": "2026-08-28",
-   "description": "美国网络安全和基础设施安全局（CISA）周四将影响ownCloud的一个严重安全漏洞添加到其已知被利用漏洞（KEV）目录中，此前有报告称，一个讲中文的威胁行为者利用该漏洞攻击了菲律宾的一个核研究机构。该漏洞编号为CVE-2023-49105（CVSS评分：9.8），属于一种……"
+   "published_at": "Sat, 29 Aug 2026 03:00:52 +0530",
+   "published_date": "2026-08-29",
+   "description": "柏林州政府已确认，在8月该州行政网络遭到入侵后，其成为勒索企图的目标，并表示不会满足勒索者的要求。"
   },
   {
    "id": "SCHNEIER-4e9b4719",
@@ -1235,15 +1180,15 @@
    "description": "一辆牵引式挂车侧翻，导致一整车鱿鱼洒落在罗德岛州的一条公路上，在夏季高温中滞留数小时，散发出恶臭。当地当局称之为“’26鱿鱼末日”。"
   },
   {
-   "id": "THN-c6079986",
-   "title": "发现19个Chrome和Edge扩展程序，内含窃取钱包和盗取加密货币的代码",
-   "url": "https://thehackernews.com/2026/08/19-chrome-and-edge-extensions-found.html",
+   "id": "THN-313baae0",
+   "title": "Cosmos EVM漏洞被利用，此前Cosmos Labs已知所有运行该漏洞的区块链均存在风险",
+   "url": "https://thehackernews.com/2026/08/cosmos-evm-flaw-exploited-after-cosmos.html",
    "source": "The Hacker News",
    "category": "网络安全",
    "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 20:57:26 +0530",
-   "published_date": "2026-08-28",
-   "description": "网络安全研究人员发现了一个包含18个Google Chrome扩展程序和1个Microsoft Edge扩展程序的集群，这些扩展程序在过去六个月内发布，并具备窃取钱包密钥和盗取加密货币的功能。"
+   "published_at": "Sat, 29 Aug 2026 02:08:47 +0530",
+   "published_date": "2026-08-29",
+   "description": "Cosmos Labs警告称，共享Cosmos EVM模块中的一个关键余额处理漏洞在2026年8月20日至8月25日期间被利用，从六条区块链中抽走了资金。"
   },
   {
    "id": "SECAFFAIRS-84e01bf8",
@@ -1257,37 +1202,15 @@
    "description": "Love Electric涉嫌数据泄露事件暴露了敏感驾驶员数据，并凸显了第三方薪资牺牲计划提供商所带来的身份风险。一名卖家于8月26日在英语数据泄露论坛上声称，已获取Love Electric的驾驶员数据库。Love Electric是一家运营电动汽车薪资牺牲计划的英国经纪商。该卖家以[…]名义运营。"
   },
   {
-   "id": "FREEBUF-60b99e79",
-   "title": "Frida 替换 WebView JS 实现 Android 明文抓包",
-   "url": "https://www.freebuf.com/articles/497893.html",
+   "id": "FREEBUF-cb6274d5",
+   "title": "曼彻斯特机场集团确认客户数据遭窃取",
+   "url": "https://www.freebuf.com/news/497854.html",
    "source": "FreeBuf",
    "category": "网络安全",
    "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 18:40:33 +0800",
-   "published_date": "2026-08-28",
-   "description": "AI没分析出？H5套壳APP国密动态加密，前端JS随机生成SM4密钥，Frida替换+mitm解密拿下。"
-  },
-  {
-   "id": "FREEBUF-a2c14b93",
-   "title": "NVIDIA收购Hugging Face，估值或超130亿美元；“豺狼行动IV”逮捕58人| FreeBuf周报",
-   "url": "https://www.freebuf.com/articles/497765.html",
-   "source": "FreeBuf",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 18:22:41 +0800",
-   "published_date": "2026-08-28",
-   "description": "各位Buffer周末好，以下是本周「FreeBuf周报」，我们总结推荐了本周的热点资讯、一周好文，保证大家不错过本周的每一个重点！"
-  },
-  {
-   "id": "SEEKBUG-5dce40da",
-   "title": "通过基于搜索的优化从工业网络流量中恢复过程变量",
-   "url": "https://paper.seebug.org/3514",
-   "source": "Seebug Paper",
-   "category": "网络安全",
-   "priority": "P2",
-   "published_at": "Fri, 28 Aug 2026 18:01:45 +0800",
-   "published_date": "2026-08-28",
-   "description": "作者：Chuan Sheng, Shan Jiang, Xiaogang Zhu, Wanlun Ma, Jianming Zhao, Yu Yao, Sheng Wen, Yang Xiang 原文链接：https://arxiv.org/pdf/2608.16403v1 摘要 过程变量（PV）为工业信息物理系统（CPS）中面向过程的安全监控提供了过程证据。然而，现有的监控基础设施仅暴露了由历史..."
+   "published_at": "Sat, 29 Aug 2026 03:00:52 +0800",
+   "published_date": "2026-08-29",
+   "description": "柏林遭黑客窃取5.79TB数据，市长称“柏林州正在遭受勒索”拒付赎金；曼彻斯特机场也确认客户数据泄露。"
   },
   {
    "id": "SECAFFAIRS-13c2fab9",
@@ -1301,37 +1224,136 @@
    "description": "特朗普以网络、破坏及供应链风险威胁美国国家安全为由，针对外国制造的电网设备采取行动。8月26日签署的第14420号行政令，针对可能使电网面临破坏、未经授权访问、恶意远程活动或供应链中断风险的设备和技术。时机至关重要。白宫指出，[……]的快速扩张"
   },
   {
-   "id": "FREEBUF-9901eac7",
-   "title": "ZhiShi Harness是怎么来的：从一段提示词到一台harness",
-   "url": "https://www.freebuf.com/articles/sectool/497759.html",
+   "id": "FREEBUF-aeaddbb4",
+   "title": "700个AI Agent突破隔离后秘密协调攻击Hugging Face",
+   "url": "https://www.freebuf.com/articles/ai-security/497858.html",
    "source": "FreeBuf",
    "category": "网络安全",
    "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 17:59:20 +0800",
-   "published_date": "2026-08-28",
-   "description": "ZhiShi，安全研究领域的agent harness"
+   "published_at": "Sat, 29 Aug 2026 01:57:59 +0800",
+   "published_date": "2026-08-29",
+   "description": "700个AI Agent突破隔离秘密协调，利用包仓库作留言板，对Hugging Face发动攻击并实现远程代码执行。"
   },
   {
-   "id": "FREEBUF-c7bde2f2",
-   "title": "CVE-2026-8452：一串空格分隔的命名空间，把 NetScaler 打回三年前",
-   "url": "https://www.freebuf.com/articles/vuls/497757.html",
+   "id": "FREEBUF-11bac9ed",
+   "title": "攻击者可通过蓝牙完全控制 Unitree G1 人形机器人",
+   "url": "https://www.freebuf.com/articles/endpoint/497860.html",
    "source": "FreeBuf",
    "category": "网络安全",
    "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 17:42:00 +0800",
-   "published_date": "2026-08-28",
-   "description": "这些二十年前就该死透的属性凑在一起，撑起了NetScaler三年来第一个公开的预认证RCE。"
+   "published_at": "Sat, 29 Aug 2026 01:52:56 +0800",
+   "published_date": "2026-08-29",
+   "description": "标签：无线安全、终端安全"
   },
   {
-   "id": "FREEBUF-8434ac1b",
-   "title": "宇树G1 EDU人形机器人漏洞可致root级远程代码执行，漏洞经由蓝牙触发",
-   "url": "https://www.freebuf.com/articles/system/497800.html",
-   "source": "FreeBuf",
+   "id": "THN-bb72af58",
+   "title": "攻击者利用两个PaperCut漏洞，无需认证即可执行代码",
+   "url": "https://thehackernews.com/2026/08/attackers-chain-two-papercut-flaws-to.html",
+   "source": "The Hacker News",
    "category": "网络安全",
    "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 17:37:24 +0800",
+   "published_at": "Fri, 28 Aug 2026 22:42:15 +0530",
    "published_date": "2026-08-28",
-   "description": "Unitree G1 EDU被曝存在两个root级RCE漏洞：chat_go与蓝牙路径可被攻破，云授权缺陷已修复。"
+   "description": "恶意行为者正在利用PaperCut NG和MF中一个刚刚修补的安全漏洞，在易受攻击的实例上执行任意代码，与此同时该公司发布了一项新的紧急修复程序并加强了防护。"
+  },
+  {
+   "id": "THN-df619b2f",
+   "title": "Android 17新增系统级ECH，向网络提供商隐藏网站访问记录",
+   "url": "https://thehackernews.com/2026/08/android-17-adds-os-wide-ech-to-hide.html",
+   "source": "The Hacker News",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 21:50:46 +0530",
+   "published_date": "2026-08-28",
+   "description": "谷歌周四宣布在Android 17中新增网络安全保护措施，以增强连接隐私、解决蜂窝网络漏洞，并保护用户家庭网络的隐私安全。"
+  },
+  {
+   "id": "SENTINELONE-e487d26b",
+   "title": "网络安全中的好、坏与丑——第35周",
+   "url": "https://www.sentinelone.com/blog/the-good-the-bad-and-the-ugly-in-cybersecurity-week-35-8/",
+   "source": "SentinelOne Blog",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 16:01:30 +0000",
+   "published_date": "2026-08-28",
+   "description": "当局捣毁全球网络犯罪团伙，攻击者利用DocuSign进行NovaCookies钓鱼攻击，Spark RAT利用易受攻击的驱动程序瞄准柬埔寨。"
+  },
+  {
+   "id": "SECWIKI-a9149e85",
+   "title": "SecWiki新闻 2026-08-28 回顾",
+   "url": "http://www.sec-wiki.com/?2026-08-28",
+   "source": "SecWiki",
+   "category": "网络安全",
+   "priority": "P2",
+   "published_at": "\nFri, 28 Aug 2026 23:58:20 +0800",
+   "published_date": "2026-08-28",
+   "description": "CodeBuddy Security的漏洞发现思路与实践 作者：ourrenAI Agent时代的SDLC：安全工程如何落地 作者：ourren更多最新文章，请访问SecWiki"
+  },
+  {
+   "id": "THN-46de9a99",
+   "title": "ownCloud漏洞被利用窃取菲律宾研究机构核记录",
+   "url": "https://thehackernews.com/2026/08/snowflake-github-actions-flaw-lets.html",
+   "source": "The Hacker News",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 21:26:55 +0530",
+   "published_date": "2026-08-28",
+   "description": "美国网络安全和基础设施安全局（CISA）周四将影响ownCloud的一个严重安全漏洞添加到其已知被利用漏洞（KEV）目录中，此前有报告称，一个讲中文的威胁行为者利用该漏洞攻击了菲律宾的一个核研究机构。该漏洞编号为CVE-2023-49105（CVSS评分：9.8），属于一种……"
+  },
+  {
+   "id": "SECURITYWEEK-48c23a47",
+   "title": "其他新闻：Log4j远程代码执行恐慌、Minimus关闭、伊朗黑客遭制裁",
+   "url": "https://www.securityweek.com/in-other-news-log4j-rce-scare-minimus-shutdown-iranian-hacker-sanctions/",
+   "source": "SecurityWeek",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 15:35:34 +0000",
+   "published_date": "2026-08-28",
+   "description": "可能被忽视的值得关注的故事：曼彻斯特机场集团网络攻击，Carhartt泄露数据部分为伪造，美国银行回应勒索软件团伙的声明。"
+  },
+  {
+   "id": "THN-c6079986",
+   "title": "发现19个Chrome和Edge扩展程序，内含窃取钱包和盗取加密货币的代码",
+   "url": "https://thehackernews.com/2026/08/19-chrome-and-edge-extensions-found.html",
+   "source": "The Hacker News",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 20:57:26 +0530",
+   "published_date": "2026-08-28",
+   "description": "网络安全研究人员发现了一个包含18个Google Chrome扩展程序和1个Microsoft Edge扩展程序的集群，这些扩展程序在过去六个月内发布，并具备窃取钱包密钥和盗取加密货币的功能。"
+  },
+  {
+   "id": "SECURITYWEEK-06b67e17",
+   "title": "ATF确认在勒索软件组织声称发动攻击后发生网络事件",
+   "url": "https://www.securityweek.com/atf-confirms-cyber-incident-after-ransomware-group-claims-attack/",
+   "source": "SecurityWeek",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 13:59:14 +0000",
+   "published_date": "2026-08-28",
+   "description": "美国烟酒枪炮及爆炸物管理局已将其描述为“重大事件”，并正在与司法部联合展开调查。"
+  },
+  {
+   "id": "SECAFFAIRS-ab44146b",
+   "title": "美国CISA将ownCloud、Linux内核和JFrog Artifactory漏洞添加到其已知被利用漏洞目录中",
+   "url": "https://securityaffairs.com/198014/hacking/u-s-cisa-adds-owncloud-linux-kernel-and-jfrog-artifactory-flaws-to-its-known-exploited-vulnerabilities-catalog.html",
+   "source": "Security Affairs",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 13:54:50 +0000",
+   "published_date": "2026-08-28",
+   "description": "美国网络安全与基础设施安全局（CISA）将ownCloud、Linux内核和JFrog Artifactory的漏洞添加到其已知被利用漏洞目录中。美国网络安全与基础设施安全局（CISA）将以下漏洞添加到其已知被利用漏洞（KEV）目录：CVE-2023-49105（CVSS评分为9.8）是ownCloud服务器WebDAV功能中的一个身份验证不当漏洞。未认证的攻击者若[……]"
+  },
+  {
+   "id": "SECURITYWEEK-c0b06a39",
+   "title": "OpenAI代理利用Linux内核漏洞攻击公司自有系统",
+   "url": "https://www.securityweek.com/openai-agents-exploited-linux-kernel-flaw-on-companys-own-systems/",
+   "source": "SecurityWeek",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 12:36:53 +0000",
+   "published_date": "2026-08-28",
+   "description": "CISA已将遭利用的漏洞CVE-2026-53362添加到其KEV目录中，同时列入的还有被OpenAI智能体利用的一个JFrog漏洞。"
   },
   {
    "id": "THN-5a4de1a5",
@@ -1356,160 +1378,6 @@
    "description": "身份织物将分散的身份系统编织成一个连贯的层，用于观察身份在应用程序、API和基础设施中的行为方式。随着企业访问范围扩展到更多云服务和自动化工作负载，身份安全越来越依赖于运行时可见性，而非静态配置。本文涵盖架构、未管理身份的风险，以及"
   },
   {
-   "id": "THN-f933e612",
-   "title": "三个CVSS 10.0 ServiceNow漏洞可能让未认证攻击者执行代码和SQL",
-   "url": "https://thehackernews.com/2026/08/three-cvss-100-servicenow-flaws-could.html",
-   "source": "The Hacker News",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 16:50:32 +0530",
-   "published_date": "2026-08-28",
-   "description": "ServiceNow已发布补丁，修复影响ServiceNow AI平台的四个安全漏洞，其中三个在CVSS评分系统中被评为10.0分，且在某些情况下可被未认证攻击者利用。该公司表示，已向托管实例部署安全更新，并向合作伙伴和自托管客户提供该更新，这使自行运行该平台的组织面临风险。"
-  },
-  {
-   "id": "THN-98154380",
-   "title": "中国制造的ZBT路由器出厂自带两个植入后门，未认证攻击者可获取根权限。",
-   "url": "https://thehackernews.com/2026/08/china-made-zbt-routers-ship-with-two.html",
-   "source": "The Hacker News",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 16:28:29 +0530",
-   "published_date": "2026-08-28",
-   "description": "VulnCheck披露了深圳智博通电子（ZBT）所产路由器固件中两个此前未被记录的出厂植入后门，每个后门都使未认证的远程攻击者能够在受影响设备上以root权限运行命令。"
-  },
-  {
-   "id": "SENTINELONE-e487d26b",
-   "title": "网络安全中的好、坏与丑——第35周",
-   "url": "https://www.sentinelone.com/blog/the-good-the-bad-and-the-ugly-in-cybersecurity-week-35-8/",
-   "source": "SentinelOne Blog",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 16:01:30 +0000",
-   "published_date": "2026-08-28",
-   "description": "当局捣毁全球网络犯罪团伙，攻击者利用DocuSign进行NovaCookies钓鱼攻击，Spark RAT利用易受攻击的驱动程序瞄准柬埔寨。"
-  },
-  {
-   "id": "SECURITYWEEK-48c23a47",
-   "title": "其他新闻：Log4j远程代码执行恐慌、Minimus关闭、伊朗黑客遭制裁",
-   "url": "https://www.securityweek.com/in-other-news-log4j-rce-scare-minimus-shutdown-iranian-hacker-sanctions/",
-   "source": "SecurityWeek",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 15:35:34 +0000",
-   "published_date": "2026-08-28",
-   "description": "可能被忽视的值得关注的故事：曼彻斯特机场集团网络攻击，Carhartt泄露数据部分为伪造，美国银行回应勒索软件团伙的声明。"
-  },
-  {
-   "id": "FREEBUF-7e631260",
-   "title": "网安行业大洗牌：不会用AI防守的先死",
-   "url": "https://www.freebuf.com/articles/497726.html",
-   "source": "FreeBuf",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 15:34:07 +0800",
-   "published_date": "2026-08-28",
-   "description": "这份报告里的每一个判断，都源于我们对国内外上百份一手资料的调研——从前沿实验室的技术文档、各国监管机构的指南原文，到一个个真实事件的完整复盘。"
-  },
-  {
-   "id": "THN-94596b08",
-   "title": "关键的cPanel漏洞可能让一个托管客户获得整个服务器的根控制权",
-   "url": "https://thehackernews.com/2026/08/critical-cpanel-flaw-could-let-one.html",
-   "source": "The Hacker News",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 15:15:15 +0530",
-   "published_date": "2026-08-28",
-   "description": "cPanel已发布针对影响cPanel和WebHost Manager（WHM）中域名停放和附加域名功能的安全漏洞的补丁，该漏洞可能允许以root用户身份执行代码。"
-  },
-  {
-   "id": "FREEBUF-a86ba1c3",
-   "title": "IDA Pro进阶之MCP学习",
-   "url": "https://www.freebuf.com/articles/sectool/497719.html",
-   "source": "FreeBuf",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 14:22:00 +0800",
-   "published_date": "2026-08-28",
-   "description": "实验环境：Window 10 IDA Pro 9.3.260213 Python 3.11 Git-2.55.0.3 Trae 3.3.78一、MCP是什么（Model Context Protoco"
-  },
-  {
-   "id": "SECURITYWEEK-06b67e17",
-   "title": "ATF确认在勒索软件组织声称发动攻击后发生网络事件",
-   "url": "https://www.securityweek.com/atf-confirms-cyber-incident-after-ransomware-group-claims-attack/",
-   "source": "SecurityWeek",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 13:59:14 +0000",
-   "published_date": "2026-08-28",
-   "description": "美国烟酒枪炮及爆炸物管理局已将其描述为“重大事件”，并正在与司法部联合展开调查。"
-  },
-  {
-   "id": "THN-3bed22b0",
-   "title": "PaperCut零日漏洞遭攻击利用，影响所有NG和MF版本",
-   "url": "https://thehackernews.com/2026/08/papercut-zero-day-exploited-in-attacks.html",
-   "source": "The Hacker News",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 13:55:36 +0530",
-   "published_date": "2026-08-28",
-   "description": "PaperCut已提醒客户，恶意行为者正在积极利用影响其PaperCut NG和PaperCut MF打印管理软件所有版本的一个漏洞，进行零日攻击。"
-  },
-  {
-   "id": "SECAFFAIRS-ab44146b",
-   "title": "美国CISA将ownCloud、Linux内核和JFrog Artifactory漏洞添加到其已知被利用漏洞目录中",
-   "url": "https://securityaffairs.com/198014/hacking/u-s-cisa-adds-owncloud-linux-kernel-and-jfrog-artifactory-flaws-to-its-known-exploited-vulnerabilities-catalog.html",
-   "source": "Security Affairs",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 13:54:50 +0000",
-   "published_date": "2026-08-28",
-   "description": "美国网络安全与基础设施安全局（CISA）将ownCloud、Linux内核和JFrog Artifactory的漏洞添加到其已知被利用漏洞目录中。美国网络安全与基础设施安全局（CISA）将以下漏洞添加到其已知被利用漏洞（KEV）目录：CVE-2023-49105（CVSS评分为9.8）是ownCloud服务器WebDAV功能中的一个身份验证不当漏洞。未认证的攻击者若[……]"
-  },
-  {
-   "id": "THN-746fb37a",
-   "title": "与APT28关联的HOOKEDGE后门瞄准欧洲政府和外交组织",
-   "url": "https://thehackernews.com/2026/08/apt28-linked-hookedge-backdoor-targets.html",
-   "source": "The Hacker News",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 13:50:59 +0530",
-   "published_date": "2026-08-28",
-   "description": "网络安全研究人员发现了一系列新的攻击活动，这些活动在2025年9月底至2026年4月初期间，针对罗马尼亚、西班牙和土耳其的政府及外交机构。"
-  },
-  {
-   "id": "SECURITYWEEK-c0b06a39",
-   "title": "OpenAI代理利用Linux内核漏洞攻击公司自有系统",
-   "url": "https://www.securityweek.com/openai-agents-exploited-linux-kernel-flaw-on-companys-own-systems/",
-   "source": "SecurityWeek",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 12:36:53 +0000",
-   "published_date": "2026-08-28",
-   "description": "CISA已将遭利用的漏洞CVE-2026-53362添加到其KEV目录中，同时列入的还有被OpenAI智能体利用的一个JFrog漏洞。"
-  },
-  {
-   "id": "FREEBUF-921bc9a4",
-   "title": "内部威胁防护：人员异动场景下，离职风险分析的落地与避坑实践",
-   "url": "https://www.freebuf.com/articles/database/497688.html",
-   "source": "FreeBuf",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 11:50:16 +0800",
-   "published_date": "2026-08-28",
-   "description": "安全人员要理性看待这类能力：它提供的是可供研判的行为线索，最终风险判断，依旧离不开人的业务经验介入。"
-  },
-  {
-   "id": "FREEBUF-25238e0a",
-   "title": "数字资产安全管控：从资产测绘到风险收敛的落地实践",
-   "url": "https://www.freebuf.com/articles/es/497684.html",
-   "source": "FreeBuf",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 11:39:12 +0800",
-   "published_date": "2026-08-28",
-   "description": "数字资产安全管控的终点，不是一套平台的上线，而是让“每一个数字资产都有人负责、每一份风险都走到闭环”成为组织的默认行为。这条路没有终点，但每一步收敛都是实实在在的收益。"
-  },
-  {
    "id": "SECAFFAIRS-76f73d38",
    "title": "俄罗斯APT组织BlueDelta利用HOOKEDGE攻击国防与外交机构",
    "url": "https://securityaffairs.com/197996/apt/russian-apt-bluedelta-uses-hookedge-to-target-defense-and-diplomatic-organizations.html",
@@ -1519,6 +1387,17 @@
    "published_at": "Fri, 28 Aug 2026 11:26:50 +0000",
    "published_date": "2026-08-28",
    "description": "BlueDelta（APT28）使用webhook.site和Microsoft Edge来隐藏针对欧洲政府目标的HOOKEDGE间谍流量。Recorded Future的Insikt Group记录了一项由BlueDelta发起的行动，该组织与俄罗斯GRU有关联，且与APT28组织重叠，其利用webhook.site（一个为开发者测试HTTP请求而构建的服务）对欧洲政府目标实施了一整套间谍行动，[……]"
+  },
+  {
+   "id": "THN-f933e612",
+   "title": "三个CVSS 10.0 ServiceNow漏洞可能让未认证攻击者执行代码和SQL",
+   "url": "https://thehackernews.com/2026/08/three-cvss-100-servicenow-flaws-could.html",
+   "source": "The Hacker News",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 16:50:32 +0530",
+   "published_date": "2026-08-28",
+   "description": "ServiceNow已发布补丁，修复影响ServiceNow AI平台的四个安全漏洞，其中三个在CVSS评分系统中被评为10.0分，且在某些情况下可被未认证攻击者利用。该公司表示，已向托管实例部署安全更新，并向合作伙伴和自托管客户提供该更新，这使自行运行该平台的组织面临风险。"
   },
   {
    "id": "SCHNEIER-1d78f261",
@@ -1543,15 +1422,26 @@
    "description": "近130家科技和网络安全公司联合呼吁加强网络防御，因为人工智能驱动的攻击手段日益复杂。"
   },
   {
-   "id": "FREEBUF-108668ed",
-   "title": "用AI重构攻击链：2026红队智能化作战方法论与实战度量",
-   "url": "https://www.freebuf.com/articles/ai-security/497671.html",
+   "id": "THN-98154380",
+   "title": "中国制造的ZBT路由器出厂自带两个植入后门，未认证攻击者可获取根权限。",
+   "url": "https://thehackernews.com/2026/08/china-made-zbt-routers-ship-with-two.html",
+   "source": "The Hacker News",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 16:28:29 +0530",
+   "published_date": "2026-08-28",
+   "description": "VulnCheck披露了深圳智博通电子（ZBT）所产路由器固件中两个此前未被记录的出厂植入后门，每个后门都使未认证的远程攻击者能够在受影响设备上以root权限运行命令。"
+  },
+  {
+   "id": "FREEBUF-60b99e79",
+   "title": "Frida 替换 WebView JS 实现 Android 明文抓包",
+   "url": "https://www.freebuf.com/articles/497893.html",
    "source": "FreeBuf",
    "category": "网络安全",
    "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 10:39:52 +0800",
+   "published_at": "Fri, 28 Aug 2026 18:40:33 +0800",
    "published_date": "2026-08-28",
-   "description": "本文从红队视角梳理如何以大模型/Agent重构侦察→利用→社工→C2杀伤链，结合2026在野数据与MITRE ATLAS映射，给出方法学骨架与蓝队检测要点。"
+   "description": "AI没分析出？H5套壳APP国密动态加密，前端JS随机生成SM4密钥，Frida替换+mitm解密拿下。"
   },
   {
    "id": "SECURITYWEEK-d3e30b76",
@@ -1563,6 +1453,50 @@
    "published_at": "Fri, 28 Aug 2026 10:30:00 +0000",
    "published_date": "2026-08-28",
    "description": "新研究显示，原产国标签可能掩盖人工智能模型的上游依赖、继承行为及潜在安全风险。"
+  },
+  {
+   "id": "FREEBUF-a2c14b93",
+   "title": "NVIDIA收购Hugging Face，估值或超130亿美元；“豺狼行动IV”逮捕58人| FreeBuf周报",
+   "url": "https://www.freebuf.com/articles/497765.html",
+   "source": "FreeBuf",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 18:22:41 +0800",
+   "published_date": "2026-08-28",
+   "description": "各位Buffer周末好，以下是本周「FreeBuf周报」，我们总结推荐了本周的热点资讯、一周好文，保证大家不错过本周的每一个重点！"
+  },
+  {
+   "id": "SEEKBUG-5dce40da",
+   "title": "通过基于搜索的优化从工业网络流量中恢复过程变量",
+   "url": "https://paper.seebug.org/3514",
+   "source": "Seebug Paper",
+   "category": "网络安全",
+   "priority": "P2",
+   "published_at": "Fri, 28 Aug 2026 18:01:45 +0800",
+   "published_date": "2026-08-28",
+   "description": "作者：Chuan Sheng, Shan Jiang, Xiaogang Zhu, Wanlun Ma, Jianming Zhao, Yu Yao, Sheng Wen, Yang Xiang 原文链接：https://arxiv.org/pdf/2608.16403v1 摘要 过程变量（PV）为工业信息物理系统（CPS）中面向过程的安全监控提供了过程证据。然而，现有的监控基础设施仅暴露了由历史..."
+  },
+  {
+   "id": "FREEBUF-9901eac7",
+   "title": "ZhiShi Harness是怎么来的：从一段提示词到一台harness",
+   "url": "https://www.freebuf.com/articles/sectool/497759.html",
+   "source": "FreeBuf",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 17:59:20 +0800",
+   "published_date": "2026-08-28",
+   "description": "ZhiShi，安全研究领域的agent harness"
+  },
+  {
+   "id": "THN-94596b08",
+   "title": "关键的cPanel漏洞可能让一个托管客户获得整个服务器的根控制权",
+   "url": "https://thehackernews.com/2026/08/critical-cpanel-flaw-could-let-one.html",
+   "source": "The Hacker News",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 15:15:15 +0530",
+   "published_date": "2026-08-28",
+   "description": "cPanel已发布针对影响cPanel和WebHost Manager（WHM）中域名停放和附加域名功能的安全漏洞的补丁，该漏洞可能允许以root用户身份执行代码。"
   },
   {
    "id": "SECAFFAIRS-40792154",
@@ -1587,6 +1521,28 @@
    "description": "PaperCut警告称，其NG和MF产品中的一个零日漏洞正在被利用。该公司已发布紧急补丁来解决该问题。PaperCut Software警告称，攻击者正在积极利用其NG和MF打印管理产品中的一个零日漏洞。该漏洞尚无CVE编号，公司也未发布技术细节。PaperCut发布了[……]"
   },
   {
+   "id": "FREEBUF-c7bde2f2",
+   "title": "CVE-2026-8452：一串空格分隔的命名空间，把 NetScaler 打回三年前",
+   "url": "https://www.freebuf.com/articles/vuls/497757.html",
+   "source": "FreeBuf",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 17:42:00 +0800",
+   "published_date": "2026-08-28",
+   "description": "这些二十年前就该死透的属性凑在一起，撑起了NetScaler三年来第一个公开的预认证RCE。"
+  },
+  {
+   "id": "FREEBUF-8434ac1b",
+   "title": "宇树G1 EDU人形机器人漏洞可致root级远程代码执行，漏洞经由蓝牙触发",
+   "url": "https://www.freebuf.com/articles/system/497800.html",
+   "source": "FreeBuf",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 17:37:24 +0800",
+   "published_date": "2026-08-28",
+   "description": "Unitree G1 EDU被曝存在两个root级RCE漏洞：chat_go与蓝牙路径可被攻破，云授权缺陷已修复。"
+  },
+  {
    "id": "SECAFFAIRS-0772625a",
    "title": "美国CISA将Red Hat、Linux内核、Ajax.NET Professional、Microsoft SQL Server和Citrix NetScaler的漏洞添加到其已知被利用漏洞目录中。",
    "url": "https://securityaffairs.com/197975/hacking/u-s-cisa-adds-red-hat-linux-kernel-ajax-net-professional-microsoft-sql-server-and-citrix-netscaler-flaws-to-its-known-exploited-vulnerabilities-catalog.html",
@@ -1609,15 +1565,26 @@
    "description": "CVE标识符尚未分配，但PaperCut敦促NG/MF用户安装补丁并实施缓解措施。"
   },
   {
-   "id": "FREEBUF-3b6b52d6",
-   "title": "一个头像卖了整个黑客组织：Ruben Thomson溯源实录",
-   "url": "https://www.freebuf.com/news/497812.html",
-   "source": "FreeBuf",
+   "id": "THN-3bed22b0",
+   "title": "PaperCut零日漏洞遭攻击利用，影响所有NG和MF版本",
+   "url": "https://thehackernews.com/2026/08/papercut-zero-day-exploited-in-attacks.html",
+   "source": "The Hacker News",
    "category": "网络安全",
    "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 08:32:10 +0800",
+   "published_at": "Fri, 28 Aug 2026 13:55:36 +0530",
    "published_date": "2026-08-28",
-   "description": "你以为换个马甲、改个ID就能逍遥法外？一张独特猫头像成突破口，安全研究员跨平台溯源，最终让攻击者落网。"
+   "description": "PaperCut已提醒客户，恶意行为者正在积极利用影响其PaperCut NG和PaperCut MF打印管理软件所有版本的一个漏洞，进行零日攻击。"
+  },
+  {
+   "id": "THN-746fb37a",
+   "title": "与APT28关联的HOOKEDGE后门瞄准欧洲政府和外交组织",
+   "url": "https://thehackernews.com/2026/08/apt28-linked-hookedge-backdoor-targets.html",
+   "source": "The Hacker News",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 13:50:59 +0530",
+   "published_date": "2026-08-28",
+   "description": "网络安全研究人员发现了一系列新的攻击活动，这些活动在2025年9月底至2026年4月初期间，针对罗马尼亚、西班牙和土耳其的政府及外交机构。"
   },
   {
    "id": "SECAFFAIRS-babd38ad",
@@ -1631,48 +1598,26 @@
    "description": "对曼彻斯特机场集团的网络攻击暴露了曼彻斯特、斯坦斯特德和东米德兰兹机场870万客户的数据。曼彻斯特机场集团披露，一个未经授权的第三方获取了英格兰三个最繁忙机场——曼彻斯特、伦敦斯坦斯特德和东米德兰兹——约870万人的客户数据。“曼彻斯特、伦敦斯坦斯特德和东米德兰兹[……]"
   },
   {
-   "id": "FREEBUF-512b9a67",
-   "title": "Claude Code Opus 5 自动模式遭提示注入劫持，被用于执行恶意代码",
-   "url": "https://www.freebuf.com/articles/ai-security/497784.html",
+   "id": "FREEBUF-7e631260",
+   "title": "网安行业大洗牌：不会用AI防守的先死",
+   "url": "https://www.freebuf.com/articles/497726.html",
    "source": "FreeBuf",
    "category": "网络安全",
    "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 07:07:29 +0800",
+   "published_at": "Fri, 28 Aug 2026 15:34:07 +0800",
    "published_date": "2026-08-28",
-   "description": "标签：Web安全、网络安全"
+   "description": "这份报告里的每一个判断，都源于我们对国内外上百份一手资料的调研——从前沿实验室的技术文档、各国监管机构的指南原文，到一个个真实事件的完整复盘。"
   },
   {
-   "id": "FREEBUF-64d11d20",
-   "title": "100余家科技与安全组织呼吁全球加强网络防御，应对AI攻击浪潮",
-   "url": "https://www.freebuf.com/articles/ai-security/497796.html",
+   "id": "FREEBUF-a86ba1c3",
+   "title": "IDA Pro进阶之MCP学习",
+   "url": "https://www.freebuf.com/articles/sectool/497719.html",
    "source": "FreeBuf",
    "category": "网络安全",
    "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 04:04:12 +0800",
+   "published_at": "Fri, 28 Aug 2026 14:22:00 +0800",
    "published_date": "2026-08-28",
-   "description": "100多家科技、网络安全和金融服务组织联合OpenAI发布公开信，呼吁在人工智能模型攻击与防护数字系统的能力日益增强的背景下，推动全球网络防御力量的大幅提升。"
-  },
-  {
-   "id": "FREEBUF-58415451",
-   "title": "VulnCheck接管ZBT路由器后门",
-   "url": "https://www.freebuf.com/news/497692.html",
-   "source": "FreeBuf",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 03:16:51 +0800",
-   "published_date": "2026-08-28",
-   "description": "ZBT路由器固件后门曝光：一个数据包即可远程获取root权限，设备大量部署，应视为已遭入侵。"
-  },
-  {
-   "id": "FREEBUF-65bcf160",
-   "title": "OpenAI称奖励黑客行为驱使AI代理利用0Day漏洞并入侵Hugging Face",
-   "url": "https://www.freebuf.com/articles/ai-security/497652.html",
-   "source": "FreeBuf",
-   "category": "网络安全",
-   "priority": "P1",
-   "published_at": "Fri, 28 Aug 2026 00:06:19 +0800",
-   "published_date": "2026-08-28",
-   "description": "OpenAI披露奖励黑客行为驱使AI代理利用0Day漏洞入侵Hugging Face并攻陷内部基础设施，堪称失控“警示枪”。"
+   "description": "实验环境：Window 10 IDA Pro 9.3.260213 Python 3.11 Git-2.55.0.3 Trae 3.3.78一、MCP是什么（Model Context Protoco"
   },
   {
    "id": "ARXIV-CR-d44114a6",
@@ -2379,48 +2324,103 @@
    "description": "arXiv:2608.26204v1 公告类型：新"
   },
   {
-   "id": "SECWIKI-594b4848",
-   "title": "SecWiki新闻 2026-08-30 回顾",
-   "url": "http://www.sec-wiki.com/?2026-08-30",
-   "source": "SecWiki",
+   "id": "FREEBUF-921bc9a4",
+   "title": "内部威胁防护：人员异动场景下，离职风险分析的落地与避坑实践",
+   "url": "https://www.freebuf.com/articles/database/497688.html",
+   "source": "FreeBuf",
    "category": "网络安全",
-   "priority": "P2",
-   "published_at": "\nSun, 30 Aug 2026 23:58:20 +0800",
-   "published_date": "2026-08-30",
-   "description": "今日暂未更新资讯~更多最新文章，请访问SecWiki"
-  },
-  {
-   "id": "SECWIKI-11405434",
-   "title": "SecWiki新闻 2026-08-29 回顾",
-   "url": "http://www.sec-wiki.com/?2026-08-29",
-   "source": "SecWiki",
-   "category": "网络安全",
-   "priority": "P2",
-   "published_at": "\nSat, 29 Aug 2026 23:58:20 +0800",
-   "published_date": "2026-08-29",
-   "description": "今日暂未更新资讯~更多最新文章，请访问SecWiki"
-  },
-  {
-   "id": "SECWIKI-24630379",
-   "title": "SecWiki News 2026-08-31 Review",
-   "url": "http://www.sec-wiki.com/?2026-08-31",
-   "source": "SecWiki",
-   "category": "网络安全",
-   "priority": "P2",
-   "published_at": "\nMon, 31 Aug 2026 23:58:20 +0800",
-   "published_date": "2026-08-31",
-   "description": "\n今日暂未更新资讯~<br>更多最新文章，请访问<a href=http://www.sec-wiki.com/>SecWiki</a>\n"
-  },
-  {
-   "id": "SECWIKI-a9149e85",
-   "title": "SecWiki新闻 2026-08-28 回顾",
-   "url": "http://www.sec-wiki.com/?2026-08-28",
-   "source": "SecWiki",
-   "category": "网络安全",
-   "priority": "P2",
-   "published_at": "\nFri, 28 Aug 2026 23:58:20 +0800",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 11:50:16 +0800",
    "published_date": "2026-08-28",
-   "description": "CodeBuddy Security的漏洞发现思路与实践 作者：ourrenAI Agent时代的SDLC：安全工程如何落地 作者：ourren更多最新文章，请访问SecWiki"
+   "description": "安全人员要理性看待这类能力：它提供的是可供研判的行为线索，最终风险判断，依旧离不开人的业务经验介入。"
+  },
+  {
+   "id": "FREEBUF-25238e0a",
+   "title": "数字资产安全管控：从资产测绘到风险收敛的落地实践",
+   "url": "https://www.freebuf.com/articles/es/497684.html",
+   "source": "FreeBuf",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 11:39:12 +0800",
+   "published_date": "2026-08-28",
+   "description": "数字资产安全管控的终点，不是一套平台的上线，而是让“每一个数字资产都有人负责、每一份风险都走到闭环”成为组织的默认行为。这条路没有终点，但每一步收敛都是实实在在的收益。"
+  },
+  {
+   "id": "FREEBUF-108668ed",
+   "title": "用AI重构攻击链：2026红队智能化作战方法论与实战度量",
+   "url": "https://www.freebuf.com/articles/ai-security/497671.html",
+   "source": "FreeBuf",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 10:39:52 +0800",
+   "published_date": "2026-08-28",
+   "description": "本文从红队视角梳理如何以大模型/Agent重构侦察→利用→社工→C2杀伤链，结合2026在野数据与MITRE ATLAS映射，给出方法学骨架与蓝队检测要点。"
+  },
+  {
+   "id": "FREEBUF-3b6b52d6",
+   "title": "一个头像卖了整个黑客组织：Ruben Thomson溯源实录",
+   "url": "https://www.freebuf.com/news/497812.html",
+   "source": "FreeBuf",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 08:32:10 +0800",
+   "published_date": "2026-08-28",
+   "description": "你以为换个马甲、改个ID就能逍遥法外？一张独特猫头像成突破口，安全研究员跨平台溯源，最终让攻击者落网。"
+  },
+  {
+   "id": "FREEBUF-512b9a67",
+   "title": "Claude Code Opus 5 自动模式遭提示注入劫持，被用于执行恶意代码",
+   "url": "https://www.freebuf.com/articles/ai-security/497784.html",
+   "source": "FreeBuf",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 07:07:29 +0800",
+   "published_date": "2026-08-28",
+   "description": "标签：Web安全、网络安全"
+  },
+  {
+   "id": "FREEBUF-64d11d20",
+   "title": "100余家科技与安全组织呼吁全球加强网络防御，应对AI攻击浪潮",
+   "url": "https://www.freebuf.com/articles/ai-security/497796.html",
+   "source": "FreeBuf",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 04:04:12 +0800",
+   "published_date": "2026-08-28",
+   "description": "100多家科技、网络安全和金融服务组织联合OpenAI发布公开信，呼吁在人工智能模型攻击与防护数字系统的能力日益增强的背景下，推动全球网络防御力量的大幅提升。"
+  },
+  {
+   "id": "FREEBUF-58415451",
+   "title": "VulnCheck接管ZBT路由器后门",
+   "url": "https://www.freebuf.com/news/497692.html",
+   "source": "FreeBuf",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 03:16:51 +0800",
+   "published_date": "2026-08-28",
+   "description": "ZBT路由器固件后门曝光：一个数据包即可远程获取root权限，设备大量部署，应视为已遭入侵。"
+  },
+  {
+   "id": "FREEBUF-65bcf160",
+   "title": "OpenAI称奖励黑客行为驱使AI代理利用0Day漏洞并入侵Hugging Face",
+   "url": "https://www.freebuf.com/articles/ai-security/497652.html",
+   "source": "FreeBuf",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Fri, 28 Aug 2026 00:06:19 +0800",
+   "published_date": "2026-08-28",
+   "description": "OpenAI披露奖励黑客行为驱使AI代理利用0Day漏洞入侵Hugging Face并攻陷内部基础设施，堪称失控“警示枪”。"
+  },
+  {
+   "id": "FREEBUF-5ac8c624",
+   "title": "顶级C2免杀技术介绍",
+   "url": "https://www.freebuf.com/articles/endpoint/497695.html",
+   "source": "FreeBuf",
+   "category": "网络安全",
+   "priority": "P1",
+   "published_at": "Thu, 27 Aug 2026 23:48:28 +0800",
+   "published_date": "2026-08-27",
+   "description": "顶级C2 Nighthawk 1.0发布，号称比Cobalt Strike更硬核，披露绕过CET的调用栈伪装等免杀技术。"
   }
  ]
 }

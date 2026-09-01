@@ -51,6 +51,13 @@ def parse_published(s):
     return None
 
 
+def sort_key(item):
+    """按真实时间戳倒序：published_at 混着 +0800 / +0000 时区，
+    直接字符串排序会把 27 号的条目排到 31 号前面，必须解析后统一换算。"""
+    ts = parse_published(item.get("published_at", ""))
+    return ts.timestamp() if ts else 0.0
+
+
 def main():
     push = "--no-push" not in sys.argv
     base = find_service()
@@ -89,7 +96,7 @@ def main():
         except Exception:
             pass
     merged.update(fresh)
-    items = sorted(merged.values(), key=lambda x: x["published_at"], reverse=True)[:KEEP_MAX]
+    items = sorted(merged.values(), key=sort_key, reverse=True)[:KEEP_MAX]
     data = {
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
         "source_count": len(wanted),

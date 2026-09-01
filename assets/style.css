@@ -544,6 +544,26 @@ body::after {
 }
 .news-list.preview { margin-bottom: 0; }
 
+/* 资讯级别徽标：P0 紧急（红）/ P1 重要（金）/ P2 常规（灰） */
+.badge.prio-p0 { color: #ff8a7a; border-color: rgba(255, 110, 90, .5); background: rgba(255, 110, 90, .09); }
+.badge.prio-p1 { color: var(--gold-bright); border-color: rgba(212, 175, 106, .45); background: rgba(212, 175, 106, .07); }
+.badge.prio-p2 { color: var(--paper-dim); border-color: rgba(154, 163, 173, .4); background: rgba(154, 163, 173, .06); }
+
+/* 资讯筛选：命中统计 + 分页省略号 */
+.filter-count {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .5px;
+  color: var(--paper-dim);
+  min-height: 16px;
+}
+.pager .dots {
+  align-self: center;
+  color: var(--paper-dim);
+  font-family: var(--mono);
+  padding: 0 2px;
+}
+
 /* ---------- 关于页联系方式 ---------- */
 .contact-grid {
   display: grid;
