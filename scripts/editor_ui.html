@@ -318,7 +318,7 @@ async function loadImages() {
     const d = await api('/api/images/' + state.slug);
     bar.innerHTML = '';
     if (!d.images.length) {
-      bar.innerHTML = '<span class="img-empty">暂无图片：点「＋上传」或把图片直接拖进左侧编辑区</span>';
+      bar.innerHTML = '<span class="img-empty">暂无图片：「＋上传」/ 拖入编辑区 / Ctrl+V 粘贴截图</span>';
       return;
     }
     for (const img of d.images) {
@@ -387,6 +387,53 @@ $('img-file').onchange = e => {
     if (files.length) uploadImages(files);
   });
 })();
+
+/* ---------- 粘贴图片（截图 / 网页复制图片，Ctrl+V） ---------- */
+function tiffToPng(file) {
+  /* Safari 截图粘贴给的是 TIFF：后端只收 png/jpg/gif/webp/svg，用 canvas 转一道 */
+  const url = URL.createObjectURL(file);
+  return new Promise((resolve, reject) => {
+    const im = new Image();
+    im.onload = async () => {
+      try {
+        const c = document.createElement('canvas');
+        c.width = im.naturalWidth; c.height = im.naturalHeight;
+        c.getContext('2d').drawImage(im, 0, 0);
+        resolve(await new Promise(r => c.toBlob(r, 'image/png')));
+      } catch (e) { reject(e); }
+    };
+    im.onerror = reject;
+    im.src = url;
+  }).finally(() => URL.revokeObjectURL(url));
+}
+
+document.addEventListener('paste', async e => {
+  const items = [...((e.clipboardData && e.clipboardData.items) || [])];
+  const imgs = items.filter(it => it.kind === 'file' && it.type.startsWith('image/'));
+  if (!imgs.length) return;   // 纯文本粘贴走默认行为
+  e.preventDefault();
+  const exts = { 'image/png': 'png', 'image/jpeg': 'jpg', 'image/gif': 'gif', 'image/webp': 'webp', 'image/svg+xml': 'svg' };
+  const t = new Date();
+  const stamp = [t.getHours(), t.getMinutes(), t.getSeconds()].map(v => String(v).padStart(2, '0')).join('');
+  const files = [];
+  for (let i = 0; i < imgs.length; i++) {
+    const it = imgs[i];
+    const f = it.getAsFile();
+    if (!f) continue;
+    const suffix = imgs.length > 1 ? '-' + (i + 1) : '';
+    if (it.type === 'image/tiff') {
+      try {
+        const png = await tiffToPng(f);
+        if (png) files.push(new File([png], `粘贴图-${stamp}${suffix}.png`, { type: 'image/png' }));
+      } catch (err) { toast('TIFF 图片自动转换失败，请先另存为 PNG 再上传', true); }
+      continue;
+    }
+    const ext = exts[it.type] || 'png';
+    const named = f.name && f.name !== 'image.png' && /\.(png|jpe?g|gif|webp|svg)$/i.test(f.name);
+    files.push(new File([f], named ? f.name : `粘贴图-${stamp}${suffix}.${ext}`, { type: it.type }));
+  }
+  if (files.length) uploadImages(files);
+});
 
 /* ---------- 保存 / 发布 ---------- */
 async function save() {
