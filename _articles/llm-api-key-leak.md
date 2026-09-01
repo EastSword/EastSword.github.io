@@ -5,7 +5,7 @@ subtitle: "口令不是关键，公网暴露才是。五家机构数据交叉验
 abstract: "LiteLLM 的 SQL 注入漏洞进 CISA KEV 后 36 小时内被在野利用，攻击者直奔存上游 Key 的三张表。这篇文章用 FOFA 测量、两个审计脚本和 47 条一手来源，把公网大模型系统的 Key 是怎么被拿的讲透：八条提取路径、四起国内暴露实证、三条产业链、九层防御。"
 date: 2026-08-31
 updated: 2026-09-01
-reading_time: 42
+reading_time: 43
 topic: llm-api-key-security
 category: "AI安全"
 tags: ["AI 安全", "云安全", "API Key", "检测工程"]
@@ -100,6 +100,18 @@ toc:
     title: "附录：参考来源"
     children: []
 ---
+
+2026年8月29日，Anthropic开始向一批Claude用户发送紧急通知，告诉他们账号已经被踢下线、绑定的信用卡已被移除。原因不是Anthropic被黑了，而是用户自己的电脑上跑着信息窃取木马。这些木马偷走了浏览器里已经认证过的Claude会话凭证，攻击者拿去直接消耗付费额度，密码和MFA一步都没碰。
+
+从8月起，陆续有用户在社交平台反映账号疑似被盗，额度莫名其妙地被消耗。一位用户称在不知情的情况下被额外扣除了约800欧元。有Reddit用户发帖描述了自己的经历：先是社交媒体账号被盗，随后发现系统被感染——木马来自一个破解版游戏下载。
+> Anthropic在通知中写得很直接："If your usage limits looked like they refilled and then drained while you weren't using Claude, this was likely the cause."
+翻译过来就是：如果你没用Claude但额度莫名其妙地满了又空了，大概率已经中招。
+
+可以看到，公网大模型的密钥窃取/密钥泄漏现象已经非常严重，因此我们通过一篇详细的研究文档，层层拆解，欢迎少侠们的耐心观看。
+
+---
+
+# 公网大模型密钥泄露：攻击面、提取手法与防御
 
 2026年5月8日，CISA把LiteLLM的CVE-2026-42208列入已知利用漏洞目录（KEV）。KEV 的收录门槛是在野利用的确凿证据，收录即要求美国全体联邦机构限期修复。
 ![描述](/assets/images/llm-api-key-leak/screenshot-20260831-194752.png)
