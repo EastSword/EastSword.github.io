@@ -109,7 +109,7 @@ toc:
 "If your usage limits looked like they refilled and then drained while you weren't using Claude, this was likely the cause."
 翻译过来就是：如果你明明没用Claude，额度却莫名其妙地满了又空了，大概率已经中招。
 
-可以看到，针对公网大模型服务的凭证窃取与泄露问题，已经严峻到不容忽视。因此，我们写下这篇研究文档，层层拆解这起事件的来龙去脉——欢迎少侠们耐心食用。
+可以看到，针对公网大模型服务的凭证窃取与泄露问题，已经严峻到不容忽视。因此，我们写下这篇研究文档，层层拆解这起事件的来龙去脉，欢迎少侠们耐心食用。
 
 ---
 
