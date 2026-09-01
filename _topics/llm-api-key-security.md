@@ -20,8 +20,8 @@ links:
     note: 研究与主稿已完成，待发布
   - platform: CSDN
     form: 技术完整版
-    url:
-    note: 跟随公众号节奏
+    url: https://blog.csdn.net/qq_37865996/article/details/164269970
+    note: 约2.3万字完整版已发布
   - platform: FreeBuf
     form: 技术投稿版
     url:
