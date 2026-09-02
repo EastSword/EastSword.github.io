@@ -5,7 +5,7 @@ title: 公网大模型的密钥泄露
 subtitle: 口令不是关键，公网暴露才是：API Key 的窃取路径、实测证据与防御方法论
 date: 2026-08-30
 updated: 2026-09-02
-status: publishing
+status: published
 keyword: APIKEY
 category: AI安全
 tags: [AI 安全, 云安全, 检测工程]
