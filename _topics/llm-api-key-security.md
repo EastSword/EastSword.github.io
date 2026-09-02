@@ -4,8 +4,8 @@ layout: topic
 title: 公网大模型的密钥泄露
 subtitle: 口令不是关键，公网暴露才是：API Key 的窃取路径、实测证据与防御方法论
 date: 2026-08-30
-updated: 2026-08-30
-status: drafting
+updated: 2026-09-02
+status: publishing
 keyword: APIKEY
 category: AI安全
 tags: [AI 安全, 云安全, 检测工程]
@@ -15,9 +15,17 @@ links:
     url: /articles/llm-api-key-leak/
     note: 在线阅读完整版
   - platform: 公众号
-    form: 系列三篇（上：攻击面与实测案例 / 中：七条提取路径 / 下：利用链与防御）
-    url:
-    note: 研究与主稿已完成，待发布
+    form: 系列上篇 · 攻击面与实测案例
+    url: https://mp.weixin.qq.com/s/DV9g5QUjB3CpnD_lYhzntw
+    note: 已发布
+  - platform: 公众号
+    form: 系列中篇 · 八条提取路径拆解
+    url: https://mp.weixin.qq.com/s/A0PvXPSWmH7IWxeWPOe8pQ
+    note: 已发布
+  - platform: 公众号
+    form: 系列下篇 · 利用链与防御
+    url: https://mp.weixin.qq.com/s/g7Um_qVaw-nlXb4QWxbaxQ
+    note: 已发布
   - platform: CSDN
     form: 技术完整版
     url: https://blog.csdn.net/qq_37865996/article/details/164269970
