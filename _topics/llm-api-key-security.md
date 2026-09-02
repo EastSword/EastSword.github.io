@@ -34,15 +34,6 @@ links:
     form: 技术投稿版
     url: https://www.freebuf.com/articles/ai-security/498322.html
     note: 约1.2万字技术投稿版已发布
-videos:
-  - platform: B站
-    form: 讲解视频（FOFA 攻击面实测 + 提取路径拆解）
-    url:
-    note: 待定
-  - platform: 视频号
-    form: B站切片
-    url:
-    note: 待定
 assets:
   - name: AI Key 攻击面 FOFA 实测数据（2026-08，双口径）
     desc: 13 个框架精确指纹与宽口径暴露量对照，含中国境内分布与口径说明
