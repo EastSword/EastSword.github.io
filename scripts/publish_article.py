@@ -192,6 +192,8 @@ def build_front_matter(cfg, toc, minutes, date, updated):
     fm.append(f"tags: [{tags}]")
     if cfg.get("keyword"):
         fm.append(f"keyword: {cfg['keyword']}")
+    if cfg.get("cover"):
+        fm.append(f"cover: {cfg['cover']}")
     fm.append("toc:")
     for ch in toc:
         fm.append(f"  - id: {ch['id']}")

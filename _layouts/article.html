@@ -24,6 +24,12 @@ layout: default
       </div>
     </div>
 
+    {% if page.cover %}
+    <figure class="article-cover">
+      <img src="{{ page.cover | relative_url }}" alt="{{ page.title | escape }} 封面">
+    </figure>
+    {% endif %}
+
     {% if page.abstract %}
     <div class="article-abstract">
       <span class="label">导语</span>

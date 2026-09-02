@@ -11,6 +11,7 @@ category: "AI安全"
 author: "千里"
 tags: ["AI 安全", "云安全", "API Key", "检测工程"]
 keyword: APIKEY
+cover: /assets/images/llm-api-key-leak/cover.jpg
 toc:
   - id: ch01
     title: "一、威胁模型：为什么API Key是新的高价值目标"
