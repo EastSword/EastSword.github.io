@@ -1,6 +1,24 @@
 {
   "articles": [
     {
+      "slug": "ssh-tunnel-audit",
+      "source": "/Users/qianli/qianli_zone/BeYourself/安全架构/SSH 隧道机运维与审计：从中转便利到可审计访问.md",
+      "title": "SSH 隧道机运维与审计：从中转便利到可审计访问",
+      "subtitle": "运维没搞清原理就上线的中转方案——把 SSH 端口转发的机制拆解、准入收敛与日志审计一次补齐",
+      "topic": "ssh-tunnel-audit",
+      "author": "千里",
+      "category": "运维安全",
+      "tags": [
+        "运维安全",
+        "安全审计",
+        "检测工程",
+        "SSH"
+      ],
+      "keyword": "",
+      "img_dir": "文章配图",
+      "abstract": "一台云主机加 SSH 本地端口转发，用 Core Tunnel 把本地端口映射到云内网服务——这套中转方案在运维还没搞清原理时就上线了。本文拆解转发机制的本质（会话与连接的证据被拆成两半），给出完整补齐方案：安全组与 sshd 基线、逐用户白名单、最小审计事件与 session.id 关联、Filebeat/Tetragon 采集控量、ES 索引与 ILM 模型、分析查询与告警规则、三阶段落地路线。"
+    },
+    {
       "slug": "llm-api-key-leak",
       "source": "/Users/qianli/qianli_zone/BeYourself/安全架构/公网大模型的密钥泄露：攻击面、提取手法与防御.md",
       "title": "公网大模型的密钥泄露：攻击面、提取手法与防御",
