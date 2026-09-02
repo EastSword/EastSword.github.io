@@ -32,8 +32,8 @@ links:
     note: 约2.3万字完整版已发布
   - platform: FreeBuf
     form: 技术投稿版
-    url:
-    note: 跟随公众号节奏
+    url: https://www.freebuf.com/articles/ai-security/498322.html
+    note: 约1.2万字技术投稿版已发布
 videos:
   - platform: B站
     form: 讲解视频（FOFA 攻击面实测 + 提取路径拆解）
