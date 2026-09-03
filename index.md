@@ -163,10 +163,14 @@ layout: default
     var html = '';
     (d.items || []).slice(0, 6).forEach(function (n) {
       html += '<a class="news-item" href="' + esc(safeUrl(n.url)) + '" target="_blank" rel="noopener">' +
-        '<span class="news-date">' + esc(n.published_date) + '</span>' +
-        '<span class="badge ' + (n.category === 'AI安全' ? 'cat-ai' : 'cat-sec') + '">' + esc(n.category) + '</span>' +
+        '<span class="news-item-meta">' +
+          '<span class="news-date">' + esc(n.published_date) + '</span>' +
+          '<span class="badge ' + (n.category === 'AI安全' ? 'cat-ai' : 'cat-sec') + '">' + esc(n.category) + '</span>' +
+          '<span class="news-source">' + esc(n.source) + '</span>' +
+        '</span>' +
         '<span class="news-title">' + esc(n.title) + '</span>' +
-        '<span class="news-source">' + esc(n.source) + '</span></a>';
+        (n.title_zh ? '<span class="news-title-zh">' + esc(n.title_zh) + '</span>' : '') +
+        '</a>';
     });
     box.innerHTML = html;
   }).catch(function () {});

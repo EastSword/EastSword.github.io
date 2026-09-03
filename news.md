@@ -8,33 +8,36 @@ permalink: /news/
     <div class="section-head">
       <div class="num">03 / INTEL</div>
       <h2>安全资讯</h2>
-      <p class="desc">直连内网情报聚合服务，覆盖 CISA、Mandiant、MSRC、FreeBuf 等全球安全源与 AI 安全源，每日 10:00 自动同步，全量归档无上限积累。数据存放于独立归档仓库，本页按需动态加载：下滑自动翻越更早月份，输入关键词自动全量检索历史。</p>
+      <p class="desc">直连内网情报聚合服务，覆盖 CISA、Mandiant、MSRC、FreeBuf 等全球安全源与 AI 安全源，每日 10:00 自动同步，全量归档无上限积累。数据存放于独立归档仓库，本页按需动态加载：下滑自动翻越更早月份，输入关键词自动全量检索历史。英文条目附机翻中文标题，内容标签由规则引擎自动标注。</p>
     </div>
 
     <div class="news-meta" id="news-meta"><span class="badge cat-sec">情报归档加载中…</span></div>
 
-    <div class="filter-bar filter-bar-col">
-      <div class="search-box">
-        <span class="icon">⌕</span>
-        <input id="news-search" type="text" placeholder="搜索标题 / 来源 / 摘要（自动全量检索归档）…" autocomplete="off">
-      </div>
+    <div class="news-layout">
+      <aside class="facet-panel" id="facet-panel">
+        <div class="search-box facet-search">
+          <span class="icon">⌕</span>
+          <input id="news-search" type="text" placeholder="搜索标题 / 译文 / 摘要…" autocomplete="off">
+        </div>
+        <div class="facet-groups" id="news-chips"></div>
+      </aside>
 
-      <div class="chips-rows" id="news-chips"></div>
-      <div class="filter-count" id="news-count"></div>
-    </div>
-
-    <div class="news-list" id="news-list"></div>
-    <div class="news-more" id="news-more" hidden><span class="spin"></span><span id="news-more-text">下滑加载更早的资讯…</span></div>
-    <div class="empty-result" id="news-empty" hidden>
-      <div class="glyph">空</div>
-      没有匹配的资讯，换个关键词或放宽标签试试
-    </div>
-    <noscript>
-      <div class="placeholder-box">
-        <div class="glyph">讯</div>
-        资讯列表由前端动态加载，请启用 JavaScript 后查看
+      <div class="news-main">
+        <div class="filter-count" id="news-count"></div>
+        <div class="news-list" id="news-list"></div>
+        <div class="news-more" id="news-more" hidden><span class="spin"></span><span id="news-more-text">下滑加载更早的资讯…</span></div>
+        <div class="empty-result" id="news-empty" hidden>
+          <div class="glyph">空</div>
+          没有匹配的资讯，换个关键词或放宽筛选试试
+        </div>
+        <noscript>
+          <div class="placeholder-box">
+            <div class="glyph">讯</div>
+            资讯列表由前端动态加载，请启用 JavaScript 后查看
+          </div>
+        </noscript>
       </div>
-    </noscript>
+    </div>
   </div>
 </section>
 
@@ -43,6 +46,7 @@ permalink: /news/
   var BASE = 'https://eastsword.github.io/news-archive';
   var PER_BATCH = 40;
   var CONCURRENCY = 3;
+  var FACET_TOP = 10;   // 筛选组默认展示项数，超出折叠
 
   var list = document.getElementById('news-list');
   if (!list) return;
@@ -58,7 +62,7 @@ permalink: /news/
   var monthsQueue = [];    // 未加载月份（倒序，队首最新）
   var loadedMonths = [];   // 已加载月份（倒序）
   var items = [];          // 已加载条目（全局时间倒序）
-  var state = { q: '', cat: new Set(), prio: new Set(), src: new Set(), limit: PER_BATCH };
+  var state = { q: '', cat: new Set(), prio: new Set(), src: new Set(), tag: new Set(), limit: PER_BATCH };
   var fullScan = { done: false, running: false, msg: '' };
   var loading = false;
   var renderTimer = null;
@@ -141,8 +145,14 @@ permalink: /news/
     if (state.cat.size && !state.cat.has(it.category)) return false;
     if (state.prio.size && !state.prio.has(it.priority)) return false;
     if (state.src.size && !state.src.has(it.source)) return false;
+    if (state.tag.size) {
+      var tags = it.tags || [];
+      var hit = false;
+      for (var i = 0; i < tags.length; i++) if (state.tag.has(tags[i])) { hit = true; break; }
+      if (!hit) return false;
+    }
     if (state.q) {
-      var hay = norm([it.title, it.source, it.category, it.digest].join(' '));
+      var hay = norm([it.title, it.title_zh, it.source, it.category, it.digest, (it.tags || []).join(' ')].join(' '));
       if (hay.indexOf(norm(state.q)) === -1) return false;
     }
     return true;
@@ -155,12 +165,20 @@ permalink: /news/
   }
 
   function itemHTML(n) {
+    var tagBadges = (n.tags || []).map(function (t) {
+      return '<span class="news-tag">' + esc(t) + '</span>';
+    }).join('');
     return '<a class="news-item" href="' + esc(safeUrl(n.url)) + '" target="_blank" rel="noopener" title="' + esc(n.digest || '') + '">' +
-      '<span class="news-date">' + esc(n.published_date) + '</span>' +
-      '<span class="badge prio-' + esc((n.priority || '').toLowerCase()) + '">' + esc(prioLabel(n.priority)) + '</span>' +
-      '<span class="badge ' + (n.category === 'AI安全' ? 'cat-ai' : 'cat-sec') + '">' + esc(n.category) + '</span>' +
+      '<span class="news-item-meta">' +
+        '<span class="news-date">' + esc(n.published_date) + '</span>' +
+        '<span class="badge prio-' + esc((n.priority || '').toLowerCase()) + '">' + esc(prioLabel(n.priority)) + '</span>' +
+        '<span class="badge ' + (n.category === 'AI安全' ? 'cat-ai' : 'cat-sec') + '">' + esc(n.category) + '</span>' +
+        '<span class="news-source">' + esc(n.source) + '</span>' +
+      '</span>' +
       '<span class="news-title">' + esc(n.title) + '</span>' +
-      '<span class="news-source">' + esc(n.source) + '</span></a>';
+      (n.title_zh ? '<span class="news-title-zh">' + esc(n.title_zh) + '</span>' : '') +
+      (tagBadges ? '<span class="news-tags">' + tagBadges + '</span>' : '') +
+      '</a>';
   }
 
   function render() {
@@ -172,13 +190,17 @@ permalink: /news/
     empty.hidden = rows.length !== 0;
 
     var range = loadedMonths.length
-      ? ' ｜ 已加载 ' + loadedMonths[loadedMonths.length - 1] + ' ~ ' + loadedMonths[0] + ' 共 ' + items.length + ' 条'
+      ? ' ｜ 已加载 ' + esc(loadedMonths[loadedMonths.length - 1]) + ' ~ ' + esc(loadedMonths[0]) + ' 共 ' + items.length + ' 条'
       : '';
     var parts = [];
-    if (state.cat.size) parts.push('分类 ' + Array.from(state.cat).join('、'));
-    if (state.prio.size) parts.push('级别 ' + Array.from(state.prio).join('、'));
-    if (state.src.size) parts.push('来源 ' + Array.from(state.src).join('、'));
-    count.textContent = '命中 ' + rows.length + ' 条' + (parts.length ? ' ｜ ' + parts.join(' · ') : '') + range;
+    if (state.q) parts.push('关键词 ' + esc(state.q));
+    if (state.cat.size) parts.push('分类 ' + esc(Array.from(state.cat).join('、')));
+    if (state.prio.size) parts.push('级别 ' + esc(Array.from(state.prio).join('、')));
+    if (state.tag.size) parts.push('标签 ' + esc(Array.from(state.tag).join('、')));
+    if (state.src.size) parts.push('来源 ' + esc(Array.from(state.src).join('、')));
+    var hasFilter = state.q || state.cat.size || state.prio.size || state.tag.size || state.src.size;
+    count.innerHTML = '命中 <b>' + rows.length + '</b> 条' + (parts.length ? ' ｜ ' + parts.join(' · ') : '') + range +
+      (hasFilter ? ' ｜ <button class="reset-btn" type="button" id="news-reset">清除筛选</button>' : '');
 
     if (fullScan.running) {
       more.hidden = false;
@@ -203,37 +225,51 @@ permalink: /news/
       '<span class="sep">/</span><span>最近同步 <b>' + esc(idx.generated_at) + '</b></span>';
   }
 
-  function chipRow(groupKey, label, facet, order, labelMap) {
+  // 单个筛选组：标题 + 计数；选项超过 FACET_TOP 个默认折叠，点「展开」看全部
+  function facetGroup(groupKey, label, facet, order, labelMap) {
     var keys = order
       ? order.filter(function (k) { return facet[k]; })
       : Object.keys(facet);
-    var html = '<div class="chips-row" data-group="' + groupKey + '"><span class="chips-label">' + label + '</span>' +
+    var over = keys.length > FACET_TOP;
+    var html = '<div class="facet-group' + (over ? ' collapsed' : '') + '" data-group="' + groupKey + '">' +
+      '<div class="facet-head"><span class="facet-title">' + label + '<i>' + keys.length + '</i></span>' +
+      (over ? '<button class="facet-toggle" type="button">展开 ' + keys.length + ' 项</button>' : '') +
+      '</div><div class="facet-body">' +
       '<button class="chip active" data-val="__all">全部</button>';
-    keys.forEach(function (k) {
+    keys.forEach(function (k, i) {
       var t = labelMap ? labelMap(k) : k;
-      html += '<button class="chip" data-val="' + esc(k) + '">' + esc(t) + '<i>' + facet[k] + '</i></button>';
+      html += '<button class="chip' + (i >= FACET_TOP ? ' over' : '') + '" data-val="' + esc(k) + '">' + esc(t) + '<i>' + facet[k] + '</i></button>';
     });
-    return html + '</div>';
+    return html + '</div></div>';
   }
 
-  function renderChips() {
+  function renderFacets() {
     var f = idx.facets || {};
     chipsBox.innerHTML =
-      chipRow('cat', '分类', f.categories || {}) +
-      chipRow('prio', '级别', f.priorities || {}, ['P0', 'P1', 'P2'], function (k) {
+      facetGroup('cat', '分类', f.categories || {}) +
+      facetGroup('prio', '级别', f.priorities || {}, ['P0', 'P1', 'P2'], function (k) {
         return k === 'P0' ? 'P0 紧急' : (k === 'P2' ? 'P2 常规' : k);
       }) +
-      chipRow('src', '来源', f.sources || {});
+      facetGroup('tag', '标签', f.tags || {}) +
+      facetGroup('src', '来源', f.sources || {});
   }
 
   function syncChips() {
-    chipsBox.querySelectorAll('.chips-row').forEach(function (row) {
+    chipsBox.querySelectorAll('.facet-group').forEach(function (row) {
       var set = state[row.getAttribute('data-group')];
       row.querySelectorAll('.chip').forEach(function (c) {
         var v = c.getAttribute('data-val');
         c.classList.toggle('active', v === '__all' ? set.size === 0 : set.has(v));
       });
     });
+  }
+
+  function resetFilters() {
+    state.q = ''; state.cat.clear(); state.prio.clear(); state.src.clear(); state.tag.clear();
+    state.limit = PER_BATCH;
+    search.value = '';
+    syncChips();
+    render();
   }
 
   var io = new IntersectionObserver(function (entries) {
@@ -259,9 +295,17 @@ permalink: /news/
   });
 
   chipsBox.addEventListener('click', function (e) {
+    var tg = e.target.closest('.facet-toggle');
+    if (tg) {
+      var g = tg.closest('.facet-group');
+      var collapsed = g.classList.toggle('collapsed');
+      var n = g.querySelectorAll('.chip').length - 1;
+      tg.textContent = collapsed ? '展开 ' + n + ' 项' : '收起';
+      return;
+    }
     var b = e.target.closest('.chip');
     if (!b) return;
-    var set = state[b.closest('.chips-row').getAttribute('data-group')];
+    var set = state[b.closest('.facet-group').getAttribute('data-group')];
     var v = b.getAttribute('data-val');
     if (v === '__all') set.clear();
     else if (set.has(v)) set.delete(v);
@@ -271,11 +315,15 @@ permalink: /news/
     render();
   });
 
+  count.addEventListener('click', function (e) {
+    if (e.target.id === 'news-reset') resetFilters();
+  });
+
   fetchRetry(BASE + '/index.json').then(function (d) {
     idx = d;
     monthsQueue = d.months.map(function (m) { return m.month; });
     renderMeta();
-    renderChips();
+    renderFacets();
     return loadMonths(2);
   }).then(function () {
     render();
