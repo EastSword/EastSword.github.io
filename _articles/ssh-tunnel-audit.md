@@ -5,7 +5,7 @@ subtitle: "运维没搞清原理就上线的中转方案——把 SSH 端口转�
 abstract: "一台云主机加 SSH 本地端口转发，用 Core Tunnel 把本地端口映射到云内网服务——这套中转方案在运维还没搞清原理时就上线了。本文拆解转发机制的本质（会话与连接的证据被拆成两半），给出完整补齐方案：安全组与 sshd 基线、逐用户白名单、最小审计事件与 session.id 关联、Filebeat/Tetragon 采集控量、ES 索引与 ILM 模型、分析查询与告警规则、三阶段落地路线。"
 date: 2026-09-03
 updated: 2026-09-03
-reading_time: 11
+reading_time: 13
 topic: ssh-tunnel-audit
 category: "运维安全"
 author: "千里"
@@ -39,38 +39,43 @@ toc:
       - id: ch03-9
         title: "上线验收清单"
   - id: ch04
-    title: "当前风险缺口分析"
+    title: "4. 当前风险缺口分析"
     children: []
   - id: ch05
-    title: "审计机制建设"
+    title: "5. 审计机制建设"
     children:
       - id: ch05-1
         title: "最小审计事件"
       - id: ch05-2
         title: "关联逻辑"
   - id: ch06
-    title: "日志采集：工具、方法与取舍"
+    title: "6. 日志采集：工具、方法与取舍"
     children:
       - id: ch06-1
         title: "sshd 日志"
       - id: ch06-2
         title: "eBPF 连接观测"
       - id: ch06-3
-        title: "规整脚本（事件 → flow.json）"
+        title: "close 侧：字节数与持续时长怎么拿"
       - id: ch06-4
-        title: "systemd 常驻 + 日志轮转"
+        title: "规整脚本（事件 → flow.json）"
       - id: ch06-5
-        title: "Filebeat 采集配置"
+        title: "systemd 常驻 + 日志轮转"
       - id: ch06-6
-        title: "告警规则"
+        title: "Filebeat 采集配置"
+      - id: ch06-7
+        title: "session.id：auth 侧补齐"
   - id: ch07
-    title: "结论"
+    title: "7. 告警规则"
+    children: []
+  - id: ch08
+    title: "8. 结论"
     children: []
 ---
 
 数据库、ES、管理后台这类内网服务不该暴露公网，但运维和研发又必须访问，相信很多少侠都会遇到这种难题。在还没有完整远程接入体系时，圈内存在这样一种方式，可以使用一台有公网IP的主机加SSH本地端口转发，用户用Core Tunnel类似的隧道软件登录，将用户本机127.0.0.1的端口映射到云内网服务，像访问本机端口一样访问内网。但是很多团队使用这套方案时可能还没把原理搞清楚就直接上线了，等到出现安全告警或者安全事件的时候，只能回答三个"不知道"：不知道谁连进来了、不知道他访问了哪个内网服务、不知道过了多少流量。
 
-这篇文章把这套中转方案的机制讲透，再给出完整的补齐路线：账号与准入收敛、具体实现配置、审计事件设计、日志采集与控量、ES 模型、分析方法落地。
+这篇文章把这套中转方案的机制讲透，再给出完整的补齐路线：账号与准入收敛、sshd 与网络层配置、审计事件设计与会话关联、日志采集、ES 入库与告警规则。
 
 ## 1. SSH隧道机方案分析
 {: #ch01}
@@ -194,21 +199,11 @@ Match Group tunnel-users
     PermitTTY no
     PermitTunnel no
     PermitOpen 10.0.0.10:9200 10.0.0.20:3306 10.0.0.30:6379
-    ForceCommand /usr/local/sbin/tunnel-login-banner.sh
 ```
 
-其中，`ForceCommand` 的作用是禁止隧道用户拿到交互式 shell，同时给出使用提示。
-需要注意：OpenSSH 的 `ForceCommand` 与纯端口转发场景要结合实际版本验证。如果发现客户端建立转发后被立即关闭，可以改为 `PermitTTY no` + 受限 shell，或使用 `authorized_keys` 的 key option 做逐用户限制。最后的`PermitOpen`根据具体放通对象进行设置，当然也可以选择C段和全端口，具体设置参考sshd官方配置即可。
+`Match` 块里几个关键项：`AllowTcpForwarding local` 只放行本地转发；`PermitTTY no` 禁止分配终端；`PermitOpen` 限定可转发的目标，按实际放通对象设置，也支持网段和通配端口，写法参考 sshd_config 手册。
 
-
-关于配置中的/usr/local/sbin/tunnel-login-banner.sh，在这里设置，作用是登录提示，需要chmod +x增加权限：
-```bash
-#!/usr/bin/env bash
-logger -p authpriv.notice "tunnel_login user=${USER} src=${SSH_CONNECTION} cmd=${SSH_ORIGINAL_COMMAND:-none}"
-echo "This account is only allowed for SSH local port forwarding."
-sleep 2
-exit 0
-```
+这份配置特意不用 `ForceCommand`。它只在客户端请求会话通道（要 shell、执行命令）时才会执行，`ssh -N` 和 Core Tunnel 这类纯转发登录根本不请求会话通道，挂在它上面的脚本永远不会跑；而且账号 shell 是 nologin 时，强制命令要经由用户 shell 执行，同样跑不起来。拿 shell 的请求交给 nologin 自然拒绝（客户端会看到 This account is currently not available），登录留痕交给 auth 日志：VERBOSE 级别下，每次认证的账号、来源 IP、端口、认证方式、密钥指纹都会稳定落进 auth.log，后面日志采集一节就靠它做关联。
 
 生效验证：
 ```bash
@@ -216,8 +211,7 @@ sudo sshd -t  # 语法校验
 sudo systemctl reload sshd
 # 正向：建立白名单内隧道，本地端口可访问目标
 ssh -N -L 127.0.0.1:9200:10.0.0.10:9200 alice@tunnel-host
-# 反向：转发白名单外目标应失败，且 auth 日志出现拒绝记录
-grep "refused" /var/log/auth.log | tail
+# 反向：转发白名单外目标应失败，客户端会收到 administratively prohibited 错误
 ```
 
 ### 更细粒度的逐用户白名单
@@ -274,6 +268,12 @@ logger -p authpriv.notice "tunnel_user_created user=$USER_NAME group=$GROUP_NAME
 echo "created tunnel user: $USER_NAME"
 ```
 
+一个边角：个别加固模板会给 sshd 的 PAM 栈加 pam_shells，如果 /usr/sbin/nologin 不在 /etc/shells 里，密钥验证通过了也登不进来。确认一下，不在就补一行：
+
+```bash
+grep nologin /etc/shells || echo /usr/sbin/nologin | sudo tee -a /etc/shells
+```
+
 如果暂时必须使用用户名密码登录，脚本也应强制设置到期时间、首次登录改密、失败锁定策略，并在迁移窗口结束后关闭密码认证。
 
 ```bash
@@ -318,11 +318,11 @@ ssh -N \
 |---|---|---|
 | sshd 配置合法 | `sshd -t` | 无错误输出 |
 | 用户可建立指定隧道 | `ssh -N -L 127.0.0.1:9200:10.0.0.10:9200 alice@jump` | 本地端口可访问目标服务 |
-| 白名单外目标被拒绝 | 尝试转发到未批准 IP/端口 | 连接失败，auth 日志有拒绝记录 |
+| 白名单外目标被拒绝 | 尝试转发到未批准 IP/端口 | 连接失败，客户端报 administratively prohibited |
 | 不能获取交互 shell | `ssh alice@jump` | 不进入 shell 或立即退出 |
-| 日志可见 | 查看 ES 中 `sshd-auth-*` 和 `ssh-tunnel-flow-*` | 能看到用户、来源、目标、时间 |
+| 日志可见 | 查看 ES 中 `sshd.auth-*` 和 `ssh_tunnel.flow-*` | 能看到用户、来源、目标、时间 |
 
-## 当前风险缺口分析
+## 4. 当前风险缺口分析
 {: #ch04}
 
 | 缺口 | 说明 |
@@ -334,7 +334,7 @@ ssh -N \
 
 > **重要判断**：如果所有人共用一个 SSH 账号，再补日志也只能证明"共享账号访问过某服务"，不能证明"哪个人访问过"。这是账号体系问题，不是 ES 查询问题。
 
-## 审计机制建设
+## 5. 审计机制建设
 {: #ch05}
 
 本方案满足运维审计最常见的四个问题：谁登录、从哪登录、访问了哪些内网服务、访问规模是否异常。
@@ -347,26 +347,37 @@ ssh -N \
 | SSH 登录成功/失败 | 时间、账号、源 IP、端口、认证方式、密钥指纹 | sshd / auth.log | 定位人员与入口来源 |
 | SSH 会话打开/关闭 | 账号、PID、TTY、PAM session、持续时间 | PAM / journald / auditd | 建立会话时间窗 |
 | 内网连接建立 | PID、UID、目的 IP、目的端口、时间 | eBPF / conntrack / auditd | 识别访问目标 |
-| 内网连接关闭 | PID、五元组、字节数、持续时间 | eBPF tcpclose / flow log | 识别用量与异常长连接 |
+| 内网连接关闭 | PID、五元组、字节数、持续时间 | bcc tcplife（eBPF） | 识别用量与异常长连接 |
 
 ### 关联逻辑
 {: #ch05-2}
 
-推荐生成一个 `session.id`：`jump-host + user + sshd_pid + login_time`。认证日志拿到用户和源 IP，连接日志拿到目的 IP 和端口，再通过 PID、UID、时间窗匹配到同一会话。匹配规则可以先简单后复杂：优先 PID 命中；PID 不一致时用父子进程；仍不一致时用同 UID + 时间窗 + 端口白名单做近似关联，并标记置信度。
+认证日志拿到用户和源 IP，连接日志拿到目的 IP 和端口，中间靠一个统一的 `session.id` 把两类证据拼起来，公式固定为：
 
 ```
-session.id = sha1(host.name + user.name + sshd.pid + login.timestamp)
+session.id = sha1(host.name | user.name | sshd.priv_pid | epoch_hour)
 
-关联优先级：
-1. connection.pid == sshd_session.pid
-2. connection.ppid / ancestor_pid 命中 sshd_session.pid
-3. connection.uid == session.uid 且 connection.time 在 session.time_window 内
-4. 近似匹配必须加字段 attribution.confidence = low
+epoch_hour    = Unix 时间戳 ÷ 3600 取整（按小时分桶）
+sshd.priv_pid = auth 日志行里的 sshd PID，即 [priv] 监控进程
 ```
+
+公式里两个设计点，都是踩坑踩出来的：
+
+一是时间不能取精确值。auth 行和第一条连接事件相差几秒到几分钟，拿精确登录时刻两边永远算不出同一个值，所以按小时分桶，同一小时内的登录与连接命中同一个 id。
+
+二是 PID 差一层。sshd 特权分离后，auth 日志里的 PID（`sshd[1200]: Accepted ...`）是 [priv] 监控进程，而转发到内网的 TCP 连接由它的无特权子进程（PID 1201）发起。好在 eBPF 事件带父进程信息，flow 侧计算 session.id 时取父进程 PID，两边就一致了。
+
+session.id 查不到时的兜底匹配，按顺序降级：
+
+1. connection.pid == auth 侧 sshd PID（直接命中）
+2. connection.ppid == auth 侧 sshd PID（父子进程，sshd 转发的默认情况）
+3. connection.uid == session.uid 且 connection.time 在 session 时间窗内，命中后必须标 attribution.confidence = low
+
+局限也要说清楚：登录和首条连接跨小时边界（比如 12:59 登录、13:01 才有第一条连接）时，两侧小时桶不同，session.id 对不上，查询时对相邻小时桶再做一次兜底，或者接受这个精度损失。
 
 > **最有价值的产出**：不是单条日志，而是"认证事件 + 连接事件"拼出的会话视图——alice 从 1.2.3.4 登录，在 12:01–12:40 访问了 10.0.0.10:9200 与 10.0.0.20:3306，累计出向 93MB。
 
-## 日志采集：工具、方法与取舍
+## 6. 日志采集：工具、方法与取舍
 {: #ch06}
 
 ### sshd 日志
@@ -374,20 +385,7 @@ session.id = sha1(host.name + user.name + sshd.pid + login.timestamp)
 
 把 `LogLevel` 设置为 `VERBOSE`，可以拿到更完整的认证信息和密钥指纹。不要长期使用 `DEBUG`，它会制造大量噪声并可能暴露敏感运行细节。
 
-```
-# /etc/ssh/sshd_config
-SyslogFacility AUTHPRIV
-LogLevel VERBOSE
-UsePAM yes
-PubkeyAuthentication yes
-PasswordAuthentication no
-AllowTcpForwarding local
-GatewayPorts no
-PermitOpen 10.0.0.10:9200 10.0.0.20:3306
-MaxSessions 5
-ClientAliveInterval 60
-ClientAliveCountMax 3
-```
+sshd 不需要第二份配置，前面基线里的 `SyslogFacility AUTHPRIV` 和 `LogLevel VERBOSE` 已经覆盖，这里补充两点：`UsePAM` 保持发行版默认的 `yes`，密码过渡期的过期、锁定策略都挂在 PAM 上；VERBOSE 下 auth 日志能稳定给出每次认证的账号、来源 IP、端口、认证方式和密钥指纹，这些正是后面 grok 解析和 session.id 关联要用的字段。
 
 ### eBPF 连接观测
 {: #ch06-2}
@@ -456,20 +454,45 @@ docker exec -ti tetragon tetra getevents -o compact
 从办公网建一条隧道并访问目标，应看到：
 ```
 🔌 connect /usr/sbin/sshd tcp 192.168.10.5:41234 -> 10.0.0.10:9200
-看不到事件时按顺序排查：策略文件是否挂载成功 → sshd -T | grep permitopen 隧道是否真建立 → 目的网段是否在策略 values 内。
 ```
+
+看不到事件时按顺序排查：策略文件是否在挂载目录里（宿主机 `ls /etc/tetragon/policies`）→ 隧道是否真的建立了（`ss -tnp | grep sshd`，能看到 sshd 到内网目标的连接）→ 目的网段是否在策略 values 内。
+
 我这里就用一个简单的curl来展示流量是全记录的：
 ![描述](/assets/images/ssh-tunnel-audit/粘贴图-234844.png)
 
 
-### 规整脚本（事件 → flow.json）
+### close 侧：字节数与持续时长怎么拿
 {: #ch06-3}
+
+上面这套策略只挂了 `tcp_v4_connect`，connect 事件里没有收发字节数，"过了多少流量、连了多久"拿不到。补齐用 bcc 的 tcplife，它在连接关闭时输出一条会话总结，正好对应审计事件表里"内网连接关闭"那一行：
+
+```bash
+# Ubuntu/Debian：apt install bpfcc-tools，工具名 tcplife-bpfcc
+# RHEL/CentOS：dnf install bcc-tools，工具在 /usr/share/bcc/tools/
+sudo /usr/share/bcc/tools/tcplife | grep sshd
+```
+
+输出形如：
+
+```
+PID    COMM    LADDR           LPORT  RADDR           RPORT  TX_KB  RX_KB  MS
+1201   sshd    10.0.0.5        51234  10.0.0.10       9200   3.5    93.2   360012
+```
+
+TX_KB/RX_KB 是这条连接的收发总量，MS 是连接存续毫秒数，数据读的是内核 socket 里现成的统计，不抓包。前面那个"alice 累计出向 93MB"的会话视图，就是拿 connect 侧的身份字段加上 close 侧的 TX_KB/RX_KB 拼出来的。
+
+为什么不用 Tetragon 顺手挂 tcp_close：它的 sock 参数默认只带地址和端口，收发字节数拿不到，要等上游支持或自己扩展策略，不如 bcc 现成。代价是 bcc 依赖内核头文件，内核小版本升级后要重新验证。落地节奏建议：connect 侧先全量常驻，close 侧平时按需手动跑，字节审计做深了再考虑常驻入库。
+
+### 规整脚本（事件 → flow.json）
+{: #ch06-4}
 /usr/local/bin/tunnel_flow_filter.py（chmod +x）：
 ```
 #!/usr/bin/env python3
 # 输入：tetra getevents -o json 行；输出：规整后的嵌套 JSON 行
 # 规则：不限进程、不限端口；只保留内网网段目标；同五元组 10 秒窗口聚合
-import json, sys, time, ipaddress, hashlib
+# session_id = sha1(host|user|sshd父进程PID|小时桶) 的 base64，与 auth 侧 Ingest Pipeline 同公式
+import json, sys, time, ipaddress, hashlib, base64
 from collections import defaultdict
 
 INTERNAL_NETS = [ipaddress.ip_network(x) for x in ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]]
@@ -482,16 +505,24 @@ def is_internal(ip):
     except (ValueError, TypeError):
         return False
 
+def get_user(proc):
+    # Tetragon 各版本用户名字段位置不同：老版本在 process.user，新版本在 process.credentials.user
+    cred = proc.get("credentials") or {}
+    for v in (proc.get("user_name"), proc.get("user"), cred.get("user")):
+        if isinstance(v, str) and v:
+            return v
+    return "unknown"
+
 def session_id(host, user, pid, ts):
-    # 与 sshd.auth 侧同一公式，用于两边关联
+    # sha1 后取 base64：对齐 ES fingerprint 处理器的输出格式（base64 而非 hex）
     raw = f"{host}|{user}|{pid}|{int(ts)//3600}"
-    return hashlib.sha1(raw.encode()).hexdigest()
+    return base64.b64encode(hashlib.sha1(raw.encode()).digest()).decode()
 
 def flush(now):
     for k in list(bucket):
         v = bucket[k]
         if v["last"] and now - v["last"] >= WINDOW:
-            comm, host, user, pid, saddr, dst_ip, dst_port = k
+            comm, host, user, pid, session_pid, saddr, dst_ip, dst_port = k
             out = {
                 "@timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(v["last"])),
                 "event": {"dataset": "ssh_tunnel.flow", "action": "flow_summary", "count": int(v["count"])},
@@ -501,7 +532,7 @@ def flush(now):
                 "source": {"ip": saddr},          # 隧道机出向地址；用户真实来源在 sshd.auth 侧
                 "destination": {"ip": dst_ip, "port": int(dst_port)},
                 "network": {"transport": "tcp"},
-                "session": {"id": session_id(host, user, pid, v["first"])},
+                "session": {"id": session_id(host, user, session_pid, v["first"])},
                 "attribution": {
                     "kind": "sshd_session" if comm == "sshd" else "host_process",
                     "confidence": "high" if comm == "sshd" else "medium",
@@ -522,15 +553,22 @@ for line in sys.stdin:
         continue
     proc = pk.get("process") or {}
     args = pk.get("args") or []
-    sock = args[0] if args else {}
+    # Tetragon 的 kprobe 参数按类型包装，sock 类型在 args[0].sock_arg 下
+    sock = (args[0].get("sock_arg") or {}) if args else {}
     dst_ip, dst_port = sock.get("daddr"), int(sock.get("dport") or 0)
     if not is_internal(dst_ip) or not dst_port:
         continue
+    comm = (proc.get("binary") or "unknown").rsplit("/", 1)[-1]
+    pid = proc.get("pid") or 0
+    # sshd 的转发连接由无特权子进程发起，auth 日志里的 PID 是它的父进程（[priv] 监控进程），
+    # session_id 必须用父进程 PID，才能和 sshd.auth 侧公式对上
+    session_pid = ((proc.get("parent") or {}).get("pid") or pid) if comm == "sshd" else pid
     key = (
-        (proc.get("binary") or "unknown").rsplit("/", 1)[-1],
+        comm,
         e.get("node_name") or "tunnel-host",
-        proc.get("user_name") or "unknown",
-        proc.get("pid") or 0,
+        get_user(proc),
+        pid,
+        session_pid,
         sock.get("saddr") or "unknown",
         dst_ip, dst_port,
     )
@@ -540,7 +578,7 @@ for line in sys.stdin:
 ```
 
 ### systemd 常驻 + 日志轮转
-{: #ch06-4}
+{: #ch06-5}
 /etc/systemd/system/ssh-tunnel-flow.service：
 ```
 [Unit]
@@ -573,9 +611,11 @@ WantedBy=multi-user.target
 
 启动命令：`sudo systemctl daemon-reload && sudo systemctl enable --now ssh-tunnel-flow`
 
+两个运维细节：规整脚本的聚合窗口在内存里，服务重启会丢掉最后 10 秒内还没落盘的聚合结果，重启挑低峰做；丢了也能补救，Tetragon 默认把原始事件导出到容器 stdout，`docker logs tetragon` 可以回放核对。
+
 
 ### Filebeat 采集配置
-{: #ch06-5}
+{: #ch06-6}
 
 Filebeat 负责把认证日志和连接元数据推送到 ES。认证日志走系统日志路径，连接日志走 JSON 文件；两类日志用不同 dataset，后续才能做不同 ILM 和不同字段解析。
 
@@ -598,7 +638,7 @@ filebeat.inputs:
       - grok:
           match:
             message:
-              - "sshd\$$%{INT:process.pid}\$$: %{WORD:auth_result} %{WORD:auth_method} for (invalid user )?%{USER:user.name} from %{IP:source.ip} port %{INT:source.port}"
+              - "sshd\\[%{INT:process.pid}\\]: %{WORD:auth_result} %{WORD:auth_method} for (invalid user )?%{USER:user.name} from %{IP:source.ip} port %{INT:source.port}"
           ignore_missing: true
           ignore_failure: true
       - rename:
@@ -631,6 +671,7 @@ processors:
 output.elasticsearch:
   hosts: ["http://10.0.0.10:9200"]
   index: "%{[event.dataset]}-%{+yyyy.MM.dd}"
+  pipeline: "ssh-auth-session-id"
 
 setup.template.enabled: false
 setup.ilm.enabled: false
@@ -640,9 +681,58 @@ setup.ilm.enabled: false
 
 执行后就可以把日志上传到es，产出两个索引族：sshd.auth-YYYY.MM.DD 与 ssh_tunnel.flow-YYYY.MM.DD。
 
+### session.id：auth 侧补齐
+{: #ch06-7}
 
-### 告警规则
-{: #ch06-6}
+flow 侧的 session.id 由规整脚本算好了，auth 侧要用同一个公式在写入 ES 时补上，两边才能互查。用 Ingest Pipeline 实现：一段脚本拼出原始串，再用 fingerprint 处理器做 SHA-1。
+
+```json
+PUT _ingest/pipeline/ssh-auth-session-id
+{
+  "processors": [
+    {
+      "script": {
+        "if": "ctx.event?.dataset == 'sshd.auth' && ctx.user?.name != null && ctx.process?.pid != null && ctx.host?.name != null",
+        "lang": "painless",
+        "source": "long hour = Instant.parse(ctx['@timestamp']).getEpochSecond() / 3600; ctx.session_raw = ctx.host.name + '|' + ctx.user.name + '|' + ctx.process.pid + '|' + hour;"
+      }
+    },
+    {
+      "fingerprint": {
+        "if": "ctx.session_raw != null",
+        "fields": ["session_raw"],
+        "target_field": "session.id",
+        "method": "SHA-1"
+      }
+    },
+    { "remove": { "field": "session_raw", "ignore_missing": true } }
+  ]
+}
+```
+
+注意 fingerprint 的输出是 base64 编码，不是常见的 hexdigest，所以规整脚本里 session_id 函数也返回 base64，两边格式才一致。flow 事件同样会经过这条管道，脚本开头的 dataset 判断会直接跳过它们，不受影响。
+
+还有一个要对齐的细节：公式里的 host，flow 侧来自 Tetragon 的 node_name，auth 侧来自 Filebeat 的 host.name，确认两边是同一个主机名（短名或 FQDN 要一致），不一致就统一改。
+
+验证闭环，先从 flow 侧任取一条：
+
+```json
+GET ssh_tunnel.flow-*/_search
+{ "size": 1, "query": { "exists": { "field": "session.id" } } }
+```
+
+拿返回的 session.id 反查 auth 侧：
+
+```json
+GET sshd.auth-*/_search
+{ "query": { "match_phrase": { "session.id": "替换成上一步拿到的值" } } }
+```
+
+能互相查到，"谁登录"和"访问了哪些内网目标"就真正拼到同一个会话上了。
+
+
+## 7. 告警规则
+{: #ch07}
 这里给一些参考项，具体还是要看企业内网安全管理实际：
 
 | 告警 | 规则 | 处理建议 |
@@ -653,9 +743,11 @@ setup.ilm.enabled: false
 | 长连接 | 连接持续超过 8 小时或空闲过久 | 清理僵尸隧道，收紧 ClientAlive |
 | 高流量 | 用户或目标流量超历史基线 | 判断是否数据导出或异常爬取 |
 
+表中"长连接"和"高流量"两条依赖 close 侧的持续时长与 TX/RX 字节数，close 侧没有常驻采集之前先不启用，或者退化为 connect 侧的近似信号：同一 session.id 短时间内新建连接数、访问目标数突增。
 
-## 结论
-{: #ch07}
+
+## 8. 结论
+{: #ch08}
 
 SSH 隧道机是一种合理的轻量运维方案，本方案解决的问题不在"用了SSH转发"，而在上线后是否把账号、目标白名单、会话审计和容量控制补齐。安全方案的重点不是记录更多内容，而是记录正确的元数据，并把认证与连接两类证据关联起来。
 
