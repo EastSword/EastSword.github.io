@@ -5,15 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% if page.title %}{{ page.title }} · {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
   <meta name="description" content="{{ page.abstract | default: site.description | strip_newlines | truncate: 200 }}">
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  <meta property="og:site_name" content="{{ site.title }}">
+  <meta property="og:url" content="{{ page.url | absolute_url }}">
+  <meta property="og:title" content="{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title }}{% endif %}">
+  <meta property="og:description" content="{{ page.abstract | default: site.description | strip_newlines | truncate: 200 }}">
   {% if page.cover %}
   <meta property="og:type" content="article">
-  <meta property="og:title" content="{{ page.title | escape }}">
-  <meta property="og:description" content="{{ page.abstract | default: site.description | strip_newlines | truncate: 200 }}">
   <meta property="og:image" content="{{ page.cover | absolute_url }}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ page.title | escape }}">
   <meta name="twitter:description" content="{{ page.abstract | default: site.description | strip_newlines | truncate: 200 }}">
   <meta name="twitter:image" content="{{ page.cover | absolute_url }}">
+  {% else %}
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="{{ '/assets/logo-mark.png' | absolute_url }}">
+  <meta name="twitter:card" content="summary">
   {% endif %}
   <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
   <link rel="icon" type="image/x-icon" href="{{ '/assets/favicon.ico' | relative_url }}">
