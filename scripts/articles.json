@@ -16,7 +16,7 @@
       ],
       "keyword": "",
       "img_dir": "文章配图",
-      "abstract": "一台云主机加 SSH 本地端口转发，用 Core Tunnel 把本地端口映射到云内网服务——这套中转方案在运维还没搞清原理时就上线了。本文拆解转发机制的本质（会话与连接的证据被拆成两半），给出完整补齐方案：安全组与 sshd 基线、逐用户白名单、最小审计事件与 session.id 关联、Filebeat/Tetragon 采集控量、ES 索引与 ILM 模型、分析查询与告警规则、三阶段落地路线。"
+      "abstract": "一台云主机加 SSH 本地端口转发，用 Core Tunnel 把本地端口映射到云内网服务——这套中转方案在运维还没搞清原理时就上线了。本文拆解转发机制的本质（会话与连接的证据被拆成两半），给出完整补齐方案：安全组与 sshd 基线、逐用户白名单、最小审计事件与 session.id 会话关联（sshd 特权分离的 PID 对齐是关键）、Tetragon eBPF 全量内网连接观测、tcplife 补字节数、Filebeat 采集与 ES 入库、告警规则与落地取舍。"
     },
     {
       "slug": "llm-api-key-leak",
