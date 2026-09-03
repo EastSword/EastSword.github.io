@@ -425,10 +425,10 @@ body::after {
 .badge.author     { color: #7fd4ff; border-color: rgba(105,196,255,.45); background: rgba(105,196,255,.07); }
 .todo { color: var(--paper-dim); }
 
-/* ---------- 首页四大板块 ---------- */
+/* ---------- 首页五大板块 ---------- */
 .modules {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 14px;
 }
 .module {
@@ -767,6 +767,124 @@ body::after {
 .c-title { font-family: var(--serif); font-weight: 700; font-size: 16px; letter-spacing: 2px; }
 .c-desc { font-size: 12.5px; color: var(--paper-dim); }
 
+/* ---------- 兵器谱：AI 与安全工具推荐 ---------- */
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.tool-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 18px 20px 16px;
+  text-decoration: none;
+  color: var(--paper);
+  overflow: hidden;
+  transition: border-color .25s, box-shadow .25s, transform .25s;
+}
+/* 水墨晕染角，同 .tile 语言 */
+.tool-card::before {
+  content: "";
+  position: absolute;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: .1;
+  top: -110px; right: -70px;
+  pointer-events: none;
+  background: var(--teal-glow);
+  transition: opacity .25s;
+}
+.tool-card:nth-child(3n+2)::before { background: var(--gold); }
+.tool-card:nth-child(3n)::before   { background: var(--purple-glow); }
+.tool-card:hover {
+  border-color: rgba(61, 232, 201, 0.35);
+  box-shadow: 0 0 0 1px rgba(61, 232, 201, 0.1), 0 0 32px rgba(61, 232, 201, 0.07);
+  transform: translateY(-3px);
+}
+.tool-card:hover::before { opacity: .2; }
+
+.tool-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+/* 兵器谱分级徽记：天 / 地 / 玄 */
+.tool-rank {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: 15px;
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 8px;
+  border: 1px solid;
+  flex-shrink: 0;
+}
+.tool-rank.s { color: var(--gold-bright); border-color: rgba(212, 175, 106, .5); background: rgba(212, 175, 106, .08); text-shadow: 0 0 12px rgba(212, 175, 106, .4); }
+.tool-rank.a { color: var(--teal-glow); border-color: rgba(61, 232, 201, .45); background: rgba(61, 232, 201, .07); text-shadow: 0 0 12px rgba(61, 232, 201, .4); }
+.tool-rank.b { color: var(--paper-dim); border-color: rgba(154, 163, 173, .4); background: rgba(154, 163, 173, .06); }
+
+.tool-name {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 1px;
+  transition: color .25s;
+}
+.tool-card:hover .tool-name { color: var(--gold-bright); }
+.tool-sub {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .5px;
+  color: var(--paper-dim);
+}
+.tool-arrow { margin-left: auto; color: var(--teal-glow); font-size: 15px; transition: transform .25s; }
+.tool-card:hover .tool-arrow { transform: translate(3px, -3px); }
+
+.tool-desc { margin: 0; font-size: 13px; line-height: 1.75; color: var(--paper-dim); }
+.tool-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tool-tags .mini-tag {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .5px;
+  color: var(--teal-glow);
+  border: 1px solid rgba(61, 232, 201, 0.25);
+  border-radius: 4px;
+  padding: 1px 7px;
+  opacity: .85;
+}
+.tool-foot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  border-top: 1px dashed var(--line);
+  padding-top: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .5px;
+  color: var(--paper-dim);
+}
+.tool-host { margin-left: auto; color: var(--teal-glow); opacity: .8; }
+.tool-note {
+  text-align: center;
+  margin-top: 28px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 1px;
+  color: var(--paper-dim);
+}
+.tool-note b {
+  font-family: var(--serif);
+  color: var(--gold-bright);
+  font-size: 13px;
+}
+/* 门类筛选 chip 的计数 */
+.tag-chips .chip i { font-style: normal; font-size: 10px; opacity: .55; margin-left: 2px; }
+
 /* ---------- 筛选条双层 ---------- */
 .chips-rows { display: flex; flex-direction: column; gap: 10px; }
 .chips-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
@@ -1012,6 +1130,8 @@ footer.site .social .sep { color: var(--gold); opacity: .4; }
   .news-layout { grid-template-columns: 1fr; gap: 16px; }
   .facet-panel { position: static; max-height: none; overflow: visible; }
   .news-main .filter-count { position: static; margin-bottom: 12px; padding: 0; background: none; border: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  /* 兵器谱：小屏单列 */
+  .tool-grid { grid-template-columns: 1fr; }
   .news-item:hover { transform: none; }
   .filter-bar { flex-direction: column; align-items: stretch; }
 }

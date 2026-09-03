@@ -27,8 +27,8 @@ layout: default
   <div class="wrap">
     <div class="section-head">
       <div class="num">00 / SECTORS</div>
-      <h2>四大板块</h2>
-      <p class="desc">研究话题纵深拆解，安全资讯每日同步内网情报源，江湖留名汇聚同行足迹。</p>
+      <h2>五大板块</h2>
+      <p class="desc">研究话题纵深拆解，安全资讯每日同步内网情报源，兵器谱收录试炼过的工具，江湖留名汇聚同行足迹。</p>
     </div>
     <div class="modules">
       <a class="module m-teal" href="{{ '/topics/' | relative_url }}">
@@ -43,7 +43,13 @@ layout: default
         <div class="m-desc">内网情报聚合服务直连，覆盖全球安全源与 AI 安全源，每日自动同步</div>
         <div class="m-meta">{% if site.data.news %}{{ site.data.news.items | size }} 条 · {{ site.data.news.generated_at }} 更新{% else %}情报源接入中{% endif %}</div>
       </a>
-      <a class="module m-purple" href="{{ '/wall/' | relative_url }}">
+      <a class="module m-purple" href="{{ '/tools/' | relative_url }}">
+        <div class="glyph">兵</div>
+        <div class="m-title">兵器谱</div>
+        <div class="m-desc">AI 与安全双修的兵器库，逐一试炼后收录：测绘、情报、AI 攻防</div>
+        <div class="m-meta">首录 FOFA / Shodan · 持续入库</div>
+      </a>
+      <a class="module m-gold" href="{{ '/wall/' | relative_url }}">
         <div class="glyph">俠</div>
         <div class="m-title">江湖留名</div>
         <div class="m-desc">以 GitHub 身份签下你的 ID 和一句话，签名实时上墙，支持表情回应</div>
