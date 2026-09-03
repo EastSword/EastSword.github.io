@@ -5,7 +5,7 @@ title: SSH隧道机中转与审计
 subtitle: 运维没搞清原理就上线的中转方案——把 SSH 端口转发的机制、准入收敛与日志审计一次补齐
 date: 2026-09-02
 updated: 2026-09-03
-status: publishing
+status: published
 category: 运维安全
 tags: [运维安全, 安全审计, 检测工程]
 links:
