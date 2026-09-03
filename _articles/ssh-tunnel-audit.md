@@ -436,9 +436,12 @@ spec:
             - action: Post
 ```
 
-要点：没有 matchBinaries，任何进程的内网连接都记录；没有端口限制；网段按实际 VPC 裁剪。过滤在内核态完成，非内网连接零开销。挂载后重启容器生效：
+要点：没有 matchBinaries，任何进程的内网连接都记录；没有端口限制；网段按实际 VPC 裁剪。过滤在内核态完成，非内网连接零开销。策略文件要挂载进容器才生效，而第一次部署时没挂策略目录，所以要把旧容器删掉重建，直接再跑一条 docker run 会报 container name already in use：
 ```
-sudo mkdir -p /var/log/ssh-tunnel && sudo chmod 750 /var/log/ssh-tunnel
+sudo mkdir -p /etc/tetragon/policies /var/log/ssh-tunnel
+sudo chmod 750 /var/log/ssh-tunnel
+# all-internal-connect.yaml 放进 /etc/tetragon/policies/ 后再执行下面两条
+docker rm -f tetragon
 docker run -d --name tetragon --restart always \
   --pid=host --cgroupns=host --privileged \
   -v /etc/tetragon/policies:/etc/tetragon/tetragon.tp.d:ro \
@@ -680,6 +683,8 @@ setup.ilm.enabled: false
 执行命令：`sudo systemctl restart filebeat && sudo filebeat test output`
 
 执行后就可以把日志上传到es，产出两个索引族：sshd.auth-YYYY.MM.DD 与 ssh_tunnel.flow-YYYY.MM.DD。
+
+这套配置还有三个细节要留意。第一，认证日志的路径 Debian 系是 `/var/log/auth.log`、RHEL 系是 `/var/log/secure`，上面两条都写了；但纯 journald 且没装 rsyslog 的系统，认证日志只进 journal 不落文件，filestream 一行都采不到，先确认 rsyslog 在跑。第二，grok 里 `event.outcome` 的值是 `Accepted`/`Failed` 字面量，不是 ECS 标准的 `success`/`failure`，查询和告警按字面值写就行，要严格对齐 ECS 可以在 Ingest Pipeline 里补一段映射。第三，`setup.ilm.enabled` 关掉之后 ES 侧没有自动清理，本地有 logrotate 14 天兜底，ES 侧要么补索引模板和 ILM，要么加个定时任务删过期索引，比如 `curl -XDELETE "http://10.0.0.10:9200/sshd.auth-2026.07.*"` 这样按月清。
 
 ### session.id：auth 侧补齐
 {: #ch06-7}
