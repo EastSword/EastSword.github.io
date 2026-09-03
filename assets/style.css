@@ -1214,6 +1214,33 @@ footer.site .wx-link:hover { color: var(--teal-glow); }
   white-space: pre;
 }
 
+/* 代码块右上角复制按钮 */
+.article-body .code-copy-host { position: relative; }
+.code-copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 1px;
+  color: var(--teal-glow);
+  background: rgba(8, 12, 16, 0.92);
+  border: 1px solid rgba(61, 232, 201, 0.28);
+  border-radius: 6px;
+  padding: 3px 10px;
+  cursor: pointer;
+  opacity: .72;
+  transition: opacity .2s, border-color .2s, color .2s;
+  user-select: none;
+}
+.code-copy-btn:hover { opacity: 1; border-color: rgba(61, 232, 201, 0.55); }
+.code-copy-btn.ok {
+  color: var(--gold-bright);
+  border-color: rgba(212, 175, 106, 0.55);
+  opacity: 1;
+}
+
 .article-body table {
   display: block;
   overflow-x: auto;

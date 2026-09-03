@@ -61,6 +61,50 @@ layout: default
       {{ content }}
     </div>
 
+    <script>
+    // 代码块右上角复制按钮：textContent 精确取原文，换行与缩进原样进剪贴板
+    (function () {
+      var pres = document.querySelectorAll('.article-body pre');
+      pres.forEach(function (pre) {
+        var host = pre.closest('.highlight');
+        if (!host) {
+          host = document.createElement('div');
+          pre.parentNode.insertBefore(host, pre);
+          host.appendChild(pre);
+        }
+        host.classList.add('code-copy-host');
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'code-copy-btn';
+        btn.textContent = '复制';
+        btn.setAttribute('aria-label', '复制代码');
+        btn.addEventListener('click', function () {
+          var code = pre.querySelector('code');
+          var text = (code || pre).textContent;
+          function done() {
+            btn.textContent = '已复制 ✓';
+            btn.classList.add('ok');
+            setTimeout(function () { btn.textContent = '复制'; btn.classList.remove('ok'); }, 1600);
+          }
+          function fallback() {
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); done(); } catch (err) {}
+            document.body.removeChild(ta);
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(done, fallback);
+          } else { fallback(); }
+        });
+        host.appendChild(btn);
+      });
+    })();
+    </script>
+
     <div class="article-foot">
       {% if topic %}
       <a class="back-topic" href="{{ topic.url | relative_url }}">
