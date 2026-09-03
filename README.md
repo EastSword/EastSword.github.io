@@ -11,7 +11,7 @@
 | 首页 | `index.md` | Hero + 四大板块导航 + 课题/文章/资讯预览 |
 | 研究话题 | `topics.md` | 全部课题，**领域分类**（`category` 字段）+ 标签双层筛选 + 搜索 + 分页 |
 | 技术文章 | `articles.md` | 长文列表页，渲染 `_articles/` 集合 |
-| 安全资讯 | `news.md` | 渲染 `_data/news.json`，分类筛选 + 搜索 + 分页 |
+| 安全资讯 | `news.md` | 纯前端动态加载 `news-archive` 仓库数据：无限滚动按月懒加载 + 关键词全量检索 |
 | 江湖留名 | `wall.md` | giscus 签名墙（GitHub Discussion #1） |
 | 关于团队 | `about.md` | 团队介绍 + 联系方式卡片 |
 | 话题详情 | `_topics/*.md` | 每课题一页，`layout: topic` |
@@ -51,8 +51,7 @@ blog-site/
 │   └── comments.html    # giscus 评论区组件（pathname 映射，每页独立讨论串）
 ├── _topics/             # ★ 课题：一个话题一个 md
 ├── _articles/           # ★ 长文：publish_article.py 从主稿生成，勿手改
-├── _data/news.json      # 安全资讯数据（脚本生成，勿手改）
-├── scripts/sync_news.py        # 资讯同步脚本
+├── scripts/sync_news.py        # 资讯同步脚本（写入平级 ../news-archive 数据仓库）
 ├── scripts/publish_article.py  # 长文发布脚本（主稿 → 文章页 → push）
 ├── scripts/edit_article.py     # 本地文章编辑器服务（127.0.0.1:8917）
 ├── scripts/editor_ui.html      # 编辑器界面

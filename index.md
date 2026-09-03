@@ -134,25 +134,46 @@ layout: default
     <div class="section-head">
       <div class="num">03 / INTEL</div>
       <h2>最新安全资讯</h2>
-      <p class="desc">每日 10:00 自动同步内网情报聚合服务（安全源 83 个，含 CISA / Mandiant / FreeBuf 等）。</p>
+      <p class="desc">内网情报聚合服务直连（安全源 83 个，含 CISA / Mandiant / FreeBuf 等），全量归档于独立仓库，可关键词检索全部历史。</p>
     </div>
-    {% if site.data.news %}
-    <div class="news-list preview">
-      {% for n in site.data.news.items limit: 6 %}
-      <a class="news-item" href="{{ n.url }}" target="_blank" rel="noopener">
-        <span class="news-date">{{ n.published_date }}</span>
-        <span class="badge {% if n.category == 'AI安全' %}cat-ai{% else %}cat-sec{% endif %}">{{ n.category }}</span>
-        <span class="news-title">{{ n.title }}</span>
-        <span class="news-source">{{ n.source }}</span>
-      </a>
-      {% endfor %}
-    </div>
-    <div class="more-link"><a href="{{ '/news/' | relative_url }}">进入资讯频道 →</a></div>
-    {% else %}
-    <div class="placeholder-box">
-      <div class="glyph">讯</div>
-      情报源接入中，运行 scripts/sync_news.py 首次同步
-    </div>
-    {% endif %}
+    <div class="news-list preview" id="home-news-list"></div>
+    <div class="more-link"><a href="{{ '/news/' | relative_url }}">进入资讯频道 · 全量检索 →</a></div>
+    <noscript>
+      <div class="placeholder-box">
+        <div class="glyph">讯</div>
+        资讯列表由前端动态加载，请启用 JavaScript 后查看
+      </div>
+    </noscript>
   </div>
 </section>
+
+<script>
+(function () {
+  var BASE = 'https://eastsword.github.io/news-archive';
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function safeUrl(u) { return /^https?:\/\//i.test(u || '') ? u : '#'; }
+
+  fetch(BASE + '/feed.json').then(function (r) { return r.json(); }).then(function (d) {
+    var box = document.getElementById('home-news-list');
+    if (!box) return;
+    var html = '';
+    (d.items || []).slice(0, 6).forEach(function (n) {
+      html += '<a class="news-item" href="' + esc(safeUrl(n.url)) + '" target="_blank" rel="noopener">' +
+        '<span class="news-date">' + esc(n.published_date) + '</span>' +
+        '<span class="badge ' + (n.category === 'AI安全' ? 'cat-ai' : 'cat-sec') + '">' + esc(n.category) + '</span>' +
+        '<span class="news-title">' + esc(n.title) + '</span>' +
+        '<span class="news-source">' + esc(n.source) + '</span></a>';
+    });
+    box.innerHTML = html;
+  }).catch(function () {});
+
+  fetch(BASE + '/index.json').then(function (r) { return r.json(); }).then(function (d) {
+    var m = document.getElementById('news-module-meta');
+    if (m) m.textContent = '全量归档 ' + d.total + ' 条 · ' + d.months.length + ' 个月 · 每日同步';
+  }).catch(function () {});
+})();
+</script>

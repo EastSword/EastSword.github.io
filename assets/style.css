@@ -565,6 +565,33 @@ body::after {
   padding: 0 2px;
 }
 
+/* 资讯动态加载：底部加载提示条 + 旋转动画 */
+.news-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 14px;
+  border: 1px dashed var(--line);
+  border-radius: 10px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--paper-dim);
+}
+.news-more[hidden] { display: none; }
+.spin {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  border: 2px solid rgba(61, 232, 201, .25);
+  border-top-color: var(--teal-glow);
+  border-radius: 50%;
+  animation: news-spin .8s linear infinite;
+}
+@keyframes news-spin { to { transform: rotate(360deg); } }
+
 /* ---------- 关于页联系方式 ---------- */
 .contact-grid {
   display: grid;
