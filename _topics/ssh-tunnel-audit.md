@@ -13,6 +13,10 @@ links:
     form: 完整版长文（8 章）
     url: /articles/ssh-tunnel-audit/
     note: 在线阅读完整版
+  - platform: 官网
+    form: 配套执行手册（8 步落地版）
+    url: /articles/ssh-tunnel-audit-manual/
+    note: 每步讲清证据链意义，配置与验收成套，附 docx 下载
 assets:
   - name: sshd 基线配置与账号开通脚本
     desc: Match Group tunnel-users + PermitOpen 白名单、authorized_keys 逐用户 restrict,port-forwarding、账号开通脚本（含 pam_shells 边角检查），可直接套用
@@ -20,6 +24,9 @@ assets:
   - name: Tetragon 观测策略与规整脚本
     desc: all-internal-connect.yaml（DAddr CIDR 内核态过滤，不限进程不限端口）、tunnel_flow_filter.py（10 秒窗口聚合 + session.id 同公式生成）、Filebeat 双路采集配置
     location: 文章第 6 章，已随长文上线
+  - name: 日志审计执行手册 docx
+    desc: 手册离线版，含修订记录与每步意义说明，适合打印与内网分发
+    location: 手册页内下载 /assets/files/ssh-tunnel-audit-manual.docx
 research_notes: SSH隧道机运维与审计技术研究报告.html
 ---
 
