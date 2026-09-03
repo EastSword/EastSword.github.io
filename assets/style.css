@@ -512,21 +512,36 @@ body::after {
 .news-meta .sep { color: var(--gold); opacity: .4; }
 .news-list { display: flex; flex-direction: column; gap: 8px; }
 
-/* FOFA 式双栏检索：左 1/6 筛选面板 / 右 5/6 条目列表 */
+/* FOFA 式双栏检索：资讯页独占加宽容器（向两侧拉伸），左侧固定宽筛选面板 + 右侧自适应条目列表 */
+#news .wrap { max-width: 1440px; }
 .news-layout {
   display: grid;
-  grid-template-columns: 1fr 5fr;
-  gap: 26px;
+  grid-template-columns: 262px minmax(0, 1fr);
+  gap: 32px;
   align-items: start;
 }
 .news-main { min-width: 0; }
-.news-main .filter-count { margin-bottom: 12px; }
 
-/* 左栏筛选面板：吸附滚动，选项过多时内部滚动 */
+/* 命中统计条吸附在导航下方：滚动时筛选状态与清除按钮保持可见 */
+.news-main .filter-count {
+  position: sticky;
+  top: 74px;
+  z-index: 6;
+  margin: 0 0 14px;
+  padding: 9px 12px;
+  background: rgba(10, 12, 16, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.news-main .filter-count:empty { padding: 0; border: none; background: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+
+/* 左栏筛选面板：吸附滚动（让出顶部导航约 55px，避免被磨砂导航条压住），选项过多时内部滚动 */
 .facet-panel {
   position: sticky;
-  top: 22px;
-  max-height: calc(100vh - 44px);
+  top: 74px;
+  max-height: calc(100vh - 98px);
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -993,9 +1008,10 @@ footer.site .social .sep { color: var(--gold); opacity: .4; }
   .nav .links { gap: 16px; }
   .modules { grid-template-columns: 1fr; }
   .contact-grid { grid-template-columns: 1fr; }
-  /* 资讯检索：小屏收起左栏，筛选面板置顶自然展开 */
+  /* 资讯检索：小屏收起左栏，筛选面板与统计条恢复普通流 */
   .news-layout { grid-template-columns: 1fr; gap: 16px; }
   .facet-panel { position: static; max-height: none; overflow: visible; }
+  .news-main .filter-count { position: static; margin-bottom: 12px; padding: 0; background: none; border: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
   .news-item:hover { transform: none; }
   .filter-bar { flex-direction: column; align-items: stretch; }
 }
