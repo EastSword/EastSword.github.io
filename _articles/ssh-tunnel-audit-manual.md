@@ -49,7 +49,7 @@ toc:
     children: []
 ---
 
-这本手册是《[SSH 隧道机运维与审计：从中转便利到可审计访问](/articles/ssh-tunnel-audit/)》的落地执行版。长文回答"为什么要这么设计"，手册回答"具体怎么配、怎么验收、出问题怎么排查"。所有配置与长文保持同一基线，可以按顺序直接执行。需要离线版的话，[docx 全文在这里下载](/assets/files/ssh-tunnel-audit-manual.docx)。
+这本手册是《[SSH 隧道机运维与审计：从中转便利到可审计访问](/articles/ssh-tunnel-audit/)》的落地执行版。长文回答"为什么要这么设计"，手册回答"具体怎么配、怎么验收、出问题怎么排查"。所有配置与长文保持同一基线，可以按顺序直接执行。需要离线版的话，[docx 全文在这里下载](https://eastsword.github.io/assets/files/ssh-tunnel-audit-manual.docx)：https://eastsword.github.io/assets/files/ssh-tunnel-audit-manual.docx
 
 ## 0. 手册定位与落地顺序
 {: #m00}

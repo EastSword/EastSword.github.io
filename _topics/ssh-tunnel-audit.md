@@ -26,7 +26,8 @@ assets:
     location: 文章第 6 章，已随长文上线
   - name: 日志审计执行手册 docx
     desc: 手册离线版，含修订记录与每步意义说明，适合打印与内网分发
-    location: 手册页内下载 /assets/files/ssh-tunnel-audit-manual.docx
+    url: https://eastsword.github.io/assets/files/ssh-tunnel-audit-manual.docx
+    location: docx 直接下载 · eastsword.github.io/assets/files/ssh-tunnel-audit-manual.docx
 research_notes: SSH隧道机运维与审计技术研究报告.html
 ---
 
