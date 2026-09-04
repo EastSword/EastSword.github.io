@@ -1,13 +1,18 @@
 ---
-published: false
+published: true
 layout: topic
 title: 公司迁云动作清单
 subtitle: 迁云不是搬机器：从摸家底到割接回滚，安全与稳定两条线的全流程动作
 date: 2026-09-03
-updated: 2026-09-03
-status: drafting
+updated: 2026-09-05
+status: published
 category: 云安全
 tags: [云迁移, 等保合规, 安全架构, 稳定性]
+links:
+  - platform: 官网
+    form: 完整版长文（6 章）
+    url: /articles/cloud-migration/
+    note: 官网独发，在线阅读完整版
 ---
 
 ## 核心问题
