@@ -15,6 +15,8 @@
   5. 重写图片路径 文章配图/xxx → /assets/images/<slug>/xxx，并拷贝图片
   6. 计算阅读时长；首次发布写 date，再发布只更新 updated（读取已有文章的 date 保持稳定）
   7. 写 _articles/<slug>.md；git 有变更则 add/commit/push
+  8. 课题联动：登记表 topic 字段有值时，把 _topics/<topic>.md 同步为已发布
+     （published/status → published、刷新 updated；links 缺本文官网入口时自动补一条）
 
 登记新文章: 编辑器 scripts/edit_article.py 里「＋新建」，或手改 scripts/articles.json。
 """
@@ -30,6 +32,7 @@ from pathlib import Path
 
 SITE = Path(__file__).resolve().parent.parent
 ARTICLES_DIR = SITE / "_articles"
+TOPICS_DIR = SITE / "_topics"
 IMG_ROOT = SITE / "assets" / "images"
 MASTER_ROOT = SITE.parent  # 安全架构/
 REGISTRY = Path(__file__).resolve().parent / "articles.json"
@@ -217,6 +220,62 @@ def existing_date(slug: str):
     return m.group(1) if m else None
 
 
+def sync_topic(cfg, updated: str) -> bool:
+    """课题联动：文章发布后，把登记表 topic 字段指向的课题同步为已发布
+
+    - published: false → true；status: drafting/publishing → published（已是 published 不动）
+    - links 里没有本文的官网入口时自动补一条（形态/备注可后续手改）
+    - 只有确实发生修改才刷新 updated 并写回，避免每次发布产生空变更
+    返回是否修改了课题文件
+    """
+    topic_slug = str(cfg.get("topic") or "").strip()
+    if not topic_slug:
+        return False
+    tpath = TOPICS_DIR / f"{topic_slug}.md"
+    if not tpath.exists():
+        print(f"  [警告] 登记表 topic 指向的课题不存在: _topics/{topic_slug}.md，跳过联动")
+        return False
+
+    text = tpath.read_text(encoding="utf-8")
+    m = re.match(r"\A---\n(.*?)\n---\n", text, re.S)
+    if not m:
+        print(f"  [警告] 课题文件缺少 front-matter: {tpath.name}，跳过联动")
+        return False
+    fm, orig = m.group(1), m.group(1)
+
+    if re.search(r"^published:\s*false\s*$", fm, re.M):
+        fm = re.sub(r"^published:\s*false\s*$", "published: true", fm, flags=re.M)
+    elif not re.search(r"^published:", fm, re.M):
+        fm = "published: true\n" + fm
+    if re.search(r"^status:\s*(drafting|publishing)\s*$", fm, re.M):
+        fm = re.sub(r"^status:\s*\S+\s*$", "status: published", fm, flags=re.M)
+    elif not re.search(r"^status:", fm, re.M):
+        fm = "status: published\n" + fm
+
+    art_url = f"/articles/{cfg['slug']}/"
+    if art_url not in fm:
+        entry = ("  - platform: 官网\n"
+                 "    form: 完整版长文\n"
+                 f"    url: {art_url}\n"
+                 "    note: 在线阅读完整版")
+        if re.search(r"^links:\s*(\[\]\s*)?$", fm, re.M):
+            fm = re.sub(r"^links:\s*(\[\]\s*)?$", "links:\n" + entry, fm, count=1, flags=re.M)
+        else:
+            fm = fm + "\nlinks:\n" + entry
+
+    if fm == orig:
+        return False
+
+    if re.search(r"^updated:\s*\S+\s*$", fm, re.M):
+        fm = re.sub(r"^updated:\s*\S+\s*$", f"updated: {updated}", fm, flags=re.M)
+    else:
+        fm += f"\nupdated: {updated}"
+
+    tpath.write_text("---\n" + fm + "\n---\n" + text[m.end():], encoding="utf-8")
+    print(f"  [联动] 课题 _topics/{topic_slug}.md 已同步为已发布（status/published/updated，确保官网入口）")
+    return True
+
+
 def git(*args, check=True, timeout=60):
     """所有 git 调用必须带超时：直连 GitHub 网络不通时 git 会无限挂起，拖死整个发布流程"""
     return subprocess.run(["git", "-C", str(SITE), *args],
@@ -271,11 +330,13 @@ def publish(cfg, push=True):
     changed = (not out.exists()) or (out.read_text(encoding="utf-8") != content)
     out.write_text(content, encoding="utf-8")
 
+    topic_changed = sync_topic(cfg, updated)
+
     n_ch = len(toc)
     print(f"  章节 {n_ch} 个，图片 {len(used)} 张（更新 {len(copied)} 张），阅读约 {minutes} 分钟")
-    if not changed and not copied:
+    if not changed and not copied and not topic_changed:
         print("  无变化")
-    return changed or bool(copied)
+    return changed or bool(copied) or topic_changed
 
 
 def main():

@@ -23,6 +23,8 @@
 
 **发布/修订长文（命令行）**：主稿在本地改（如 `安全架构/公网大模型的密钥泄露：攻击面、提取手法与防御.md`），跑 `python3 scripts/publish_article.py`。脚本自动：剥 H1、给章节注入锚点并生成目录、把 `文章配图/` 图片搬运到 `assets/images/<slug>/` 并改写路径、计算阅读时长、更新 `updated` 日期（首发的 `date` 保持不变）→ commit + push，1 分钟后线上生效。加 `--no-push` 只生成不推送。新文章用编辑器「＋新建」或手改 `scripts/articles.json`（source 为相对 blog-site 的路径）。
 
+**课题联动（自动）**：发布文章时若登记表 `topic` 字段有值，脚本自动把 `_topics/<topic>.md` 同步为已发布——`published: true`、`status: published`、刷新 `updated`，且 `links` 里缺本文官网入口时自动补一条（`form` / `note` 为通用文案，可后续手改）。已是 published 且入口齐全的课题不会被动到（幂等）。课题文件不存在时打警告跳过，不阻塞发布。
+
 **发布新平台后回填地址**：打开 `_topics/<话题>.md`，填 `url:`、改 `note` 和 `updated`。commit + push，1 分钟后自动生效。
 
 **新增课题**：复制 `_topics/` 下任一文件，front-matter 里 `status` 三选一（`drafting` / `publishing` / `published`），`category` 填领域分类（身份安全 / AI安全 / 供应链安全 / 网络安全…，分类 chips 自动生成），`keyword` 填公众号关键词，`links` / `videos` / `assets` 数组按需增删。
