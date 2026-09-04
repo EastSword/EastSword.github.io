@@ -4,7 +4,7 @@ title: "公网大模型的密钥泄露：攻击面、提取手法与防御"
 subtitle: "口令不是关键，公网暴露才是。五家机构数据交叉验证 + FOFA 独立测量 + 422 台实例实测 + 四起国内暴露实证"
 abstract: "LiteLLM 的 SQL 注入漏洞进 CISA KEV 后 36 小时内被在野利用，攻击者直奔存上游 Key 的三张表。这篇文章用 FOFA 测量、两个审计脚本和 47 条一手来源，把公网大模型系统的 Key 是怎么被拿的讲透：八条提取路径、四起国内暴露实证、三条产业链、九层防御。"
 date: 2026-08-31
-updated: 2026-09-03
+updated: 2026-09-05
 reading_time: 43
 topic: llm-api-key-security
 category: "AI安全"
