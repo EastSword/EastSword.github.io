@@ -12,10 +12,10 @@ layout: default
       <span class="gold">每一次迁移</span>
     </h1>
     <p class="lead">
-      从 Web 安全到 AI Agent 时代，攻击者换了兵器，攻的仍是同一处命门。东方隐侠安全团队以研究话题为脉络，逐一拆解身份、供应链、AI 安全三大战场上的攻击路径。
+      从 Web 安全到 AI Agent 时代，攻击者换了兵器，攻的仍是同一处命门。东方隐侠安全团队以研究课题为脉络，逐一拆解身份、供应链、AI 安全三大战场上的攻击路径。
     </p>
     <div class="cta">
-      <a class="primary" href="{{ '/topics/' | relative_url }}">进入研究话题</a>
+      <a class="primary" href="{{ '/topics/' | relative_url }}">进入研究课题</a>
       <a class="ghost" href="{{ '/news/' | relative_url }}">今日安全资讯</a>
     </div>
   </div>
@@ -28,14 +28,14 @@ layout: default
     <div class="section-head">
       <div class="num">00 / SECTORS</div>
       <h2>五大板块</h2>
-      <p class="desc">研究话题纵深拆解，安全资讯每日同步内网情报源，兵器谱收录试炼过的工具，江湖留名汇聚同行足迹。</p>
+      <p class="desc">研究课题纵深拆解，安全资讯每日同步内网情报源，兵器谱收录试炼过的工具，江湖留名汇聚同行足迹。</p>
     </div>
     <div class="modules">
       <a class="module m-teal" href="{{ '/topics/' | relative_url }}">
         <div class="glyph">研</div>
-        <div class="m-title">研究话题</div>
-        <div class="m-desc">每个话题是一次完整研究：第一性原理拆解 + 真实事件 + 检测基线</div>
-        <div class="m-meta">{{ site.topics | size }} 个课题 · {{ site.articles | size }} 篇长文</div>
+        <div class="m-title">研究课题</div>
+        <div class="m-desc">三大栏目长期维护：热点拆解 · 实测与复现 · 接入与治理，聚合原创成果与全球精选资料</div>
+        <div class="m-meta">{{ site.topics | size }} 个课题 · {{ site.articles | size }} 篇长文 · {{ site.resources | size }} 条精选资料</div>
       </a>
       <a class="module m-gold" href="{{ '/news/' | relative_url }}">
         <div class="glyph">讯</div>
@@ -70,8 +70,8 @@ layout: default
   <div class="wrap">
     <div class="section-head">
       <div class="num">01 / RESEARCH</div>
-      <h2>最新研究话题</h2>
-      <p class="desc">全平台形态入口聚合于话题页内：公众号、CSDN、B站、视频号一站直达。</p>
+      <h2>最新研究课题</h2>
+      <p class="desc">课题页聚合原创成果、精选外部资料与最新情报，长期维护、持续修订。</p>
     </div>
     <div class="bento">
       {% assign topics = site.topics | sort: date | reverse %}

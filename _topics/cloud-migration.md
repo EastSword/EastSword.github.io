@@ -7,6 +7,7 @@ date: 2026-09-03
 updated: 2026-09-05
 status: published
 category: 云安全
+column: 接入与治理
 tags: [云迁移, 等保合规, 安全架构, 稳定性]
 links:
   - platform: 官网

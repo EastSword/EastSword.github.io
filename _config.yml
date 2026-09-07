@@ -22,5 +22,7 @@ collections:
   articles:
     output: true
     permalink: /articles/:name/
+  resources:          # 精选外部资料（官方规范/标准/论文/工具/事件复盘），不产出页面，只作数据供课题页与 /topics/ 聚合
+    output: false
 kramdown:
   auto_ids: true

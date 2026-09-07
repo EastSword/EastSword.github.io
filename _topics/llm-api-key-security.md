@@ -8,6 +8,7 @@ updated: 2026-09-02
 status: published
 keyword: APIKEY
 category: AI安全
+column: 实测与复现
 tags: [AI 安全, 云安全, 检测工程]
 links:
   - platform: 官网

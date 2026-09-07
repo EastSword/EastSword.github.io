@@ -8,6 +8,7 @@ updated: 2026-08-25
 status: drafting
 keyword: MCP
 category: AI安全
+column: 热点拆解
 tags: [AI 安全, 供应链安全]
 links:
   - platform: 公众号

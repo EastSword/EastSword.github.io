@@ -3,7 +3,7 @@ layout: default
 ---
 <div class="wrap">
   <div class="topic-hero">
-    <div class="crumb"><a href="{{ '/' | relative_url }}">研究话题</a> / {{ page.title }}</div>
+    <div class="crumb"><a href="{{ '/topics/' | relative_url }}">研究课题</a> / {{ page.title }}</div>
     <h1>{{ page.title }}</h1>
     {% if page.subtitle %}<div class="sub">{{ page.subtitle }}</div>{% endif %}
     <div class="meta">
@@ -14,6 +14,7 @@ layout: default
       {% else %}
         <span class="badge drafting">撰写中</span>
       {% endif %}
+      {% if page.column %}<span class="badge column-badge">{{ page.column }}</span>{% endif %}
       <span>立项 {{ page.date | date: "%Y-%m-%d" }}</span>
       {% if page.updated %}<span>索引更新 {{ page.updated }}</span>{% endif %}
       {% if page.keyword %}
@@ -21,6 +22,17 @@ layout: default
       {% endif %}
     </div>
   </div>
+
+  {% if page.reading_path %}
+  <section class="block">
+    <h2>入门路径</h2>
+    <ol class="reading-path">
+      {% for step in page.reading_path %}
+      <li>{{ step }}</li>
+      {% endfor %}
+    </ol>
+  </section>
+  {% endif %}
 
   {% if page.links %}
   <section class="block">
@@ -94,8 +106,78 @@ layout: default
   </section>
   {% endif %}
 
+  {% assign topic_res = site.resources | where_exp: "r", "r.topics contains page.slug" | sort: date | reverse %}
+  {% if topic_res.size > 0 %}
   <section class="block">
-    <h2>话题摘要</h2>
+    <h2>精选外部资料</h2>
+    <p class="block-note">只收核验过的来源：标注原作者、出处与推荐理由，以链接和自己的摘要为主，完整转载需取得授权；原创、编译、推荐、复现分别标注。</p>
+    <div class="resource-list">
+      {% for r in topic_res %}
+      <a class="resource-card" href="{{ r.url }}" target="_blank" rel="noopener">
+        <div class="rc-top">
+          <span class="badge res-type">{{ r.type }}</span>
+          <span class="rc-source">{{ r.source }}</span>
+          {% if r.author %}<span class="rc-author">{{ r.author }}</span>{% endif %}
+          {% if r.published %}<span class="rc-date">{{ r.published }}</span>{% endif %}
+        </div>
+        <div class="rc-title">{{ r.title }}</div>
+        {% if r.reason %}<div class="rc-reason">推荐理由：{{ r.reason }}</div>{% endif %}
+        <div class="rc-body">{{ r.content | markdownify }}</div>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% if page.findings %}
+  <section class="block">
+    <h2>当前结论</h2>
+    <div class="findings">
+      {% if page.findings.known %}
+      <div class="finding-col known">
+        <h4>已经知道</h4>
+        <ul>
+          {% for k in page.findings.known %}
+          <li>{{ k }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      {% if page.findings.open %}
+      <div class="finding-col open">
+        <h4>仍有争议 · 待验证</h4>
+        <ul>
+          {% for o in page.findings.open %}
+          <li>{{ o }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% if page.changelog %}
+  <section class="block">
+    <h2>维护记录</h2>
+    {% assign logs = page.changelog %}
+    <div class="table-shell">
+      <table>
+        <tr><th>日期</th><th>动作</th></tr>
+        {% for c in logs %}
+        <tr>
+          <td class="ch-date">{{ c.date }}</td>
+          <td>{{ c.action }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+    <p class="block-note">发现错误、失效链接或过时结论？<a href="{{ '/wall/' | relative_url }}">前往江湖留名留言</a>，核实后在维护记录中修正。</p>
+  </section>
+  {% endif %}
+
+  <section class="block">
+    <h2>课题详情</h2>
     <div class="body">
       {{ content }}
     </div>

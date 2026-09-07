@@ -7,6 +7,7 @@ date: 2026-09-02
 updated: 2026-09-03
 status: published
 category: 运维安全
+column: 实测与复现
 tags: [运维安全, 安全审计, 检测工程]
 links:
   - platform: 官网
