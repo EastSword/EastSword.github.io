@@ -13,18 +13,6 @@ links:
     form: 完整版长文
     url: /articles/ai-agent-governance/
     note: 在线阅读完整版
-  - platform: 公众号
-    form: 图文精编版
-    note: 待上线
-  - platform: CSDN
-    form: 博客长文版（18 章完整版）
-    note: 待上线
-  - platform: B站
-    form: 视频讲解版
-    note: 待上线
-  - platform: 视频号
-    form: 短视频精华版
-    note: 待上线
 research_notes: 企业员工使用AI_Agent的安全管控与监控技术研究.md
 ---
 
