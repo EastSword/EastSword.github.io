@@ -4,22 +4,11 @@ title: 研究课题
 permalink: /topics/
 ---
 <section id="topics">
-  <div class="wrap">
+  <div class="wrap wrap-wide">
     <div class="section-head">
       <div class="num">01 / RESEARCH</div>
       <h2>研究课题</h2>
       <p class="desc">研究 AI 如何安全地进入真实工作：技术拆解、实测复现与落地方法。每个课题长期维护，按道、法、术、器四层组织，聚合原创成果、精选外部资料与持续更新的情报。</p>
-    </div>
-
-    <div class="topic-charter">
-      <div class="charter-brand">千里 · 东方隐侠</div>
-      <p class="charter-line">研究 AI 如何安全地进入真实工作，提供技术拆解、实测与落地方法。</p>
-      <div class="charter-aud">
-        <span class="ca-label">服务对象</span>
-        <em>正在使用 AI 的研发人员</em>
-        <span class="ca-dot">·</span>
-        <em>负责企业 AI 接入的安全负责人</em>
-      </div>
     </div>
 
     {% assign topics = site.topics | sort: date | reverse %}

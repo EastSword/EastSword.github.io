@@ -8,6 +8,10 @@ updated: 2026-09-03
 status: 已结题
 categories: [运维安全, 检测与响应]
 tags: [运维安全, 安全审计, 检测工程]
+dao_summary: "SSH 转发天然把证据拆成两半：登录日志只证明“谁连上了跳板机”，隧道流量由 sshd 重新发起，内网服务看到的来源永远是跳板机 IP。审计设计的第一性问题是把被协议拆开的证据重新缝起来；原则是只给用户一个 SSH 入口、不给内网通行证，一人一号是审计的前提。"
+fa_summary: "方法论是用一个 ID 缝合两半证据：session.id = SHA1(主机|用户|sshd 父进程 PID|小时桶) 在认证侧与连接侧同公式生成、双向互查；四类最小审计事件只记元数据不抓业务内容，回答运维审计四问；匹配不到时按 PID → 父子进程 → 同 UID 时间窗逐级降级并标记置信度，把不完美变成可度量的。"
+shu_summary: "落地从配置到采集全链路给齐：sshd 基线（VERBOSE 日志、local 转发、PermitOpen 白名单、nologin）含 ForceCommand 对纯转发不生效的坑；Tetragon eBPF 内核态全量观测内网连接，bcc tcplife 补字节数与时长；十秒窗口聚合防日志撑爆系统；8 章长文配 8 步执行手册（附 docx）。"
+qi_summary: "外部依据收权威实现与采集引擎：OpenSSH 是转发机制与日志语义的出处，Tetragon 承担 eBPF 内核态采集核心，bcc tcplife 补齐连接生命周期观测，Elasticsearch + Filebeat 承载双索引与 Ingest Pipeline。每条标注来源与推荐星级。"
 dao:
   - title: SSH 转发把证据拆成两半
     text: 登录日志只证明"谁连上了跳板机"；隧道里的流量由 sshd 重新发起 TCP 连接，内网服务看到的来源永远是跳板机 IP，身份归属就此断掉——审计设计的第一性问题是把被协议拆开的证据重新缝起来。

@@ -1,9 +1,14 @@
 {% comment %}
-  道法术器条目板块
-  参数：zi=单字层名, cls=层样式名(dao/fa/shu/qi), name=层标题, note=一句说明, items=条目数组
+  道法术器条目板块（左右分栏：左 2/5 层概括，右 3/5 资源列表）
+  参数：zi=单字层名, cls=层样式名(dao/fa/shu/qi), name=层标题, note=一句说明,
+        summary=本层概括文字, items=条目数组
   条目字段：title, text, type(原创|转载), platform, url, desc(悬停介绍), stars(推荐星级)
 {% endcomment %}
 {% if include.items and include.items.size > 0 %}
+{% assign df_orig = 0 %}{% assign df_rep = 0 %}
+{% for item in include.items %}
+  {% if item.type == "原创" %}{% assign df_orig = df_orig | plus: 1 %}{% else %}{% assign df_rep = df_rep | plus: 1 %}{% endif %}
+{% endfor %}
 <section class="block df-block layer-{{ include.cls }}">
   <div class="df-block-head">
     <span class="df-zi" aria-hidden="true">{{ include.zi }}</span>
@@ -12,34 +17,46 @@
       <p class="df-note">{{ include.note }}</p>
     </div>
   </div>
-  <div class="df-list">
-    {% for item in include.items %}
-    <article class="df-card{% if item.desc %} has-tip{% endif %}"{% if item.desc %} tabindex="0"{% endif %}>
-      <div class="df-card-top">
-        <h3 class="df-title">{{ item.title }}</h3>
-        {% if item.type == "原创" %}
-        <span class="badge df-type df-orig">原创</span>
-        {% else %}
-        <span class="badge df-type df-reprint">转载</span>
-        {% endif %}
-      </div>
-      {% if item.text %}<p class="df-text">{{ item.text }}</p>{% endif %}
-      <div class="df-card-foot">
-        {% if item.platform %}<span class="df-platform">{{ item.platform }}</span>{% endif %}
-        {% if item.stars %}
-        <span class="df-stars" title="推荐星级 {{ item.stars }}/5">
-          {% for i in (1..item.stars) %}★{% endfor %}
-        </span>
-        {% endif %}
-        {% if item.url %}
-        <a class="df-link" href="{{ item.url }}" target="_blank" rel="noopener">跳转 ↗</a>
-        {% endif %}
-      </div>
-      {% if item.desc %}
-      <div class="df-tip" role="tooltip">{{ item.desc }}</div>
+  <div class="df-cols">
+    <aside class="df-summary">
+      <div class="df-sum-label">本层概括</div>
+      {% if include.summary %}
+      <p class="df-sum-text">{{ include.summary }}</p>
       {% endif %}
-    </article>
-    {% endfor %}
+      <div class="df-sum-stats">
+        <span class="ds-count"><b>{{ include.items.size }}</b> 项资源</span>
+        <span class="ds-split">原创 {{ df_orig }} · 转载 {{ df_rep }}</span>
+      </div>
+    </aside>
+    <div class="df-list">
+      {% for item in include.items %}
+      <article class="df-card{% if item.desc %} has-tip{% endif %}"{% if item.desc %} tabindex="0"{% endif %}>
+        <div class="df-card-top">
+          <h3 class="df-title">{{ item.title }}</h3>
+          {% if item.type == "原创" %}
+          <span class="badge df-type df-orig">原创</span>
+          {% else %}
+          <span class="badge df-type df-reprint">转载</span>
+          {% endif %}
+        </div>
+        {% if item.text %}<p class="df-text">{{ item.text }}</p>{% endif %}
+        <div class="df-card-foot">
+          {% if item.platform %}<span class="df-platform">{{ item.platform }}</span>{% endif %}
+          {% if item.stars %}
+          <span class="df-stars" title="推荐星级 {{ item.stars }}/5">
+            {% for i in (1..item.stars) %}★{% endfor %}
+          </span>
+          {% endif %}
+          {% if item.url %}
+          <a class="df-link" href="{{ item.url }}" target="_blank" rel="noopener">跳转 ↗</a>
+          {% endif %}
+        </div>
+        {% if item.desc %}
+        <div class="df-tip" role="tooltip">{{ item.desc }}</div>
+        {% endif %}
+      </article>
+      {% endfor %}
+    </div>
   </div>
 </section>
 {% endif %}

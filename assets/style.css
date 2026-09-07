@@ -56,6 +56,8 @@ body::after {
 }
 
 .wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+/* 研究课题页加宽修饰类 */
+.wrap-wide { max-width: 1320px; }
 
 /* ---------- 顶部导航：磨砂玻璃 ---------- */
 .nav {
@@ -1117,6 +1119,9 @@ footer.site .social .sep { color: var(--gold); opacity: .4; }
 @media (max-width: 960px) {
   .modules { grid-template-columns: repeat(2, 1fr); }
   .contact-grid { grid-template-columns: repeat(2, 1fr); }
+  /* 研究课题：分栏收起为上下堆叠，概括块取消吸顶 */
+  .df-cols { grid-template-columns: 1fr; }
+  .df-summary { position: static; max-height: none; overflow: visible; }
 }
 @media (max-width: 760px) {
   .bento { grid-template-columns: 1fr; }

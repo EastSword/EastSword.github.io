@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-<div class="wrap">
+<div class="wrap wrap-wide">
   <div class="topic-hero">
     <div class="crumb"><a href="{{ '/topics/' | relative_url }}">研究课题</a> / {{ page.title }}</div>
     <h1>{{ page.title }}</h1>
@@ -26,10 +26,10 @@ layout: default
 
   {% if page.dao or page.fa or page.shu or page.qi %}
   <div class="df-stack">
-    {% include df-layer.html zi="道" cls="dao" name="第一性思考" note="最根本的思考，从第一性原理出发的分析" items=page.dao %}
-    {% include df-layer.html zi="法" cls="fa" name="方法论" note="结合现实问题的思考，抽象层面的方法与思路" items=page.fa %}
-    {% include df-layer.html zi="术" cls="shu" name="落地方法" note="解决具体落地问题的方式方法" items=page.shu %}
-    {% include df-layer.html zi="器" cls="qi" name="工具与资源" note="具体使用的工具、规范与外部资源" items=page.qi %}
+    {% include df-layer.html zi="道" cls="dao" name="第一性思考" note="最根本的思考，从第一性原理出发的分析" summary=page.dao_summary items=page.dao %}
+    {% include df-layer.html zi="法" cls="fa" name="方法论" note="结合现实问题的思考，抽象层面的方法与思路" summary=page.fa_summary items=page.fa %}
+    {% include df-layer.html zi="术" cls="shu" name="落地方法" note="解决具体落地问题的方式方法" summary=page.shu_summary items=page.shu %}
+    {% include df-layer.html zi="器" cls="qi" name="工具与资源" note="具体使用的工具、规范与外部资源" summary=page.qi_summary items=page.qi %}
   </div>
   {% endif %}
 
