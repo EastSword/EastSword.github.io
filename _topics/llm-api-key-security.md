@@ -5,11 +5,75 @@ title: 公网大模型的密钥泄露
 subtitle: 口令不是关键，公网暴露才是：API Key 的窃取路径、实测证据与防御方法论
 date: 2026-08-30
 updated: 2026-09-02
-status: published
+status: 已结题
 keyword: APIKEY
-category: AI安全
-column: 实测与复现
+categories: [AI安全, 供应链安全, 检测与响应]
 tags: [AI 安全, 云安全, 检测工程]
+dao:
+  - title: 口令不是关键，公网暴露才是
+    text: 密钥安全的第一性问题不是密钥字符串的强度，而是它出现在哪些可被枚举的位置——Git 历史、日志、客户端二进制、公网管理台。攻击者不猜口令，攻击者只收集暴露面。
+    type: 原创
+    platform: 本课题
+  - title: 测量口径决定结论
+    text: 精确指纹（13 个框架逐一探测）与宽口径（端口与路径特征）两种测量给出的暴露量相差一个数量级——没有口径声明的数字不可比较，也不会带来正确的风险判断。
+    type: 原创
+    platform: 本课题
+fa:
+  - title: 双口径测量方法论
+    text: 精确指纹给出"确定的框架分布"，宽口径给出"可能的上界"，两者一起画出暴露面的置信区间——只报单一数字的扫描结论都应先问口径。
+    type: 原创
+    platform: 本课题
+  - title: 八条提取路径枚举
+    text: 从 Git 历史、构建日志、容器镜像、客户端二进制、错误日志、公网配置文件、MCP 服务器、内存转储八个位置系统枚举密钥泄露面——攻击面清单位于防御清单之前。
+    type: 原创
+    platform: 本课题
+  - title: 检测锚点前置法
+    text: 进程树、IOC、哨兵串、指纹请求四类锚点，让"密钥被用"这件事在流量与终端两个平面都可见——检测先于轮换，看见先于处置。
+    type: 原创
+    platform: 本课题
+shu:
+  - title: FOFA 实测数据（2026-08，双口径）
+    text: 13 个框架精确指纹与宽口径暴露量对照，含中国境内分布与口径说明，Flowise 422 台公网实例实证基线。
+    type: 原创
+    platform: 本课题
+  - title: 防御八条落地
+    text: 从轮换机制、出口代理、扫描前置到哨兵串植入的完整落地清单，每条对应可执行的配置位置。
+    type: 原创
+    platform: 本课题
+  - title: 官网完整版长文
+    text: 约 4.9 万字、14 章的完整研究长文，先于全平台首发。
+    type: 原创
+    platform: 官网
+    url: /articles/llm-api-key-leak/
+    desc: 官网完整版：攻击面、八条提取路径、利用链与防御方法论
+  - title: 公众号系列三篇
+    text: 上篇攻击面与实测案例、中篇八条提取路径拆解、下篇利用链与防御。
+    type: 原创
+    platform: 公众号
+    url: https://mp.weixin.qq.com/s/DV9g5QUjB3CpnD_lYhzntw
+    desc: 公网大模型密钥泄露系列上篇：攻击面与实测案例
+qi:
+  - title: FOFA
+    text: 网络空间测绘引擎，本课题双口径实测数据的采集平台。
+    type: 转载
+    platform: 白帽汇
+    url: https://fofa.info/
+    desc: FOFA 网络空间测绘：公网资产与暴露面的搜索引擎，国内测绘事实标准
+    stars: 5
+  - title: Ollama / Flowise
+    text: 本课题的主要研究对象：大模型本地运行与编排框架的公网暴露实证。
+    type: 转载
+    platform: GitHub
+    url: https://github.com/ollama/ollama
+    desc: Ollama 本地大模型运行框架，公网暴露与凭据枚举的研究样本
+    stars: 4
+  - title: FreeBuf 技术投稿版
+    text: 约 1.2 万字的技术投稿精简版。
+    type: 原创
+    platform: FreeBuf
+    url: https://www.freebuf.com/articles/ai-security/498322.html
+    desc: FreeBuf 技术投稿版：公网大模型密钥泄露的技术拆解
+    stars: 4
 links:
   - platform: 官网
     form: 完整版长文（约 4.9 万字，14 章，先于全平台首发）

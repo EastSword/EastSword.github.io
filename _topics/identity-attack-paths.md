@@ -5,11 +5,80 @@ title: 身份攻击七路径与ITDR
 subtitle: 密码对，MFA通过，零告警——合法认证身份的攻击面全景与检测之道
 date: 2026-08-25
 updated: 2026-08-29
-status: published
+status: 已结题
 keyword: ITDR
-category: 身份安全
-column: 实测与复现
+categories: [身份安全, 检测与响应]
 tags: [身份安全, 企业安全, 检测工程]
+dao:
+  - title: MFA 挡住门口的小偷，挡不住拿钥匙的主人
+    text: 身份安全的对手已从"无凭证的入侵者"变成"持有有效凭证的冒用者"——认证链路全绿、告警为零，攻击者已经进来了。防御重心必须从入口校验转向凭证全生命周期的持续证明。
+    type: 原创
+    platform: 本课题
+  - title: 凭证是有层级的
+    text: 从密码、OTP 种子、会话 Cookie、OAuth 令牌到签名密钥与设备身份秘密，L1 到 L6 层层向上——攻击者的目标永远是当前防护下最弱的一层，偷到哪层，MFA 就从哪层失效。
+    type: 原创
+    platform: 本课题
+  - title: 身份就是新的边界
+    text: Gartner 的结论：约 80% 的数据泄露源于凭证泄露或滥用。当边界防御默认存在，攻击者的最优策略就是直接成为"你"——身份治理的优先级因此高于绝大多数 perimeter 项目。
+    type: 原创
+    platform: 本课题
+fa:
+  - title: 七条攻击路径全景枚举
+    text: AiTM 反向代理、Infostealer、MFA 疲劳与注册劫持、SaaS 本地账号、签名密钥伪造、OAuth 恶意授权、恢复流程劫持——每条带技术拆解与 ATT&CK 映射，构成合法认证身份攻击面的完整清单。
+    type: 原创
+    platform: 本课题
+  - title: ITDR 检测方法论
+    text: 四类数据源（认证日志、特权访问、凭证暴露面、身份配置变更）关联分析，用九个信号覆盖七条路径——检测的对象不是"入侵事件"而是"身份行为的异常"。
+    type: 原创
+    platform: 本课题
+  - title: 落地卡点优先于正确清单
+    text: 每条防御措施写清落地卡点与推进顺序——不给正确但不可执行的清单，能落一步是一步。
+    type: 原创
+    platform: 本课题
+shu:
+  - title: 九信号检测规则
+    text: 覆盖七条攻击路径的九个检测信号，五条 KQL 查询可直接进 Microsoft Sentinel。
+    type: 原创
+    platform: 本课题
+  - title: AiTM 双 TLS 中继拆解
+    text: Evilginx 的反向代理如何拦截 Set-Cookie 拿到会话令牌、为何 MFA 全程"本人"参与仍然失效，附复现环境说明。
+    type: 原创
+    platform: 本课题
+  - title: 公众号系列三篇
+    text: 上篇讲 MFA 为何挡不住、中篇讲不偷密码的入侵、下篇讲零告警的入侵怎么抓。
+    type: 原创
+    platform: 公众号
+    url: https://mp.weixin.qq.com/s/EM5qM81ApwvRTa8MtvNugA
+    desc: 登录认证安全系列上篇：《MFA 能确保登录一定安全？未必》，2026-08-28 发布
+qi:
+  - title: MITRE ATT&CK
+    text: 七条路径逐一映射的技术知识库，检测覆盖度评估的坐标系。
+    type: 转载
+    platform: MITRE
+    url: https://attack.mitre.org/
+    desc: MITRE ATT&CK 对抗战术与技术知识库，全球检测工程的事实标准
+    stars: 5
+  - title: FIDO2 / WebAuthn
+    text: 凭证层级 L6 的答案：硬件绑定、源站验证、钓鱼免疫的身份认证标准。
+    type: 转载
+    platform: FIDO 联盟
+    url: https://fidoalliance.org/
+    desc: FIDO 联盟官方：FIDO2 与 WebAuthn 标准，抗钓鱼认证的规范出处
+    stars: 5
+  - title: Microsoft Sentinel
+    text: KQL 检测规则的载体，本课题五条查询的落地平台。
+    type: 转载
+    platform: 微软
+    url: https://learn.microsoft.com/azure/sentinel/
+    desc: Microsoft Sentinel 官方文档：SIEM 与 UEBA 检测工程
+    stars: 4
+  - title: B站讲解视频
+    text: 53 分钟视频：Uber 案例与零告警原理的完整讲解。
+    type: 原创
+    platform: B站
+    url: https://www.bilibili.com/video/BV1SX416mE6g
+    desc: 《身份认证问题讨论》53 分钟讲解：Uber 案 + 零告警原理
+    stars: 4
 links:
   - platform: 公众号
     form: 上篇《登录认证安全（上）MFA能确保登录一定安全？未必》

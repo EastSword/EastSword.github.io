@@ -5,10 +5,90 @@ title: SSH隧道机中转与审计
 subtitle: 运维没搞清原理就上线的中转方案——把 SSH 端口转发的机制、准入收敛与日志审计一次补齐
 date: 2026-09-02
 updated: 2026-09-03
-status: published
-category: 运维安全
-column: 实测与复现
+status: 已结题
+categories: [运维安全, 检测与响应]
 tags: [运维安全, 安全审计, 检测工程]
+dao:
+  - title: SSH 转发把证据拆成两半
+    text: 登录日志只证明"谁连上了跳板机"；隧道里的流量由 sshd 重新发起 TCP 连接，内网服务看到的来源永远是跳板机 IP，身份归属就此断掉——审计设计的第一性问题是把被协议拆开的证据重新缝起来。
+    type: 原创
+    platform: 本课题
+  - title: 只给入口，不给通行证
+    text: 核心原则是给用户一个 SSH 入口，而不是一张内网通行证——`-D` 动态 SOCKS 一旦放开，跳板机就变成内网横向通道，便利性换来的边界崩塌不可逆。
+    type: 原创
+    platform: 本课题
+  - title: 一人一号是审计的前提
+    text: 共享账号问题是结构问题不是查询问题——多人共用一个账号时，补再多日志也追不到具体的人。权限模型先于日志模型。
+    type: 原创
+    platform: 本课题
+fa:
+  - title: session.id 关联方法论
+    text: 用 session.id = SHA1(主机|用户|sshd 父进程 PID|小时桶) 把认证日志与连接日志重新缝合，auth 侧 Ingest Pipeline 与 flow 侧规整脚本同公式生成、双向互查——sshd 特权分离导致的 PID 差层是对齐关键。
+    type: 原创
+    platform: 本课题
+  - title: 四类最小审计事件设计
+    text: 登录成功/失败、会话开关、内网连接建立、连接关闭带字节数——只记元数据不抓业务内容，最小集合回答运维审计四问：谁登录、从哪登录、访问了哪些内网服务、访问规模是否异常。
+    type: 原创
+    platform: 本课题
+  - title: 匹配降级策略
+    text: session.id 匹配不到时按 PID → 父子进程 → 同 UID 加时间窗逐级降级，每级标记置信度——工程上承认不完美，但把不完美变成可度量的。
+    type: 原创
+    platform: 本课题
+shu:
+  - title: sshd 基线配置
+    text: LogLevel VERBOSE、AllowTcpForwarding local、GatewayPorts no、Match Group tunnel-users 配 PermitOpen 白名单、nologin 拒绝交互请求——含 ForceCommand 对纯转发登录不生效的坑。
+    type: 原创
+    platform: 本课题
+  - title: eBPF 内核态采集
+    text: Tetragon tcp_v4_connect 全量内网观测（DAddr CIDR 内核态过滤，不限进程不限端口），bcc tcplife 补 close 侧收发字节数与连接时长，systemd 常驻 + logrotate 保采集可靠。
+    type: 原创
+    platform: 本课题
+  - title: 十秒窗口聚合规整
+    text: Python 规整脚本按 10 秒窗口合并同五元组连接，防止高并发下日志撑爆系统——采集的可持续性先于采集的完整性。
+    type: 原创
+    platform: 本课题
+  - title: 官网长文与执行手册
+    text: 完整版长文（8 章）+ 配套执行手册（8 步落地版，每步讲清证据链意义，附 docx 下载）。
+    type: 原创
+    platform: 官网
+    url: /articles/ssh-tunnel-audit/
+    desc: SSH 隧道机中转与审计完整版长文：机制拆解、准入收敛、审计设计与告警
+qi:
+  - title: Tetragon
+    text: eBPF 安全观测引擎，内核态过滤 DAddr CIDR 的采集核心。
+    type: 转载
+    platform: GitHub
+    url: https://github.com/cilium/tetragon
+    desc: Cilium 出品的 eBPF 安全观测与执行引擎，实时内核事件采集
+    stars: 5
+  - title: OpenSSH
+    text: 端口转发机制的权威实现，VERBOSE 日志语义的出处。
+    type: 转载
+    platform: 官方
+    url: https://www.openssh.com/
+    desc: OpenSSH 官方：SSH 协议参考实现，特权分离与转发日志语义
+    stars: 5
+  - title: Elasticsearch + Filebeat
+    text: 双索引族（sshd.auth-* / ssh_tunnel.flow-*）与 Ingest Pipeline 的承载平台。
+    type: 转载
+    platform: Elastic
+    url: https://www.elastic.co/
+    desc: Elasticsearch 官方：搜索与分析引擎，Filebeat 双路采集与 Ingest Pipeline
+    stars: 4
+  - title: bcc tcplife
+    text: 补齐连接关闭侧字节数与时长观测的 eBPF 工具。
+    type: 转载
+    platform: GitHub
+    url: https://github.com/iovisor/bcc
+    desc: BPF Compiler Collection：tcplife 工具观测 TCP 连接生命周期
+    stars: 4
+  - title: 配套执行手册 docx
+    text: 手册离线版，含修订记录与每步意义说明，适合打印与内网分发。
+    type: 原创
+    platform: 官网
+    url: /articles/ssh-tunnel-audit-manual/
+    desc: SSH 隧道审计执行手册：8 步落地版，配置与验收成套
+    stars: 4
 links:
   - platform: 官网
     form: 完整版长文（8 章）

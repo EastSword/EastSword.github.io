@@ -4,11 +4,82 @@ layout: topic
 title: Tag 即发布权
 subtitle: GitLab / GitHub Tag 权限收敛与 CI 自动化管理实践
 date: 2026-08-25
-status: published
+status: 已结题
 keyword: tag
-category: 供应链安全
-column: 接入与治理
+categories: [供应链安全, 运维安全]
 tags: [CI/CD, 企业安全, 供应链安全]
+dao:
+  - title: Git 历史不可变，tag 可变
+    text: 默认心智模型里"已发布的版本"是固定的，但 Git 的 tag 本质是指针，可以被打、可以被移动、可以被覆盖——供应链信任建立在内容寻址（SHA）上，而 tag 是名字寻址，两套体系之间有一道天然裂缝。
+    type: 原创
+    platform: 本课题
+  - title: 分支审内容，tag 审意图
+    text: 企业普遍只配了分支保护（审代码内容），没配 tag 保护（审发布意图）——于是"发布一个版本"的权限实际掌握在每个 Developer 手里。tj-actions 事件用 15 小时和 23,000 个仓库证明了这份无人看守的权限在生产环境的杀伤力。
+    type: 原创
+    platform: 本课题
+fa:
+  - title: 六条攻击路径枚举
+    text: tag 绕过 MR 审核、retagging、版本号抢注、CI 配置注入偷凭证、产物漂移（xz 路数）、版本回滚——每条带复现命令与 ATT&CK 映射，构成 tag 攻击面的完整清单。
+    type: 原创
+    platform: 本课题
+  - title: L0-L3 成熟度模型
+    text: 从 L0 任意打 tag 到 L3 全自动签名发布，四级成熟度定位企业当前位置——自评的价值不在分数，而在暴露"下一步该收敛哪个口子"。
+    type: 原创
+    platform: 本课题
+  - title: 监控兜底三件套
+    text: 漂移监控、祖先校验、审计接入——权限收敛解决"不该发生"，监控兜底解决"发生了能知道"，两层缺一不可。
+    type: 原创
+    platform: 本课题
+shu:
+  - title: 双平台权限收敛配置
+    text: GitLab Protected Tags 与 GitHub Rulesets 的逐项配置——保护谁、允许谁、强制什么，五分钟自测你公司的发布权限。
+    type: 原创
+    platform: 本课题
+  - title: 四套 CI 生产脚本
+    text: GitLab Runner、TeamCity、Jenkins、GitHub Actions 四套打 tag 自动化接管脚本——TeamCity 版含五个真实踩坑记录（Monorepo 模块化版本线另附）。
+    type: 原创
+    platform: 本课题
+  - title: 公众号上下篇
+    text: 上篇《六条绕过代码审核的攻击路径》、下篇《从 Protected Tags 到 CI 自动化的收敛工程》。
+    type: 原创
+    platform: 公众号
+    url: https://mp.weixin.qq.com/s/CrNGPlDPP1iy6il1eRzjgQ
+    desc: Tag 即发布权上篇：六条绕过代码审核的攻击路径，2026-08-26 发布
+  - title: CSDN 自检避坑版
+    text: 《GitLab 任何人都能打 tag？5 分钟自测你公司的发布权限》。
+    type: 原创
+    platform: CSDN
+    url: https://blog.csdn.net/qq_37865996/article/details/164052810
+    desc: CSDN 自检避坑版：5 分钟自测公司发布权限的现状
+qi:
+  - title: GitLab Protected Tags
+    text: GitLab 侧 tag 权限收敛的原生机制，保护规则与维护者权限的官方文档。
+    type: 转载
+    platform: 官方文档
+    url: https://docs.gitlab.com/ee/user/project/protected_tags.html
+    desc: GitLab 官方文档：Protected Tags 的保护规则、通配符与权限配置
+    stars: 5
+  - title: GitHub Rulesets
+    text: GitHub 侧替代分支保护的规则引擎，tag 与分支的统一治理入口。
+    type: 转载
+    platform: 官方文档
+    url: https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets
+    desc: GitHub 官方文档：Rulesets 规则集管理，tag 保护与 required checks
+    stars: 5
+  - title: Git
+    text: tag 与 ref 的语义权威出处——lightweight 与 annotated tag 的信任差异在此定义。
+    type: 转载
+    platform: 官方
+    url: https://git-scm.com/
+    desc: Git 官方文档：tag、ref 与对象模型的语义定义
+    stars: 4
+  - title: 知识星球资产包
+    text: 五套 CI 脚本整包（含 Monorepo 版本线、TeamCity 六坑全解）、监控三件套、检测基线矩阵、评审会十问。
+    type: 原创
+    platform: 知识星球
+    url: https://t.zsxq.com/5FkZD
+    desc: Tag 治理完整资产包 v1.1：脚本、监控、基线与评审材料整包
+    stars: 4
 updated: 2026-08-26
 links:
   - platform: 公众号

@@ -1,31 +1,32 @@
 {% assign t = include.t %}
 {% assign t_tags = t.tags | join: "," %}
+{% assign t_cats = t.categories | join: "|" %}
 <a class="tile" href="{{ t.url | relative_url }}"
    data-title="{{ t.title | escape }}"
    data-subtitle="{{ t.subtitle | escape }}"
    data-keyword="{{ t.keyword | escape }}"
-   data-cat="{{ t.category | default: '未分类' }}"
+   data-cats="{{ t_cats }}"
+   data-status="{{ t.status | default: '待开始' }}"
    data-tags="{{ t_tags }}">
   <div class="row1">
-    {% if t.status == "published" %}
-      <span class="badge published">已发布</span>
-    {% elsif t.status == "publishing" %}
-      <span class="badge publishing">发布中</span>
+    {% case t.status %}
+    {% when "已结题" %}
+      <span class="badge st-done">已结题</span>
+    {% when "研讨中" %}
+      <span class="badge st-ongoing">研讨中</span>
     {% else %}
-      <span class="badge drafting">撰写中</span>
-    {% endif %}
-    {% if t.category %}<span class="badge cat-badge">{{ t.category }}</span>{% endif %}
-    {% if t.keyword %}<span class="badge keyword">{{ t.keyword }}</span>{% endif %}
+      <span class="badge st-pending">待开始</span>
+    {% endcase %}
     <h3>{{ t.title }}</h3>
     <span class="arrow">→</span>
   </div>
   <div class="row2">
     <span>{{ t.subtitle }}</span>
-    <span class="dot">·</span>
-    <span>{{ t.date | date: "%Y-%m-%d" }}</span>
-    {% assign link_count = t.links | size %}
-    <span class="dot">·</span>
-    <span>{{ link_count }}+ 平台形态</span>
+  </div>
+  <div class="tile-meta">
+    {% for c in t.categories %}<span class="badge cat-badge">{{ c }}</span>{% endfor %}
+    {% if t.keyword %}<span class="badge keyword">{{ t.keyword }}</span>{% endif %}
+    <span class="tile-date">{{ t.date | date: "%Y-%m-%d" }}</span>
     {% for tg in t.tags %}<span class="mini-tag">{{ tg }}</span>{% endfor %}
   </div>
 </a>

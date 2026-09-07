@@ -5,10 +5,94 @@ title: 企业员工使用 AI Agent 的安全管控与监控技术
 subtitle: 从 Kiro 安全插件静态分析出发，建立覆盖对话、Skill、MCP、工具执行、身份凭据与数据外发的企业防护体系
 date: 2026-09-06
 updated: 2026-09-07
-status: published
-category: AI安全
-column: 接入与治理
+status: 已结题
+categories: [AI安全, 身份安全, 检测与响应]
 tags: [AI 安全, 终端安全, 检测工程, 身份安全]
+dao:
+  - title: 模型说"不做"，不等于系统"做不了"
+    text: 任何把安全边界建立在模型自觉（提示词、对齐、免责声明）上的方案，其强度是概率而非保证。强制防护必须落在系统层——沙箱、凭据代理、服务端授权与网络出口控制。
+    type: 原创
+    platform: 本课题
+  - title: Agent 是员工权限的流动化身
+    text: Agent 以员工身份行事，第一性问题不是"AI 是否危险"，而是"委托出去的权限如何在失控之前收得回来"。身份与委托权限设计先于工具选型。
+    type: 原创
+    platform: 本课题
+  - title: 收齐聊天正文，不等于审计完整
+    text: 审计对象是行为链——授权、数据、工具、副作用——不是对话内容本身。不能回答四问的证据链，采集再多也是残缺的。
+    type: 原创
+    platform: 本课题
+fa:
+  - title: 从"允许某款 AI"到"允许某类任务"
+    text: 风险台账以客户端 × 执行位置 × 身份 × 数据 × 可调用能力为单位，数据等级 D0-D3 与动作等级 A0-A3 交叉定级，不用单一分数掩盖关键条件。
+    type: 原创
+    platform: 本课题
+  - title: 控制面分层，各用各的控制点
+    text: 对话是持续变化的数据流，Skill 是软件供应链，MCP 是能力与身份边界，执行面要隔离，身份要可回收——五个控制面不能互相替代。
+    type: 原创
+    platform: 本课题
+  - title: 四问证据链验收法
+    text: 谁授权、哪些数据进入上下文、哪个工具执行了什么、目标系统是否产生副作用——以四问能否被回答作为审计完整性的验收标准。
+    type: 原创
+    platform: 本课题
+  - title: 按成熟度分阶段落地
+    text: 30/60/90 天三阶段推进：先建立可见性（日志与资产台账），再收边界（准入与授权），最后做闭环（检测响应与撤销恢复）。
+    type: 原创
+    platform: 本课题
+shu:
+  - title: 用户态 Hook 插件静态解剖
+    text: 以 S3 stable 脚本 + SHA-256 全量指纹留档的方式解剖插件安装包；包名版本与规则 meta 版本可能不一致，部署状态不能凭单一字段判断。
+    type: 原创
+    platform: 本课题
+  - title: 四道数据边界落地
+    text: 企业租户隔离、来源可追溯、结果最小化、出口白名单——把"AI 对话数据外发"变成可配置、可审计的四个工程开关。
+    type: 原创
+    platform: 本课题
+  - title: MCP 准入检查清单
+    text: 授权 token 面向本服务不透传下游；HTTP 与 stdio 两条通道分别设防；DNS TOCTOU、SSRF、本地回环接口逐项检查。
+    type: 原创
+    platform: 本课题
+  - title: 官网完整版长文
+    text: 覆盖全部控制面、主流产品能力映射与 30/60/90 天实施路线的完整研究长文。
+    type: 原创
+    platform: 官网
+    url: /articles/ai-agent-governance/
+    desc: 本课题官网完整版，含 Kiro 插件解剖全过程、控制清单与验收测试
+qi:
+  - title: MCP 官方规范
+    text: 授权边界、令牌语义与传输安全的权威依据（2025-11-25 版）。
+    type: 转载
+    platform: 官方文档
+    url: https://modelcontextprotocol.io/
+    desc: Model Context Protocol 官方规范：Authorization、Security Best Practices、Transports 三份文档
+    stars: 5
+  - title: OWASP Top 10 for Agentic Applications
+    text: 2026 版 Agent 应用威胁清单，Agent 风险研究的入口框架。
+    type: 转载
+    platform: OWASP
+    url: https://genai.owasp.org/
+    desc: OWASP 生成式 AI 安全项目，Agentic 应用 Top 10 威胁与缓解指引
+    stars: 5
+  - title: Agent Skills 规范
+    text: Skill 的标准结构与 allowed-tools 元数据定义出处。
+    type: 转载
+    platform: 官方文档
+    url: https://agentskills.io/
+    desc: Agent Skills 官方规范，SKILL.md 结构与实验性元数据说明
+    stars: 4
+  - title: Kiro Hook 官方文档
+    text: Hook 插件体系的事件、动作与退出码语义，本课题实证样本的对照面。
+    type: 转载
+    platform: 官方文档
+    url: https://kiro.dev/docs/hooks/
+    desc: Kiro Hook 文档：triggers、actions、exit codes，IDE 与 CLI 事件支持差异与阻断超时语义
+    stars: 4
+  - title: NIST AI 600-1
+    text: 生成式 AI Profile，组织级风险治理的参考框架。
+    type: 转载
+    platform: NIST
+    url: https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf
+    desc: NIST Generative AI Profile，组织风险治理与控制措施参考
+    stars: 4
 links:
   - platform: 官网
     form: 完整版长文

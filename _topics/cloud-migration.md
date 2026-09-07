@@ -5,10 +5,94 @@ title: 公司迁云动作清单
 subtitle: 迁云不是搬机器：从摸家底到割接回滚，安全与稳定两条线的全流程动作
 date: 2026-09-03
 updated: 2026-09-05
-status: published
-category: 云安全
-column: 接入与治理
+status: 已结题
+categories: [云安全, 数据安全]
 tags: [云迁移, 等保合规, 安全架构, 稳定性]
+dao:
+  - title: 迁云是重建，不是搬家
+    text: 把上云当物理迁移会系统性低估三件事：攻击面重建、信任边界重画、合规重认证。机房防火墙的规则不会自己长到云上，旧机房的等保测评报告云上要重新定级——搬家丢了箱子找得回来，重建漏了东西就是事故。
+    type: 原创
+    platform: 本课题
+  - title: 云的信任边界从"墙"变成"身份与分区"
+    text: VPC 分区、IAM 身份与加密信封取代传统防火墙拓扑，安全模型从"守门"变为"赋权与可证明"——Landing Zone 不是网络工程，是权限与责任边界的预先立法。
+    type: 原创
+    platform: 本课题
+  - title: 答不上三个问题，就不该往下走
+    text: 任何阶段都要能回答：数据现在在哪、谁能碰到它、出事了怎么退回去。答不上来的阶段不具备进入下一波次的资格——这是安全与稳定两条线共同的判断标准。
+    type: 原创
+    platform: 本课题
+fa:
+  - title: 资产三路盘点法
+    text: CMDB 起步但不能全信，跳板机批量跑 ss -tlnp 拿真实监听端口、虚拟化平台导清单、网络存活扫描，三路交叉验证查多报漏报；时间性依赖（cron、定时备份、月底结算）单独盯。
+    type: 原创
+    platform: 本课题
+  - title: 6R 逐系统判决
+    text: Rehost、Replatform、Repurchase、Refactor、Retire、Retain 六条路逐系统判决，判决标准只问两个问题——这系统还有人改吗？它的价值在代码还是在数据？
+    type: 原创
+    platform: 本课题
+  - title: 合规双映射
+    text: 等保 2.0 十域覆盖叠加云计算安全扩展五项；GA/T 2380-2026 把数据安全变成一票否决项，差距分析放规划期，改架构的差距必须赶在批量迁移前完成——先迁完再补合规在标准层面走不通。
+    type: 原创
+    platform: 本课题
+  - title: 波次节奏与回滚三级预案
+    text: Wave 0 彩排的价值在工具链与回滚程序的确定性；按依赖图拓扑排序分波、每波稳定两周暴露隐藏依赖；回滚分立即回滚、限时修复、向前修复三级，量化触发指标加上现场指挥 15-30 分钟拍板。
+    type: 原创
+    platform: 本课题
+shu:
+  - title: 信封加密落地
+    text: CMK 不碰数据只生 DEK、密钥不出 KMS 的准确含义、性能与审计双收益；加密覆盖存储、传输、备份、迁移链路、日志五环节。
+    type: 原创
+    platform: 本课题
+  - title: 割接七步 Runbook
+    text: T-48 小时降 DNS TTL 到 300 秒（缓存原理决定）；窗口期冻结一切变更保故障归因；先数据库后应用。
+    type: 原创
+    platform: 本课题
+  - title: 权限收口三件套
+    text: 主账号锁死（MFA、无访问密钥、不日常使用）、运维统一 RAM 子账号加角色走堡垒机、临时授权带有效期靠机制回收而非靠自觉。
+    type: 原创
+    platform: 本课题
+  - title: 官网完整版长文
+    text: 从摸家底到割接回滚的全流程动作清单，6 章完整版。
+    type: 原创
+    platform: 官网
+    url: /articles/cloud-migration/
+    desc: 官网独发完整版：资产盘点、6R 判决、等保合规、Landing Zone、波次割接与回滚预案
+qi:
+  - title: AWS 大规模迁移指南
+    text: 三阶段方法论（评估、准备、迁移与现代化）与 6R 逐项定义的官方出处。
+    type: 转载
+    platform: AWS
+    url: https://docs.aws.amazon.com/
+    desc: AWS 规范性指导：大规模迁移指南与云迁移策略概述
+    stars: 5
+  - title: GA/T 2380-2026
+    text: 《网络安全等级保护数据安全基本要求》，2026-06-01 实施，数据安全一票否决的依据。
+    type: 转载
+    platform: 公安部
+    url: https://www.ga.net.cn/
+    desc: 公安部发布的等保数据安全基本要求：数据分级、国密改造、全生命周期管控
+    stars: 5
+  - title: 等保 2.0（GB/T 22239-2019）
+    text: 十个安全域 + 云计算安全扩展要求的国标原文依据。
+    type: 转载
+    platform: 国标
+    url: https://www.gb688.cn/
+    desc: GB/T 22239-2019 网络安全等级保护基本要求，定级、建设整改、等级测评、监督检查四步
+    stars: 5
+  - title: 华为云 Landing Zone
+    text: 网络运营账号收口、四逻辑分区、安全组与 NACL 分工的官方设计参考。
+    type: 转载
+    platform: 华为云
+    url: https://support.huaweicloud.com/
+    desc: 华为云 Landing Zone 方案概述与整体网络架构设计
+    stars: 4
+  - title: AWS KMS 加密细节
+    text: 信封加密与"密钥不出 KMS"的密码学细节权威文档。
+    type: 转载
+    platform: AWS
+    url: https://docs.aws.amazon.com/kms/
+    desc: AWS KMS Cryptographic Details（PDF）与中文开发指南
+    stars: 4
 links:
   - platform: 官网
     form: 完整版长文（6 章）
