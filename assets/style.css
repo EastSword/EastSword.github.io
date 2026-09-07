@@ -1827,13 +1827,16 @@ footer.site .wx-link:hover { color: var(--teal-glow); }
   border-bottom: 1px solid var(--line);
   margin-bottom: 18px;
 }
-.df-block h2 {
+/* 注意：section.block h2 优先级为 (0,1,2)，此处须用双类选择器压过，否则边框/间距覆盖不生效 */
+.df-stack .df-block h2 {
+  display: block;
   border-bottom: none;
   padding-bottom: 0;
   margin-bottom: 0;
   font-size: 19px;
+  letter-spacing: 1px;
 }
-.df-block h2::before { display: none; }
+.df-stack .df-block h2::before { display: none; }
 .df-zi {
   width: 46px; height: 46px;
   display: flex;
