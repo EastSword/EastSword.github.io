@@ -1863,6 +1863,76 @@ footer.site .wx-link:hover { color: var(--teal-glow); }
 .layer-shu .df-zi { color: var(--purple-glow); border-color: rgba(167,139,250,.5); background: rgba(167,139,250,.08); text-shadow: 0 0 14px rgba(167,139,250,.5); }
 .layer-qi  .df-zi { color: var(--red-glow); border-color: rgba(255,77,109,.5); background: rgba(255,77,109,.08); text-shadow: 0 0 14px rgba(255,77,109,.5); }
 
+/* 分栏：左 2/5 概括吸顶卡，右 3/5 资源列表（窄屏断点见 960px 媒体查询） */
+.df-cols {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 24px;
+  align-items: start;
+}
+.df-summary {
+  position: sticky;
+  top: 86px;
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 20px 20px 18px;
+}
+.df-sum-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--paper-dim);
+  margin: 0 0 12px;
+}
+.layer-dao .df-sum-label { color: var(--gold-bright); }
+.layer-fa  .df-sum-label { color: var(--teal-glow); }
+.layer-shu .df-sum-label { color: var(--purple-glow); }
+.layer-qi  .df-sum-label { color: var(--red-glow); }
+.df-sum-text {
+  font-family: var(--serif);
+  font-size: 14.5px;
+  line-height: 1.95;
+  letter-spacing: .2px;
+  color: var(--paper);
+  margin: 0;
+}
+.df-sum-text br { content: ''; display: block; margin: 11px 0 0; }
+/* 统计行：大数字锚点 + mono 数字对齐 + 原创/转载双色 */
+.df-sum-stats {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  column-gap: 16px;
+  row-gap: 4px;
+  margin-top: 16px;
+  padding-top: 13px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--paper-dim);
+}
+.df-sum-stats b {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+.ds-count b {
+  font-size: 21px;
+  line-height: 1;
+  color: var(--paper);
+  margin-right: 6px;
+  letter-spacing: 0;
+}
+.ds-split { display: inline-flex; align-items: baseline; gap: 5px; }
+.ds-split b { font-size: 13px; color: var(--teal-glow); }
+.ds-split b.rep { color: #7fd4ff; }
+.ds-split .dot { opacity: .55; }
+
 .df-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

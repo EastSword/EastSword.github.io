@@ -21,11 +21,11 @@
     <aside class="df-summary">
       <div class="df-sum-label">本层概括</div>
       {% if include.summary %}
-      <p class="df-sum-text">{{ include.summary }}</p>
+      <p class="df-sum-text">{{ include.summary | newline_to_br }}</p>
       {% endif %}
       <div class="df-sum-stats">
         <span class="ds-count"><b>{{ include.items.size }}</b> 项资源</span>
-        <span class="ds-split">原创 {{ df_orig }} · 转载 {{ df_rep }}</span>
+        <span class="ds-split"><span>原创</span><b>{{ df_orig }}</b><span class="dot">·</span><span>转载</span><b class="rep">{{ df_rep }}</b></span>
       </div>
     </aside>
     <div class="df-list">

@@ -8,10 +8,10 @@ status: 已结题
 keyword: tag
 categories: [供应链安全, 运维安全]
 tags: [CI/CD, 企业安全, 供应链安全]
-dao_summary: "Git 历史不可变，tag 可变：供应链信任建立在内容寻址（SHA）上，而 tag 是名字寻址，两套体系之间有一道天然裂缝。企业普遍分支审内容、tag 不审意图，“发布一个版本”的权限实际握在每个 Developer 手里——tj-actions 事件用 15 小时和 23,000 个仓库证明了这份权限的杀伤力。"
-fa_summary: "方法论是“枚举攻击面 → 成熟度定位 → 两层防御”：六条攻击路径（绕过 MR 审核、retagging、版本号抢注、CI 配置注入、产物漂移、版本回滚）逐条带复现命令与 ATT&CK 映射；L0-L3 四级成熟度模型定位当前位置、暴露下一步该收敛的口子；权限收敛解决“不该发生”，监控三件套解决“发生了能知道”。"
-shu_summary: "落地五分钟可自测：GitLab Protected Tags 与 GitHub Rulesets 逐项配置讲清保护谁、允许谁、强制什么；GitLab Runner、TeamCity、Jenkins、GitHub Actions 四套 CI 生产脚本接管打 tag 自动化，TeamCity 版含五个真实踩坑记录；公众号上下篇与 CSDN 自检版分层传播。"
-qi_summary: "外部依据以官方文档为准：GitLab Protected Tags 与 GitHub Rulesets 是双平台权限收敛机制的出处，Git 官方文档定义 tag 与 ref 的语义及 lightweight 与 annotated 的信任差异，知识星球资产包整包收录五套 CI 脚本与评审材料。每条标注来源、原创或转载与推荐星级。"
+dao_summary: "Git 历史不可变，tag 可变。供应链信任建立在内容寻址（SHA）上，tag 却是名字寻址——两套体系之间有一道天然裂缝。\n企业普遍分支审内容、tag 不审意图，“发布一个版本”的权限实际握在每个 Developer 手里。\ntj-actions 事件用 15 小时和 23,000 个受影响仓库，证明了这份权限的杀伤力。"
+fa_summary: "方法论三步：枚举攻击面 → 成熟度定位 → 两层防御。\n六条攻击路径逐条带复现命令与 ATT&CK 映射：绕过 MR 审核、retagging、版本号抢注、CI 配置注入、产物漂移、版本回滚。L0-L3 四级成熟度模型帮你定位当前位置、暴露下一步该收敛的口子。\n两层防御各管一件事：权限收敛解决“不该发生”，监控三件套解决“发生了能知道”。"
+shu_summary: "落地五分钟可自测：GitLab Protected Tags 与 GitHub Rulesets 逐项配置，讲清保护谁、允许谁、强制什么。\n四套 CI 生产脚本接管打 tag 自动化——GitLab Runner、TeamCity、Jenkins、GitHub Actions，其中 TeamCity 版含五个真实踩坑记录。\n公众号上下篇与 CSDN 自检版分层传播。"
+qi_summary: "外部依据以官方文档为准：GitLab Protected Tags 与 GitHub Rulesets 是双平台权限收敛机制的出处；Git 官方文档定义 tag 与 ref 的语义，以及 lightweight 与 annotated 的信任差异。\n知识星球资产包整包收录五套 CI 脚本与评审材料。每条标注来源、原创或转载与推荐星级。"
 dao:
   - title: Git 历史不可变，tag 可变
     text: 默认心智模型里"已发布的版本"是固定的，但 Git 的 tag 本质是指针，可以被打、可以被移动、可以被覆盖——供应链信任建立在内容寻址（SHA）上，而 tag 是名字寻址，两套体系之间有一道天然裂缝。
