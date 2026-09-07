@@ -350,6 +350,8 @@ body::after {
   margin-bottom: 10px;
 }
 .bento { display: grid; grid-template-columns: 1fr; gap: 10px; }
+/* 课题列表专属：宽容器下双列，容器不足自然回退单列（.bento 另有 3 处共用，不可全局改） */
+#topic-list { grid-template-columns: repeat(auto-fit, minmax(430px, 1fr)); gap: 12px; }
 .tile {
   position: relative;
   border: 1px solid var(--line);
@@ -1037,7 +1039,8 @@ td a { color: var(--teal-glow); text-decoration: none; }
 td a:hover { text-decoration: underline; text-shadow: 0 0 10px rgba(61,232,201,.55); }
 
 /* ---------- 正文 ---------- */
-.body { font-size: 15.5px; color: var(--paper-dim); }
+/* 详情页正文限宽：1320px 容器下保证行长可读（约 50 字/行），右侧留白 */
+.body { font-size: 15.5px; color: var(--paper-dim); max-width: 840px; }
 .body p { margin-bottom: 16px; }
 .body strong { color: var(--gold-bright); font-weight: 600; }
 .body code {
@@ -2056,7 +2059,7 @@ a.block-more:hover { color: var(--gold-bright); letter-spacing: 2px; }
 }
 
 /* 详情页：资料清单（单列，含摘要正文） */
-.resource-list { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.resource-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 12px; }
 .rc-body { font-size: 13.5px; color: var(--paper-dim); line-height: 1.85; }
 .rc-body p { margin: 0 0 8px; }
 .rc-body p:last-child { margin-bottom: 0; }
@@ -2073,7 +2076,7 @@ a.block-more:hover { color: var(--gold-bright); letter-spacing: 2px; }
 }
 
 /* ---------- 最新情报 ---------- */
-.intel-list { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.intel-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 10px; }
 
 /* ---------- 课题徽章：所属栏目 ---------- */
 .badge.column-badge { color: var(--gold-bright); border-color: rgba(212, 175, 106, 0.45); background: rgba(212, 175, 106, 0.07); }
@@ -2085,7 +2088,7 @@ a.block-more:hover { color: var(--gold-bright); letter-spacing: 2px; }
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
   gap: 10px;
 }
 .reading-path li {
