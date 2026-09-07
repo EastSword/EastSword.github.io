@@ -4,7 +4,7 @@ title: "SSH 隧道机运维与审计：从中转便利到可审计访问"
 subtitle: "运维没搞清原理就上线的中转方案——把 SSH 端口转发的机制拆解、准入收敛与日志审计一次补齐"
 abstract: "一台云主机加 SSH 本地端口转发，用 Core Tunnel 把本地端口映射到云内网服务——这套中转方案在运维还没搞清原理时就上线了。本文拆解转发机制的本质（会话与连接的证据被拆成两半），给出完整补齐方案：安全组与 sshd 基线、逐用户白名单、最小审计事件与 session.id 会话关联（sshd 特权分离的 PID 对齐是关键）、Tetragon eBPF 全量内网连接观测、tcplife 补字节数、Filebeat 采集与 ES 入库、告警规则与落地取舍。"
 date: 2026-09-03
-updated: 2026-09-05
+updated: 2026-09-07
 reading_time: 14
 topic: ssh-tunnel-audit
 category: "运维安全"

@@ -4,11 +4,15 @@ layout: topic
 title: 企业员工使用 AI Agent 的安全管控与监控技术
 subtitle: 从 Kiro 安全插件静态分析出发，建立覆盖对话、Skill、MCP、工具执行、身份凭据与数据外发的企业防护体系
 date: 2026-09-06
-updated: 2026-09-06
-status: publishing
+updated: 2026-09-07
+status: published
 category: AI安全
 tags: [AI 安全, 终端安全, 检测工程, 身份安全]
 links:
+  - platform: 官网
+    form: 完整版长文
+    url: /articles/ai-agent-governance/
+    note: 在线阅读完整版
   - platform: 公众号
     form: 图文精编版
     note: 待上线

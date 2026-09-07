@@ -58,8 +58,8 @@
     {
       "slug": "ai-agent-governance",
       "source": "/Users/qianli/qianli_zone/BeYourself/安全架构/企业员工使用AI_Agent的安全管控与监控技术研究.md",
-      "title": "企业员工使用 AI Agent 的安全管控与监控技术研究",
-      "subtitle": "从 Kiro 安全插件静态分析出发，建立覆盖 AI 对话、Skill、MCP、工具执行、身份凭据与数据外发的企业防护体系",
+      "title": "员工都在用 AI Agent，企业安全该怎么管",
+      "subtitle": "盘点实际用法，确定任务权限，再落实数据、扩展、执行与审计控制",
       "topic": "ai-agent-governance",
       "author": "千里",
       "category": "AI安全",
@@ -71,7 +71,7 @@
       ],
       "keyword": "",
       "img_dir": "AI_Agent安全研究配图",
-      "abstract": "员工授权 Agent 读代码、调数据库、连 MCP、操作浏览器之后，公司如何限制它实际能做的事、如何发现异常、如何证明控制生效？本文从 Kiro 安全插件静态分析切入，建立覆盖对话、Skill、MCP、工具执行、身份凭据与数据外发的企业防护体系：数据×动作两轴风险分级、Skill 准入闭环、MCP 双通道设防、审计证据链四问关联、SOC 检测规则、30/60/90 天落地路线与验收清单。"
+      "abstract": "企业账号、个人订阅、中转站和员工自行配置的 Skill、MCP 并存，安全管理需要沿实际任务展开。本文依次讨论使用盘点、任务分级、数据流、扩展准入、执行授权、审计响应，以 Kiro 插件核对具体实现，并附部署和验收资料。"
     }
   ]
 }
