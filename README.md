@@ -4,6 +4,8 @@
 
 首页推荐配置在 `_data/editorial.yml`；资料库为 `/resources/`，支持关键词、类型与课题筛选。`_resources/*.md` 中原文链接必须使用 `external_url`，避免与 Jekyll 的 `url` 属性冲突。
 
+课题页道法术器条目默认不显示原创或转载标签。仅文章、视频或工具成果的具体发布设置 `publication: true`，并填写 `url` 与 `type: 原创` 或 `type: 转载`；普通文字说明、官方工具和规范入口不设置此字段。各层只统计内容条数。
+
 以**研究主题**（而非时间流文章）组织的个人站点：每个话题一个页面，聚合该研究在公众号 / CSDN / FreeBuf /B站 / 视频号的全部形态入口与配套资产，地址持续修订。基于 GitHub Pages 原生 Jekyll，零依赖、零 CI。
 
 **线上地址**：https://eastsword.github.io （仓库：EastSword/eastsword.github.io）

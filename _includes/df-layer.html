@@ -2,13 +2,10 @@
   道法术器条目板块（左右分栏：左 2/5 层概括，右 3/5 资源列表）
   参数：zi=单字层名, cls=层样式名(dao/fa/shu/qi), name=层标题, note=一句说明,
         summary=本层概括文字, items=条目数组
-  条目字段：title, text, type(原创|转载), platform, url, desc(悬停介绍), stars(推荐星级)
+  条目字段：title, text, platform, url, desc(悬停介绍), stars(推荐星级)
+  文章、视频或工具成果发布设 publication: true，且有 url 时才显示 type(原创|转载)。
 {% endcomment %}
 {% if include.items and include.items.size > 0 %}
-{% assign df_orig = 0 %}{% assign df_rep = 0 %}
-{% for item in include.items %}
-  {% if item.type == "原创" %}{% assign df_orig = df_orig | plus: 1 %}{% else %}{% assign df_rep = df_rep | plus: 1 %}{% endif %}
-{% endfor %}
 <section class="block df-block layer-{{ include.cls }}">
   <div class="df-block-head">
     <span class="df-zi" aria-hidden="true">{{ include.zi }}</span>
@@ -24,8 +21,7 @@
       <p class="df-sum-text">{{ include.summary | newline_to_br }}</p>
       {% endif %}
       <div class="df-sum-stats">
-        <span class="ds-count"><b>{{ include.items.size }}</b> 项资源</span>
-        <span class="ds-split"><span>原创</span><b>{{ df_orig }}</b><span class="dot">·</span><span>外部资料</span><b class="rep">{{ df_rep }}</b></span>
+        <span class="ds-count"><b>{{ include.items.size }}</b> 条内容</span>
       </div>
     </aside>
     <div class="df-list">
@@ -33,10 +29,12 @@
       <article class="df-card{% if item.desc %} has-tip{% endif %}"{% if item.desc %} tabindex="0"{% endif %}>
         <div class="df-card-top">
           <h3 class="df-title">{{ item.title }}</h3>
+          {% if item.publication == true and item.url and item.url != empty %}
           {% if item.type == "原创" %}
           <span class="badge df-type df-orig">原创</span>
-          {% else %}
-          <span class="badge df-type df-reprint">外部资料</span>
+          {% elsif item.type == "转载" %}
+          <span class="badge df-type df-reprint">转载</span>
+          {% endif %}
           {% endif %}
         </div>
         {% if item.text %}<p class="df-text">{{ item.text }}</p>{% endif %}

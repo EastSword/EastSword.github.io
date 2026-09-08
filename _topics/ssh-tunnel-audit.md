@@ -52,6 +52,7 @@ shu:
     type: 原创
     platform: 本课题
   - title: 官网长文与执行手册
+    publication: true
     text: 完整版长文（8 章）+ 配套执行手册（8 步落地版，每步讲清证据链意义，附 docx 下载）。
     type: 原创
     platform: 官网
@@ -87,6 +88,7 @@ qi:
     desc: BPF Compiler Collection：tcplife 工具观测 TCP 连接生命周期
     stars: 4
   - title: 配套执行手册 docx
+    publication: true
     text: 手册离线版，含修订记录与每步意义说明，适合打印与内网分发。
     type: 原创
     platform: 官网

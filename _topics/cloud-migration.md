@@ -56,6 +56,7 @@ shu:
     type: 原创
     platform: 本课题
   - title: 官网完整版长文
+    publication: true
     text: 从摸家底到割接回滚的全流程动作清单，6 章完整版。
     type: 原创
     platform: 官网
