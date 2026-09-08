@@ -5,11 +5,7 @@ permalink: /wall/
 ---
 <section id="wall">
   <div class="wrap">
-    <div class="section-head">
-      <div class="num">06 / GUESTBOOK</div>
-      <h2>江湖留名</h2>
-      <p class="desc">路过即缘分。以 GitHub 身份签下你的 ID 和一句话，签名实时上墙；路过他人的签名，也可以点个表情回应。</p>
-    </div>
+    {% include section-head.html key="wall" %}
     <div class="wall-frame">
       <div class="wall-hint">
         GITHUB 留名 · 实时上墙 · 支持表情回应

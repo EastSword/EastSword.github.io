@@ -41,7 +41,20 @@ main:focus { outline: none; }
 .nav .links a[aria-current] { color: var(--paper); box-shadow: 0 2px var(--teal-glow); }
 .research-masthead { background: #101b1d url('hero-inkwash.jpg') center 43% / cover no-repeat; position: relative; isolation: isolate; }
 .research-masthead::before { content: ''; position: absolute; inset: 0; background: #07101299; z-index: -1; }
-.research-masthead .wrap { padding-block: 36px 32px; }
+.research-masthead { overflow: hidden; }
+.research-masthead .wrap { position: relative; padding-block: 48px 36px; min-height: var(--hero-height, 350px); }
+.masthead-art { position: absolute; right: max(0px, calc((100% - 1440px) / 2)); top: 0; height: 100%; width: auto; max-width: none; pointer-events: none; }
+.masthead-art { mask-image: linear-gradient(to right, transparent 18%, black 54%, black calc(100% - var(--hero-feather, 10%) * .65), transparent), linear-gradient(to bottom, transparent, black var(--hero-feather, 10%), black calc(100% - var(--hero-feather, 10%) * 1.6), transparent); mask-composite: intersect; -webkit-mask-image: linear-gradient(to right, transparent 18%, black 54%, black calc(100% - var(--hero-feather, 10%) * .65), transparent), linear-gradient(to bottom, transparent, black var(--hero-feather, 10%), black calc(100% - var(--hero-feather, 10%) * 1.6), transparent); -webkit-mask-composite: source-in; }
+.research-masthead .masthead-description { max-width: 560px; }
+.research-masthead .masthead-bottom { justify-content: flex-start; flex-wrap: wrap; gap: 28px; }
+@media (max-width: 900px) {
+  .research-masthead { background-image: none; }
+  .masthead-art { position: relative; display: block; inset: auto; width: 100%; height: auto; aspect-ratio: 7 / 3; object-fit: cover; object-position: right center; }
+  .research-masthead .wrap { min-height: 0; padding-top: 24px; }
+}
+@media (max-width: 480px) {
+  .masthead-art { height: 200px; }
+}
 .eyebrow { font: 11px/1.6 var(--mono); color: var(--teal-glow); margin: 0 0 10px; }
 .research-masthead h1 { font: 700 42px/1.35 var(--serif); color: #f1f3ee; margin-bottom: 14px; }
 .masthead-purpose { font-size: 23px; color: #edf0ed; line-height: 1.6; }

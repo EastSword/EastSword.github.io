@@ -37,6 +37,7 @@ SCRIPTS = Path(__file__).resolve().parent
 SITE = SCRIPTS.parent
 sys.path.insert(0, str(SCRIPTS))
 import publish_article as pub
+import site_admin as admin
 
 UI_FILE = SCRIPTS / "editor_ui.html"
 RUBY_RENDER = SCRIPTS / "_preview_render.rb"
@@ -139,7 +140,11 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         try:
             path = unquote(urlparse(self.path).path)
-            if path == "/":
+            if not self.local_request():
+                return self._json({"error": "仅允许本机访问"}, 403)
+            if admin.handle(self, path, 'GET'):
+                return
+            if path == "/editor":
                 return self._bytes(UI_FILE.read_bytes(), "text/html; charset=utf-8")
             if path == "/api/ping":
                 return self._json({"app": "article-editor", "pid": os.getpid()})
@@ -165,7 +170,13 @@ class Handler(BaseHTTPRequestHandler):
     # ---------- POST ----------
     def do_POST(self):
         try:
+            if not self.local_request():
+                return self._json({"error": "拒绝跨站写入"}, 403)
+            if int(self.headers.get('Content-Length', '0')) > 35 * 1024 * 1024:
+                return self._json({"error": "请求过大"}, 413)
             path = unquote(urlparse(self.path).path)
+            if admin.handle(self, path, 'POST'):
+                return
             m = re.fullmatch(r"/api/article/([a-z0-9-]+)/(save|preview|publish)", path)
             if m:
                 slug, action = m.group(1), m.group(2)
@@ -184,9 +195,7 @@ class Handler(BaseHTTPRequestHandler):
                     return self._json({"error": err}, 400)
                 if action == "save":
                     return self._json({"ok": True})
-                cmd = [sys.executable, str(SCRIPTS / "publish_article.py")]
-                if data.get("no_push"):
-                    cmd.append("--no-push")
+                cmd = [sys.executable, str(SCRIPTS / "publish_article.py"), '--slug', slug, '--no-push']
                 proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                         text=True, cwd=str(SITE), start_new_session=True)
                 try:
@@ -211,6 +220,12 @@ class Handler(BaseHTTPRequestHandler):
             self._json({"error": str(e)}, 500)
 
     # ---------- 业务 ----------
+    def local_request(self):
+        allowed = {f'127.0.0.1:{self.server.server_port}', f'localhost:{self.server.server_port}'}
+        host = self.headers.get('Host', '')
+        origin = self.headers.get('Origin')
+        return host in allowed and (not origin or origin == 'http://' + host)
+
     def articles_list(self):
         out = []
         for c in pub.load_registry():
@@ -249,7 +264,10 @@ class Handler(BaseHTTPRequestHandler):
         cfg = find_cfg(slug)
         if not cfg:
             return self._json({"error": "文章不存在"}, 404)
-        f = Path(cfg["source"]).parent / cfg.get("img_dir", "文章配图") / name
+        base = (Path(cfg["source"]).parent / cfg.get("img_dir", "文章配图")).resolve()
+        f = (base / name).resolve()
+        if not f.is_relative_to(base):
+            return self._json({"error": "无效图片路径"}, 400)
         if not f.is_file():
             return self._json({"error": "图片不存在"}, 404)
         self._bytes(f.read_bytes(), CONTENT_TYPES.get(f.suffix.lower(), "application/octet-stream"))

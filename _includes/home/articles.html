@@ -1,0 +1,6 @@
+<section class="editorial-section section-muted" aria-labelledby="articles-heading"><div class="wrap">
+  <div class="editorial-heading"><div><p class="eyebrow">{% if section_number < 10 %}0{% endif %}{{ section_number }} / ORIGINAL WORK</p><h2 id="articles-heading">{{ section.title | escape }}</h2></div><a class="text-link" href="{{ '/articles/' | relative_url }}">全部文章 →</a></div>
+  <div class="article-index">{% assign articles = site.articles | sort: "date" | reverse %}{% for a in articles limit: 4 %}
+    <article class="article-index-row"><time datetime="{{ a.date | date: '%Y-%m-%d' }}">{{ a.date | date: "%m-%d" }}<span>{{ a.date | date: "%Y" }}</span></time><div><div class="content-meta"><span class="label-original">原创</span><span>{{ a.category }}</span><span>{{ a.author }} · {{ a.reading_time }} 分钟</span></div><h3><a href="{{ a.url | relative_url }}">{{ a.title }}</a></h3><p>{{ a.subtitle }}</p></div><a class="row-arrow" aria-label="阅读：{{ a.title | escape }}" href="{{ a.url | relative_url }}">↗</a></article>
+  {% endfor %}</div>
+</div></section>

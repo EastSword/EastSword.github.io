@@ -1,3 +1,32 @@
+hero:
+  title: 东方隐侠安全团队
+  eyebrow: DFYX-SEC / AI & SECURITY RESEARCH
+  purpose: 研究 AI 如何安全地进入真实工作。
+  description: 从身份、权限到执行边界，积累可核查的研究、工程方法与精选资料。
+  art: /assets/images/hero/warrior-original.webp
+  alt: 水墨群山间，白衣斗笠侠客持剑立于山岩，衣袍迎风舒展
+  feather: 35
+  height: 350
+  author: 千里
+  role: 创始人 · 安全 BP · AI 安全研究
+  action_title: 进入研究课题
+  action_url: /topics/
+sections:
+- key: focus
+  title: 当前重点研究
+  visible: true
+- key: articles
+  title: 原创研究与实践
+  visible: true
+- key: sources
+  title: 值得细读的外部资料
+  visible: true
+- key: news
+  title: 安全动态
+  visible: true
+- key: author
+  title: 千里 · 从业务现场出发
+  visible: true
 focus:
   topic: ai-agent-governance
   title: 员工都在用 AI Agent，企业安全该怎么管？
@@ -6,19 +35,19 @@ focus:
   article: /articles/ai-agent-governance/
   image: /assets/images/ai-agent-governance/01-enterprise-architecture.png
 routes:
-  - label: AI 接入与治理
-    question: Agent 能做什么，谁来授权？
-    description: 任务分级、执行隔离、身份与审计。
-    url: /topics/ai-agent-governance/
-  - label: 攻击面与实测
-    question: 大模型的 API Key 从哪里泄露？
-    description: 暴露面测量、提取路径与防御清单。
-    url: /topics/llm-api-key-security/
-  - label: 身份安全基础
-    question: 正常登录背后，如何识别身份滥用？
-    description: 身份攻击路径与 ITDR 检测思路。
-    url: /topics/identity-attack-paths/
+- label: AI 接入与治理
+  question: Agent 能做什么，谁来授权？
+  description: 任务分级、执行隔离、身份与审计。
+  url: /topics/ai-agent-governance/
+- label: 攻击面与实测
+  question: 大模型的 API Key 从哪里泄露？
+  description: 暴露面测量、提取路径与防御清单。
+  url: /topics/llm-api-key-security/
+- label: 身份安全基础
+  question: 正常登录背后，如何识别身份滥用？
+  description: 身份攻击路径与 ITDR 检测思路。
+  url: /topics/identity-attack-paths/
 featured_resources:
-  - mcp-authorization-spec
-  - anthropic-contain-claude
-  - owasp-agentic-top10-2026
+- mcp-authorization-spec
+- anthropic-contain-claude
+- owasp-agentic-top10-2026

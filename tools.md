@@ -5,11 +5,7 @@ permalink: /tools/
 ---
 <section id="tools">
   <div class="wrap">
-    <div class="section-head">
-      <div class="num">05 / ARSENAL</div>
-      <h2>AI 与安全兵器谱</h2>
-      <p class="desc">只收录试炼过的兵器：空间测绘、威胁情报、AI 安全、AI 提效四大门类，按天 / 地 / 玄 分级。FOFA 与 Shodan 两大测绘引擎首录，其余兵器正逐一试炼入库，长期维护。</p>
-    </div>
+    {% include section-head.html key="tools" %}
 
     <div class="filter-bar">
       <div class="search-box">
@@ -47,35 +43,8 @@ permalink: /tools/
          rank 分级 s|a|b / access 访问门槛 / tags 标签 / desc 试炼心得
    ============================================================ */
 (function () {
-  var CATS = {
-    cyberspace: '空间测绘',
-    intel: '威胁情报',
-    ai_sec: 'AI 安全',
-    ai_tool: 'AI 提效'
-  };
-
-  var TOOLS = [
-    {
-      name: 'FOFA',
-      sub: '网络空间测绘搜索引擎',
-      url: 'https://fofa.info',
-      cat: 'cyberspace',
-      rank: 's',
-      access: '免费注册 · 深度查询需会员',
-      tags: ['资产测绘', '暴露面发现', '检索语法', '指纹识别'],
-      desc: '白帽汇出品的网络空间测绘引擎，指纹规则库与检索语法强大，域名、证书、端口、组件皆可一句话定位，是国内红队资产收集与暴露面测绘的事实标准，配合 API 可批量拉取资产。'
-    },
-    {
-      name: 'Shodan',
-      sub: '万物互联搜索引擎',
-      url: 'https://www.shodan.io',
-      cat: 'cyberspace',
-      rank: 's',
-      access: '免费注册 · 进阶功能付费',
-      tags: ['IoT 暴露', '工控协议', 'Banner 扫描', '全球测绘'],
-      desc: '老牌全网设备搜索引擎，持续扫描全网端口并抓取服务 banner，长于发现 IoT、工控与数据库的意外暴露；Shodan Monitor 提供订阅式暴露面告警，是蓝军视角的资产巡逻兵。'
-    }
-  ];
+  var CATS = {{ site.data.tools.categories | jsonify }};
+  var TOOLS = {{ site.data.tools.items | jsonify }};
 
   var RANK_CHAR = { s: '天', a: '地', b: '玄' };
   var RANK_LABEL = { s: '天字级 · 必备主力', a: '地字级 · 场景利器', b: '玄字级 · 备选兵器' };

@@ -1,0 +1,63 @@
+brand: 东方隐侠安全团队
+logo: /assets/logo-mark.png
+tagline: 研究 AI 如何安全地进入真实工作
+copyright: 东方隐侠安全团队
+navigation:
+  - key: topics
+    title: 研究课题
+    english: RESEARCH
+    url: /topics/
+    visible: true
+    description: 围绕 AI 应用、身份与供应链，记录原理、方法、实践与工具。已结题标记阶段性成果，结论仍需随版本与新证据修订。
+  - key: articles
+    title: 原创文章
+    english: ARTICLES
+    url: /articles/
+    visible: true
+    description: 从实际问题出发，记录技术分析、测量方法与工程实践。
+  - key: resources
+    title: 精选资料
+    english: RESOURCES
+    url: /resources/
+    visible: true
+    description: 规范提供边界，研究提供证据。收录 AI 应用、身份与供应链的原始资料，并记录它们与本站研究的关系。
+  - key: news
+    title: 安全资讯
+    english: INTEL
+    url: /news/
+    visible: true
+    description: 全球安全与 AI 安全资讯，每日同步，持续归档。按来源、分类和关键词检索历史条目，保留原文链接。
+  - key: tools
+    title: AI 与安全兵器谱
+    nav_title: 兵器谱
+    english: ARSENAL
+    url: /tools/
+    visible: true
+    description: 只收录试炼过的兵器：空间测绘、威胁情报、AI 安全、AI 提效四大门类，按天 / 地 / 玄 分级。FOFA 与 Shodan 两大测绘引擎首录，其余兵器正逐一试炼入库，长期维护。
+  - key: wall
+    title: 江湖留名
+    english: GUESTBOOK
+    url: /wall/
+    visible: true
+    description: 路过即缘分。以 GitHub 身份签下你的 ID 和一句话，签名实时上墙；路过他人的签名，也可以点个表情回应。
+  - key: about
+    title: 关于我们
+    english: ABOUT
+    url: /about/
+    visible: true
+    description: 研究 AI 如何安全地进入真实工作。
+footer_links:
+  - title: RSS
+    url: /feed/articles.xml
+  - title: CSDN
+    url: https://wittpeng.blog.csdn.net/
+  - title: Bilibili
+    url: https://space.bilibili.com/1565697864
+  - title: 视频号
+    modal: modal-sph
+  - title: 公众号
+    modal: modal-gzh
+  - title: 知识星球
+    url: https://wx.zsxq.com/group/51115811242514
+  - title: GitHub
+    url: https://github.com/EastSword

@@ -1,0 +1,6 @@
+<section class="editorial-section section-muted" aria-labelledby="news-heading"><div class="wrap">
+  <div class="editorial-heading"><div><p class="eyebrow">{% if section_number < 10 %}0{% endif %}{{ section_number }} / ON THE RADAR</p><h2 id="news-heading">{{ section.title | escape }}</h2></div><a class="text-link" href="{{ '/news/' | relative_url }}">资讯归档 →</a></div>
+  <p class="section-note">外部资讯 · 自动聚合，原文观点归原作者；不代表本站已完成复现。</p>
+  <div class="news-list preview" id="home-news-list" aria-live="polite"><p class="feed-status">正在加载资讯…</p></div>
+  <noscript><p><a href="{{ '/news/' | relative_url }}">查看安全资讯归档</a></p></noscript>
+</div></section>

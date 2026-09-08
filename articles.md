@@ -5,11 +5,7 @@ permalink: /articles/
 ---
 <section id="articles">
   <div class="wrap">
-    <div class="section-head">
-      <div class="num">02 / ARTICLES</div>
-      <h1>原创文章</h1>
-      <p class="desc">从实际问题出发，记录技术分析、测量方法与工程实践。</p>
-    </div>
+    {% include section-head.html key="articles" %}
 
     {% assign articles = site.articles | sort: date | reverse %}
     {% if articles.size > 0 %}

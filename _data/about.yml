@@ -1,0 +1,46 @@
+logo: /assets/logo-full.png
+author: 千里
+role: 东方隐侠创始人
+paragraphs:
+  - 安全 BP，长期从事 Web 安全研究与业务安全工作。当前关注 AI 应用中的身份、委托权限、供应链和执行边界，负责本站研究课题的选题与撰写。
+  - 我想回答的问题是：当 AI 开始读取代码、连接业务系统、替人执行任务，我们怎样保留必要的控制，发现错误，并证明防护有效？接下来的研究会围绕实际工作流，逐步补齐实验、评估与使用反馈。
+team_title: 东方隐侠安全团队
+team_description: 以 AI 安全为当前研究主线，以身份安全、软件供应链与安全工程为基础。原创成果、外部精选与资讯分别标记；分析结论尽量附来源、适用条件与待验证事项。
+research_links:
+  - title: Agent 安全研究
+    url: /topics/ai-agent-governance/
+  - title: API Key 攻击面
+    url: /topics/llm-api-key-security/
+  - title: 身份攻击与 ITDR
+    url: /topics/identity-attack-paths/
+contacts:
+  - title: 团队微信
+    description: 添加好友，备注来意
+    modal: modal-wechat
+    glyph: 微
+    tone: gold
+  - title: 视频号
+    description: 千里Trace-东方隐侠安全团队
+    modal: modal-sph
+    glyph: 频
+    tone: teal
+  - title: 公众号
+    description: dfyx_sec · 关键词回复获取课题资料
+    modal: modal-gzh
+    glyph: 众
+    tone: purple
+  - title: 知识星球
+    description: 检测基线等付费资产
+    url: https://wx.zsxq.com/group/51115811242514
+    glyph: 星
+    tone: gold
+  - title: GitHub
+    description: EastSword
+    url: https://github.com/EastSword
+    glyph: 码
+    tone: teal
+  - title: Bilibili
+    description: 长视频讲解
+    url: https://space.bilibili.com/1565697864
+    glyph: B
+    tone: purple

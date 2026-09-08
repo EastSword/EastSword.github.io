@@ -1,0 +1,22 @@
+{% assign focus = site.topics | where: "slug", site.data.editorial.focus.topic | first %}
+{% if focus %}
+<section class="editorial-section" aria-labelledby="focus-heading">
+  <div class="wrap">
+    <div class="editorial-heading"><div><p class="eyebrow">{% if section_number < 10 %}0{% endif %}{{ section_number }} / IN FOCUS</p><h2 id="focus-heading">{{ section.title | escape }}</h2></div><span class="quiet">AI Agent · 身份与执行边界</span></div>
+    <div class="focus-layout">
+      <article class="focus-story">
+        <div class="content-meta"><span class="label-original">原创研究</span><span>{{ site.data.editorial.focus.evidence }}</span><span>更新 {{ focus.updated | date: "%Y-%m-%d" }}</span></div>
+        <h3><a href="{{ focus.url | relative_url }}">{{ site.data.editorial.focus.title }}</a></h3>
+        <p>{{ site.data.editorial.focus.summary }}</p>
+        <a class="research-figure" href="{{ site.data.editorial.focus.article | relative_url }}"><img src="{{ site.data.editorial.focus.image | relative_url }}" alt="企业 Agent 安全控制架构：身份与策略控制面、四类执行边界、中央审计与响应" width="1600" height="1040"></a>
+        <div class="story-links"><a class="text-link" href="{{ site.data.editorial.focus.article | relative_url }}">阅读完整研究 →</a><a href="{{ focus.url | relative_url }}#findings">结论与待验证事项 →</a></div>
+      </article>
+      <aside class="research-routes" aria-labelledby="routes-heading">
+        <p class="eyebrow">START WITH A QUESTION</p><h3 id="routes-heading">从你关心的问题开始</h3>
+        {% for route in site.data.editorial.routes %}<a class="route-row" href="{{ route.url | relative_url }}"><span class="route-index">0{{ forloop.index }}</span><div><span class="route-label">{{ route.label }}</span><h4>{{ route.question }}</h4><p>{{ route.description }}</p></div><span aria-hidden="true">↗</span></a>{% endfor %}
+        <a class="text-link route-all" href="{{ '/topics/' | relative_url }}">全部研究课题 →</a>
+      </aside>
+    </div>
+  </div>
+</section>
+{% endif %}

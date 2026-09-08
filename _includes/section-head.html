@@ -1,0 +1,11 @@
+{% assign section_number = 0 %}
+{% for entry in site.data.site_ui.navigation %}
+  {% if entry.visible %}{% assign section_number = section_number | plus: 1 %}{% endif %}
+  {% if entry.key == include.key %}
+  <div class="section-head">
+    <div class="num">{% if entry.visible %}{% if section_number < 10 %}0{% endif %}{{ section_number }} / {% endif %}{{ entry.english | escape }}</div>
+    <h1>{{ entry.title | escape }}</h1>
+    <p class="desc">{{ entry.description | escape }}</p>
+  </div>
+  {% endif %}
+{% endfor %}

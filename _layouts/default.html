@@ -31,15 +31,11 @@
   <a class="skip-link" href="#main-content">跳到正文</a>
   <nav class="nav" aria-label="主导航">
     <div class="inner">
-      <a class="brand" href="{{ '/' | relative_url }}"><img class="logo" src="{{ '/assets/logo-mark.png' | relative_url }}" alt="东方隐侠安全团队">东方隐侠安全团队</a>
+      <a class="brand" href="{{ '/' | relative_url }}"><img class="logo" src="{{ site.data.site_ui.logo | relative_url }}" alt="{{ site.data.site_ui.brand | escape }}">{{ site.data.site_ui.brand | escape }}</a>
       <div class="links">
-        <a href="{{ '/topics/' | relative_url }}"{% if page.url contains '/topics/' %} aria-current="page"{% endif %}>研究课题</a>
-        <a href="{{ '/articles/' | relative_url }}"{% if page.url contains '/articles/' %} aria-current="page"{% endif %}>原创文章</a>
-        <a href="{{ '/resources/' | relative_url }}"{% if page.url contains '/resources/' %} aria-current="page"{% endif %}>精选资料</a>
-        <a href="{{ '/news/' | relative_url }}"{% if page.url contains '/news/' %} aria-current="page"{% endif %}>安全资讯</a>
-        <a href="{{ '/tools/' | relative_url }}"{% if page.url contains '/tools/' %} aria-current="page"{% endif %}>兵器谱</a>
-        <a href="{{ '/wall/' | relative_url }}"{% if page.url contains '/wall/' %} aria-current="page"{% endif %}>江湖留名</a>
-        <a href="{{ '/about/' | relative_url }}"{% if page.url contains '/about/' %} aria-current="page"{% endif %}>关于我们</a>
+        {% for entry in site.data.site_ui.navigation %}{% if entry.visible %}
+        <a href="{{ entry.url | relative_url }}"{% if page.url contains entry.url %} aria-current="page"{% endif %}>{{ entry.nav_title | default: entry.title | escape }}</a>
+        {% endif %}{% endfor %}
       </div>
     </div>
   </nav>
@@ -51,25 +47,17 @@
       <div class="inner">
         <div>
           <div class="seal">东方隐侠</div>
-          DFYX-SEC · {{ site.tagline }}
+          DFYX-SEC · {{ site.data.site_ui.tagline | escape }}
         </div>
         <div class="social">
-          <a href="{{ '/feed/articles.xml' | relative_url }}">RSS</a>
-          <span class="sep">/</span>
-          <a href="https://wittpeng.blog.csdn.net/" target="_blank" rel="noopener">CSDN</a>
-          <span class="sep">/</span>
-          <a href="https://space.bilibili.com/1565697864" target="_blank" rel="noopener">Bilibili</a>
-          <span class="sep">/</span>
-          <button class="wx-link" type="button" data-modal="modal-sph">视频号</button>
-          <span class="sep">/</span>
-          <button class="wx-link" type="button" data-modal="modal-gzh">公众号</button>
-          <span class="sep">/</span>
-          <a href="https://wx.zsxq.com/group/51115811242514" target="_blank" rel="noopener">知识星球</a>
-          <span class="sep">/</span>
-          <a href="https://github.com/EastSword" target="_blank" rel="noopener">GitHub</a>
+          {% for entry in site.data.site_ui.footer_links %}
+          {% unless forloop.first %}<span class="sep">/</span>{% endunless %}
+          {% if entry.modal %}<button class="wx-link" type="button" data-modal="{{ entry.modal | escape }}">{{ entry.title | escape }}</button>
+          {% else %}<a href="{{ entry.url | relative_url }}"{% if entry.url contains '://' %} target="_blank" rel="noopener"{% endif %}>{{ entry.title | escape }}</a>{% endif %}
+          {% endfor %}
         </div>
         <div style="text-align:right;">
-          © 2026 东方隐侠安全团队
+          © {{ site.time | date: "%Y" }} {{ site.data.site_ui.copyright | escape }}
         </div>
       </div>
       <div class="stats" id="site-stats" data-host="{{ site.analytics_host | escape }}" hidden>

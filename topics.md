@@ -5,11 +5,7 @@ permalink: /topics/
 ---
 <section id="topics">
   <div class="wrap wrap-wide">
-    <div class="section-head">
-      <div class="num">01 / RESEARCH</div>
-      <h1>研究课题</h1>
-      <p class="desc">围绕 AI 应用、身份与供应链，记录原理、方法、实践与工具。已结题标记阶段性成果，结论仍需随版本与新证据修订。</p>
-    </div>
+    {% include section-head.html key="topics" %}
 
     {% assign topics = site.topics | sort: "updated" | reverse %}
     {% assign cats = site.topics | map: "categories" | join: "|" | split: "|" | uniq %}

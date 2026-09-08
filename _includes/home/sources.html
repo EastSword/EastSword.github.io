@@ -1,0 +1,4 @@
+<section class="editorial-section" aria-labelledby="sources-heading"><div class="wrap">
+  <div class="editorial-heading"><div><p class="eyebrow">{% if section_number < 10 %}0{% endif %}{{ section_number }} / READING DESK</p><h2 id="sources-heading">{{ section.title | escape }}</h2></div><a class="text-link" href="{{ '/resources/' | relative_url }}">精选资料库 →</a></div>
+  <div class="source-preview">{% for source_id in site.data.editorial.featured_resources %}{% assign r = site.resources | where: "slug", source_id | first %}{% if r %}{% include resource-entry.html resource=r compact=true %}{% endif %}{% endfor %}</div>
+</div></section>
