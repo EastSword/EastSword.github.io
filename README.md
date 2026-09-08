@@ -1,4 +1,8 @@
-# 东方隐侠安全团队 · 话题中枢站
+# 东方隐侠安全团队 · 研究档案
+
+首页以「当前研究 → 问题入口 → 原创成果 → 精选资料 → 安全动态 → 作者」组织，配套 [内容运行计划](docs/content-plan.md) 记录未来 12 周研究、选题标准和平台分工。计划不进入公开站点。
+
+首页推荐配置在 `_data/editorial.yml`；资料库为 `/resources/`，支持关键词、类型与课题筛选。`_resources/*.md` 中原文链接必须使用 `external_url`，避免与 Jekyll 的 `url` 属性冲突。
 
 以**研究主题**（而非时间流文章）组织的个人站点：每个话题一个页面，聚合该研究在公众号 / CSDN / FreeBuf /B站 / 视频号的全部形态入口与配套资产，地址持续修订。基于 GitHub Pages 原生 Jekyll，零依赖、零 CI。
 
@@ -8,8 +12,9 @@
 
 | 页面 | 文件 | 说明 |
 |------|------|------|
-| 首页 | `index.md` | Hero + 四大板块导航 + 课题/文章/资讯预览 |
-| 研究课题 | `topics.md` | 三大栏目（热点拆解 / 实测与复现 / 接入与治理）+ 跨栏目搜索 + 精选资料 + 情报加载 |
+| 首页 | `index.md` | 当前研究、问题入口、原创成果、外部精选、资讯、作者 |
+| 研究课题 | `topics.md` | 分类与状态组合搜索、最近修订排序、精选资料 |
+| 精选资料 | `resources.md` | 原作者、收录与发布时间、推荐理由、组合筛选、关联课题 |
 | 技术文章 | `articles.md` | 长文列表页，渲染 `_articles/` 集合 |
 | 安全资讯 | `news.md` | 纯前端动态加载 `news-archive` 仓库数据：无限滚动按月懒加载 + 关键词全量检索 |
 | 江湖留名 | `wall.md` | giscus 签名墙（GitHub Discussion #1） |
@@ -63,4 +68,8 @@ blog-site/
 
 ## 本地预览（可选）
 
-装过 Ruby 的前提下：`gem install jekyll && jekyll serve`，访问 http://127.0.0.1:4000。不装也行，直接 push 看线上效果。
+本地已有 Jekyll 时：`jekyll serve --host 127.0.0.1 --port 4018 --destination /tmp/eastsword-editorial-preview`，访问 http://127.0.0.1:4018。若端口被占用，请换空闲端口。
+
+构建验证：`jekyll build --destination /tmp/eastsword-editorial-preview`。
+
+浏览器验证：安装 Playwright 并提供 Chrome 后运行 `node scripts/verify_editorial.cjs`。支持 `SITE_URL`、`QA_OUTPUT`、`BROWSER_CHANNEL` 环境变量；Playwright 在仓库外安装时可用 `NODE_PATH` 指定模块目录。覆盖桌面和手机布局、图片、站内链接、筛选、资料原文地址、联系方式弹窗、资讯错误与空状态。截图和构建目录位于 `/tmp`，不提交仓库。

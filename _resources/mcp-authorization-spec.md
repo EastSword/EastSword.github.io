@@ -6,7 +6,7 @@ published: "2025-11-25"
 date: 2026-09-07
 type: 官方规范
 topics: [ai-agent-governance, mcp-supply-chain]
-url: https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization
+external_url: https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization
 reason: 企业 MCP 准入的授权边界一手依据：token 面向本服务、不透传、动态客户端注册等约束都出自这里。
 ---
 

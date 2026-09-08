@@ -6,7 +6,7 @@ published: "2026"
 date: 2026-09-07
 type: 标准框架
 topics: [ai-agent-governance, mcp-supply-chain]
-url: https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/
+external_url: https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/
 reason: Agent 威胁建模的通用入口，覆盖提示注入、工具滥用、身份混淆等十类风险，适合作为企业 Agent 风险台账的对齐基准。
 ---
 

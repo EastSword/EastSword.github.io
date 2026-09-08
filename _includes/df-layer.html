@@ -25,7 +25,7 @@
       {% endif %}
       <div class="df-sum-stats">
         <span class="ds-count"><b>{{ include.items.size }}</b> 项资源</span>
-        <span class="ds-split"><span>原创</span><b>{{ df_orig }}</b><span class="dot">·</span><span>转载</span><b class="rep">{{ df_rep }}</b></span>
+        <span class="ds-split"><span>原创</span><b>{{ df_orig }}</b><span class="dot">·</span><span>外部资料</span><b class="rep">{{ df_rep }}</b></span>
       </div>
     </aside>
     <div class="df-list">
@@ -36,7 +36,7 @@
           {% if item.type == "原创" %}
           <span class="badge df-type df-orig">原创</span>
           {% else %}
-          <span class="badge df-type df-reprint">转载</span>
+          <span class="badge df-type df-reprint">外部资料</span>
           {% endif %}
         </div>
         {% if item.text %}<p class="df-text">{{ item.text }}</p>{% endif %}

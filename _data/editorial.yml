@@ -1,0 +1,24 @@
+focus:
+  topic: ai-agent-governance
+  title: 员工都在用 AI Agent，企业安全该怎么管？
+  evidence: 静态分析 · 工程设计
+  summary: 从 Kiro 插件样本出发，梳理对话、Skill、MCP、工具执行与身份的控制边界。哪些可以强制约束，哪些仍需验证？
+  article: /articles/ai-agent-governance/
+  image: /assets/images/ai-agent-governance/01-enterprise-architecture.png
+routes:
+  - label: AI 接入与治理
+    question: Agent 能做什么，谁来授权？
+    description: 任务分级、执行隔离、身份与审计。
+    url: /topics/ai-agent-governance/
+  - label: 攻击面与实测
+    question: 大模型的 API Key 从哪里泄露？
+    description: 暴露面测量、提取路径与防御清单。
+    url: /topics/llm-api-key-security/
+  - label: 身份安全基础
+    question: 正常登录背后，如何识别身份滥用？
+    description: 身份攻击路径与 ITDR 检测思路。
+    url: /topics/identity-attack-paths/
+featured_resources:
+  - mcp-authorization-spec
+  - anthropic-contain-claude
+  - owasp-agentic-top10-2026

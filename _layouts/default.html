@@ -23,34 +23,40 @@
   <meta name="twitter:card" content="summary">
   {% endif %}
   <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/editorial.css' | relative_url }}">
+  <link rel="alternate" type="application/atom+xml" title="东方隐侠原创研究" href="{{ '/feed/articles.xml' | relative_url }}">
   <link rel="icon" type="image/x-icon" href="{{ '/assets/favicon.ico' | relative_url }}">
 </head>
-<body>
-  <nav class="nav">
+<body class="{{ page.body_class | default: 'content-page' }}">
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <nav class="nav" aria-label="主导航">
     <div class="inner">
       <a class="brand" href="{{ '/' | relative_url }}"><img class="logo" src="{{ '/assets/logo-mark.png' | relative_url }}" alt="东方隐侠安全团队">东方隐侠安全团队</a>
       <div class="links">
-        <a href="{{ '/topics/' | relative_url }}">研究课题</a>
-        <a href="{{ '/articles/' | relative_url }}">技术文章</a>
-        <a href="{{ '/news/' | relative_url }}">安全资讯</a>
-        <a href="{{ '/tools/' | relative_url }}">兵器谱</a>
-        <a href="{{ '/wall/' | relative_url }}">江湖留名</a>
-        <a href="{{ '/about/' | relative_url }}">关于团队</a>
-        <a href="https://github.com/EastSword" target="_blank" rel="noopener">GitHub</a>
+        <a href="{{ '/topics/' | relative_url }}"{% if page.url contains '/topics/' %} aria-current="page"{% endif %}>研究课题</a>
+        <a href="{{ '/articles/' | relative_url }}"{% if page.url contains '/articles/' %} aria-current="page"{% endif %}>原创文章</a>
+        <a href="{{ '/resources/' | relative_url }}"{% if page.url contains '/resources/' %} aria-current="page"{% endif %}>精选资料</a>
+        <a href="{{ '/news/' | relative_url }}"{% if page.url contains '/news/' %} aria-current="page"{% endif %}>安全资讯</a>
+        <a href="{{ '/tools/' | relative_url }}"{% if page.url contains '/tools/' %} aria-current="page"{% endif %}>兵器谱</a>
+        <a href="{{ '/about/' | relative_url }}"{% if page.url contains '/about/' %} aria-current="page"{% endif %}>千里与团队</a>
       </div>
     </div>
   </nav>
 
-  {{ content }}
+  <main id="main-content" tabindex="-1">{{ content }}</main>
 
   <footer class="site">
     <div class="wrap">
       <div class="inner">
         <div>
           <div class="seal">东方隐侠</div>
-          DFYX-SEC · 追踪攻击面的每一次迁移
+          DFYX-SEC · {{ site.tagline }}
         </div>
         <div class="social">
+          <a href="{{ '/wall/' | relative_url }}">江湖留名 / 纠错</a>
+          <span class="sep">/</span>
+          <a href="{{ '/feed/articles.xml' | relative_url }}">RSS</a>
+          <span class="sep">/</span>
           <a href="https://wittpeng.blog.csdn.net/" target="_blank" rel="noopener">CSDN</a>
           <span class="sep">/</span>
           <a href="https://space.bilibili.com/1565697864" target="_blank" rel="noopener">Bilibili</a>

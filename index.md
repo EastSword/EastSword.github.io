@@ -1,189 +1,60 @@
 ---
 layout: default
+body_class: home-page
 ---
-<!-- HERO -->
-<section class="hero">
-  <div class="bg"></div>
-  <div class="veil"></div>
+<header class="research-masthead">
   <div class="wrap">
-    <div class="kicker">DFYX-SEC · Eastern Sword Cyber Security</div>
-    <h1>
-      <span class="teal">追踪攻击面的</span><br>
-      <span class="gold">每一次迁移</span>
-    </h1>
-    <p class="lead">
-      从 Web 安全到 AI Agent 时代，攻击者换了兵器，攻的仍是同一处命门。东方隐侠安全团队以研究课题为脉络，逐一拆解身份、供应链、AI 安全三大战场上的攻击路径。
-    </p>
-    <div class="cta">
-      <a class="primary" href="{{ '/topics/' | relative_url }}">进入研究课题</a>
-      <a class="ghost" href="{{ '/news/' | relative_url }}">今日安全资讯</a>
+    <p class="eyebrow">DFYX-SEC / AI & SECURITY RESEARCH</p>
+    <h1>东方隐侠安全团队</h1>
+    <p class="masthead-purpose">研究 AI 如何安全地进入真实工作。</p>
+    <p class="masthead-description">从身份、权限到执行边界，积累可核查的研究、工程方法与精选资料。</p>
+    <div class="masthead-bottom">
+      <a class="author-line" href="{{ '/about/#qianli' | relative_url }}">千里 <span>创始人 · 安全 BP · AI 安全研究</span></a>
+      <a class="text-link" href="{{ '/topics/' | relative_url }}">进入研究课题 <span aria-hidden="true">→</span></a>
     </div>
   </div>
-  <div class="scroll">SCROLL ▾</div>
-</section>
+</header>
+<div class="archive-strip"><div class="wrap"><span>研究档案</span><a href="{{ '/topics/' | relative_url }}"><b>{{ site.topics.size }}</b> 个课题</a><a href="{{ '/articles/' | relative_url }}"><b>{{ site.articles.size }}</b> 篇原创长文</a><a href="{{ '/resources/' | relative_url }}"><b>{{ site.resources.size }}</b> 条精选资料</a><a class="strip-rss" href="{{ '/feed/articles.xml' | relative_url }}">RSS 订阅 ↗</a></div></div>
 
-<!-- MODULES -->
-<section id="modules">
+{% assign focus = site.topics | where: "slug", site.data.editorial.focus.topic | first %}
+{% if focus %}
+<section class="editorial-section" aria-labelledby="focus-heading">
   <div class="wrap">
-    <div class="section-head">
-      <div class="num">00 / SECTORS</div>
-      <h2>五大板块</h2>
-      <p class="desc">研究课题纵深拆解，安全资讯每日同步内网情报源，兵器谱收录试炼过的工具，江湖留名汇聚同行足迹。</p>
+    <div class="editorial-heading"><div><p class="eyebrow">01 / IN FOCUS</p><h2 id="focus-heading">当前重点研究</h2></div><span class="quiet">AI Agent · 身份与执行边界</span></div>
+    <div class="focus-layout">
+      <article class="focus-story">
+        <div class="content-meta"><span class="label-original">原创研究</span><span>{{ site.data.editorial.focus.evidence }}</span><span>更新 {{ focus.updated | date: "%Y-%m-%d" }}</span></div>
+        <h3><a href="{{ focus.url | relative_url }}">{{ site.data.editorial.focus.title }}</a></h3>
+        <p>{{ site.data.editorial.focus.summary }}</p>
+        <a class="research-figure" href="{{ site.data.editorial.focus.article | relative_url }}"><img src="{{ site.data.editorial.focus.image | relative_url }}" alt="企业 Agent 安全控制架构：身份与策略控制面、四类执行边界、中央审计与响应" width="1600" height="1040"></a>
+        <div class="story-links"><a class="text-link" href="{{ site.data.editorial.focus.article | relative_url }}">阅读完整研究 →</a><a href="{{ focus.url | relative_url }}#findings">结论与待验证事项 →</a></div>
+      </article>
+      <aside class="research-routes" aria-labelledby="routes-heading">
+        <p class="eyebrow">START WITH A QUESTION</p><h3 id="routes-heading">从你关心的问题开始</h3>
+        {% for route in site.data.editorial.routes %}<a class="route-row" href="{{ route.url | relative_url }}"><span class="route-index">0{{ forloop.index }}</span><div><span class="route-label">{{ route.label }}</span><h4>{{ route.question }}</h4><p>{{ route.description }}</p></div><span aria-hidden="true">↗</span></a>{% endfor %}
+        <a class="text-link route-all" href="{{ '/topics/' | relative_url }}">全部研究课题 →</a>
+      </aside>
     </div>
-    <div class="modules">
-      <a class="module m-teal" href="{{ '/topics/' | relative_url }}">
-        <div class="glyph">研</div>
-        <div class="m-title">研究课题</div>
-        <div class="m-desc">三大栏目长期维护：热点拆解 · 实测与复现 · 接入与治理，聚合原创成果与全球精选资料</div>
-        <div class="m-meta">{{ site.topics | size }} 个课题 · {{ site.articles | size }} 篇长文 · {{ site.resources | size }} 条精选资料</div>
-      </a>
-      <a class="module m-gold" href="{{ '/news/' | relative_url }}">
-        <div class="glyph">讯</div>
-        <div class="m-title">安全资讯</div>
-        <div class="m-desc">内网情报聚合服务直连，覆盖全球安全源与 AI 安全源，每日自动同步</div>
-        <div class="m-meta">{% if site.data.news %}{{ site.data.news.items | size }} 条 · {{ site.data.news.generated_at }} 更新{% else %}情报源接入中{% endif %}</div>
-      </a>
-      <a class="module m-purple" href="{{ '/tools/' | relative_url }}">
-        <div class="glyph">兵</div>
-        <div class="m-title">兵器谱</div>
-        <div class="m-desc">AI 与安全双修的兵器库，逐一试炼后收录：测绘、情报、AI 攻防</div>
-        <div class="m-meta">首录 FOFA / Shodan · 持续入库</div>
-      </a>
-      <a class="module m-gold" href="{{ '/wall/' | relative_url }}">
-        <div class="glyph">俠</div>
-        <div class="m-title">江湖留名</div>
-        <div class="m-desc">以 GitHub 身份签下你的 ID 和一句话，签名实时上墙，支持表情回应</div>
-        <div class="m-meta">路过即缘分</div>
-      </a>
-      <a class="module m-teal" href="{{ '/about/' | relative_url }}">
-        <div class="glyph">盟</div>
-        <div class="m-title">关于团队</div>
-        <div class="m-desc">AI 安全 / 身份安全 / 软件供应链三大方向，联系与合作入口</div>
-        <div class="m-meta">团队微信 / 视频号 / 公众号</div>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- TOPICS PREVIEW -->
-<section id="topics-preview">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="num">01 / RESEARCH</div>
-      <h2>最新研究课题</h2>
-      <p class="desc">课题页聚合原创成果、精选外部资料与最新情报，长期维护、持续修订。</p>
-    </div>
-    <div class="bento">
-      {% assign topics = site.topics | sort: date | reverse %}
-      {% for t in topics limit: 3 %}
-      {% assign t_tags = t.tags | join: "," %}
-      <a class="tile" href="{{ t.url | relative_url }}"
-         data-title="{{ t.title | escape }}" data-tags="{{ t_tags }}">
-        <div class="row1">
-          {% if t.status == "published" %}
-            <span class="badge published">已发布</span>
-          {% elsif t.status == "publishing" %}
-            <span class="badge publishing">发布中</span>
-          {% else %}
-            <span class="badge drafting">撰写中</span>
-          {% endif %}
-          {% if t.category %}<span class="badge cat-badge">{{ t.category }}</span>{% endif %}
-          <h3>{{ t.title }}</h3>
-          <span class="arrow">→</span>
-        </div>
-        <div class="row2">
-          <span>{{ t.subtitle }}</span>
-          <span class="dot">·</span>
-          <span>{{ t.date | date: "%Y-%m-%d" }}</span>
-        </div>
-      </a>
-      {% endfor %}
-    </div>
-    <div class="more-link"><a href="{{ '/topics/' | relative_url }}">查看全部课题 →</a></div>
-  </div>
-</section>
-
-<!-- ARTICLES PREVIEW -->
-{% assign articles = site.articles | sort: date | reverse %}
-{% if articles.size > 0 %}
-<section id="articles-preview">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="num">02 / ARTICLES</div>
-      <h2>最新技术文章</h2>
-      <p class="desc">研究课题的完整版长文，先于全平台首发或同步刊登于此。</p>
-    </div>
-    <div class="bento">
-      {% for a in articles limit: 3 %}
-      <a class="tile" href="{{ a.url | relative_url }}">
-        <div class="row1">
-          {% if a.category %}<span class="badge cat-badge">{{ a.category }}</span>{% endif %}
-          <h3>{{ a.title }}</h3>
-          <span class="arrow">→</span>
-        </div>
-        <div class="row2">
-          <span>{{ a.subtitle }}</span>
-          <span class="dot">·</span>
-          <span>阅读约 {{ a.reading_time }} 分钟</span>
-        </div>
-      </a>
-      {% endfor %}
-    </div>
-    <div class="more-link"><a href="{{ '/articles/' | relative_url }}">全部文章 →</a></div>
   </div>
 </section>
 {% endif %}
-
-<!-- NEWS PREVIEW -->
-<section id="news-preview">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="num">03 / INTEL</div>
-      <h2>最新安全资讯</h2>
-      <p class="desc">内网情报聚合服务直连（安全源 83 个，含 CISA / Mandiant / FreeBuf 等），全量归档于独立仓库，可关键词检索全部历史。</p>
-    </div>
-    <div class="news-list preview" id="home-news-list"></div>
-    <div class="more-link"><a href="{{ '/news/' | relative_url }}">进入资讯频道 · 全量检索 →</a></div>
-    <noscript>
-      <div class="placeholder-box">
-        <div class="glyph">讯</div>
-        资讯列表由前端动态加载，请启用 JavaScript 后查看
-      </div>
-    </noscript>
-  </div>
-</section>
-
-<script>
-(function () {
-  var BASE = 'https://eastsword.github.io/news-archive';
-  function esc(s) {
-    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
-      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-    });
-  }
-  function safeUrl(u) { return /^https?:\/\//i.test(u || '') ? u : '#'; }
-
-  fetch(BASE + '/feed.json').then(function (r) { return r.json(); }).then(function (d) {
-    var box = document.getElementById('home-news-list');
-    if (!box) return;
-    var html = '';
-    (d.items || []).slice(0, 6).forEach(function (n) {
-      html += '<a class="news-item" href="' + esc(safeUrl(n.url)) + '" target="_blank" rel="noopener">' +
-        '<span class="news-item-meta">' +
-          '<span class="news-date">' + esc(n.published_date) + '</span>' +
-          '<span class="badge ' + (n.category === 'AI安全' ? 'cat-ai' : 'cat-sec') + '">' + esc(n.category) + '</span>' +
-          '<span class="news-source">' + esc(n.source) + '</span>' +
-        '</span>' +
-        '<span class="news-title">' + esc(n.title) + '</span>' +
-        (n.title_zh ? '<span class="news-title-zh">' + esc(n.title_zh) + '</span>' : '') +
-        '</a>';
-    });
-    box.innerHTML = html;
-  }).catch(function () {});
-
-  fetch(BASE + '/index.json').then(function (r) { return r.json(); }).then(function (d) {
-    var m = document.getElementById('news-module-meta');
-    if (m) m.textContent = '全量归档 ' + d.total + ' 条 · ' + d.months.length + ' 个月 · 每日同步';
-  }).catch(function () {});
-})();
-</script>
+<section class="editorial-section section-muted" aria-labelledby="articles-heading"><div class="wrap">
+  <div class="editorial-heading"><div><p class="eyebrow">02 / ORIGINAL WORK</p><h2 id="articles-heading">原创研究与实践</h2></div><a class="text-link" href="{{ '/articles/' | relative_url }}">全部文章 →</a></div>
+  <div class="article-index">{% assign articles = site.articles | sort: "date" | reverse %}{% for a in articles limit: 4 %}
+    <article class="article-index-row"><time datetime="{{ a.date | date: '%Y-%m-%d' }}">{{ a.date | date: "%m-%d" }}<span>{{ a.date | date: "%Y" }}</span></time><div><div class="content-meta"><span class="label-original">原创</span><span>{{ a.category }}</span><span>{{ a.author }} · {{ a.reading_time }} 分钟</span></div><h3><a href="{{ a.url | relative_url }}">{{ a.title }}</a></h3><p>{{ a.subtitle }}</p></div><a class="row-arrow" aria-label="阅读：{{ a.title | escape }}" href="{{ a.url | relative_url }}">↗</a></article>
+  {% endfor %}</div>
+</div></section>
+<section class="editorial-section" aria-labelledby="sources-heading"><div class="wrap">
+  <div class="editorial-heading"><div><p class="eyebrow">03 / READING DESK</p><h2 id="sources-heading">值得细读的外部资料</h2></div><a class="text-link" href="{{ '/resources/' | relative_url }}">精选资料库 →</a></div>
+  <div class="source-preview">{% for source_id in site.data.editorial.featured_resources %}{% assign r = site.resources | where: "slug", source_id | first %}{% if r %}{% include resource-entry.html resource=r compact=true %}{% endif %}{% endfor %}</div>
+</div></section>
+<section class="editorial-section section-muted" aria-labelledby="news-heading"><div class="wrap">
+  <div class="editorial-heading"><div><p class="eyebrow">04 / ON THE RADAR</p><h2 id="news-heading">安全动态</h2></div><a class="text-link" href="{{ '/news/' | relative_url }}">资讯归档 →</a></div>
+  <p class="section-note">外部资讯 · 自动聚合，原文观点归原作者；不代表本站已完成复现。</p>
+  <div class="news-list preview" id="home-news-list" aria-live="polite"><p class="feed-status">正在加载资讯…</p></div>
+  <noscript><p><a href="{{ '/news/' | relative_url }}">查看安全资讯归档</a></p></noscript>
+</div></section>
+<section class="editorial-section author-section" aria-labelledby="author-heading"><div class="wrap author-band">
+  <img src="{{ '/assets/logo-full.png' | relative_url }}" alt="东方隐侠团队标志" width="112" height="112" loading="lazy"><div><p class="eyebrow">QIANLI / EASTERN SWORD</p><h2 id="author-heading">千里 · 从业务现场出发</h2><p>安全 BP，东方隐侠创始人。长期研究 Web 安全，当前关注 AI 应用的身份、权限、供应链与审计。把实际问题写成研究，也把研究带回实际工作。</p><div class="story-links"><a class="text-link" href="{{ '/about/#qianli' | relative_url }}">关于千里与团队 →</a><a href="https://github.com/EastSword" target="_blank" rel="noopener">GitHub ↗</a><a href="{{ '/wall/' | relative_url }}">交流与纠错 →</a></div></div>
+</div></section>
+<script src="{{ '/assets/home-news.js' | relative_url }}" defer></script>

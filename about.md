@@ -1,21 +1,23 @@
 ---
 layout: default
-title: 关于团队
+title: 千里与团队
 permalink: /about/
 ---
 <section id="about">
   <div class="wrap">
     <div class="section-head">
       <div class="num">04 / ABOUT</div>
-      <h2>关于团队</h2>
-      <p class="desc">研究驱动、实战检验——每个话题从第一性原理拆解，配真实事件与可落地的检测基线。</p>
+      <h1>千里与东方隐侠</h1>
+      <p class="desc">研究 AI 如何安全地进入真实工作。</p>
     </div>
     <div class="about">
       <img class="team-logo" src="{{ '/assets/logo-full.png' | relative_url }}" alt="东方隐侠安全团队">
-      <h2>关于 <span>东方隐侠</span></h2>
-      <p><strong>东方隐侠安全团队（DFYX-SEC）</strong>，专注于攻防前沿的安全研究团队。研究方向横跨 AI 安全（Agent / MCP / Skills 供应链）、身份安全（ITDR）、软件供应链三大领域，坚持「研究驱动、实战检验」——每个话题从第一性原理拆解，配真实事件与可落地的检测基线。</p>
-      <p><strong>千里</strong>，团队创始人，安全 BP。深耕 Web 安全多年，当前主攻 AI Agent 时代的新攻击面，负责本站全部研究课题的选题与撰写。</p>
-      <p>本站不按时间流更新，按<strong>研究主题</strong>组织：每个话题页聚合该研究在公众号、CSDN、FreeBuf、B站、视频号的全部形态入口与配套资产，地址持续修订。</p>
+      <h2 id="qianli">千里 <span> / 东方隐侠创始人</span></h2>
+      <p>安全 BP，长期从事 Web 安全研究与业务安全工作。当前关注 AI 应用中的身份、委托权限、供应链和执行边界，负责本站研究课题的选题与撰写。</p>
+      <p>我想回答的问题是：当 AI 开始读取代码、连接业务系统、替人执行任务，我们怎样保留必要的控制，发现错误，并证明防护有效？接下来的研究会围绕实际工作流，逐步补齐实验、评估与使用反馈。</p>
+      <h2>东方隐侠安全团队</h2>
+      <p>以 AI 安全为当前研究主线，以身份安全、软件供应链与安全工程为基础。原创成果、外部精选与资讯分别标记；分析结论尽量附来源、适用条件与待验证事项。</p>
+      <div class="story-links"><a class="text-link" href="{{ '/topics/ai-agent-governance/' | relative_url }}">Agent 安全研究 →</a><a href="{{ '/topics/llm-api-key-security/' | relative_url }}">API Key 攻击面 →</a><a href="{{ '/topics/identity-attack-paths/' | relative_url }}">身份攻击与 ITDR →</a></div>
     </div>
 
     <div class="contact-grid">

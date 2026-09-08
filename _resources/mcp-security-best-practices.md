@@ -6,7 +6,7 @@ published: "2025-11-25"
 date: 2026-09-07
 type: 官方规范
 topics: [ai-agent-governance, mcp-supply-chain]
-url: https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices
+external_url: https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices
 reason: 官方对令牌透传、混淆代理、SSRF、会话劫持等风险的防护要求，是 MCP 准入评审清单的一手依据。
 ---
 

@@ -6,7 +6,7 @@ date: 2026-09-07
 published: 持续更新
 type: 官方文档
 topics: [ai-agent-governance]
-url: https://kiro.dev/docs/hooks/types/
+external_url: https://kiro.dev/docs/hooks/types/
 reason: 用户态 Hook 的阻断与超时语义、IDE 与 CLI 的事件支持差异，评估插件类管控能力前先读这份。
 ---
 

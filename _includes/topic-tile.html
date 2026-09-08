@@ -26,7 +26,7 @@
   <div class="tile-meta">
     {% for c in t.categories %}<span class="badge cat-badge">{{ c }}</span>{% endfor %}
     {% if t.keyword %}<span class="badge keyword">{{ t.keyword }}</span>{% endif %}
-    <span class="tile-date">{{ t.date | date: "%Y-%m-%d" }}</span>
+    <span class="tile-date">修订 {{ t.updated | default: t.date | date: "%Y-%m-%d" }}</span>
     {% for tg in t.tags %}<span class="mini-tag">{{ tg }}</span>{% endfor %}
   </div>
 </a>

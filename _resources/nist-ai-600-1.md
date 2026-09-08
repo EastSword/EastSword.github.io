@@ -6,7 +6,7 @@ published: "2024-07"
 date: 2026-09-07
 type: 标准框架
 topics: [ai-agent-governance]
-url: https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence
+external_url: https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence
 reason: 组织级 GenAI 风险治理的参考框架，给出风险类别与治理动作的映射；注意它是参考框架，不据此宣称合规。
 ---
 

@@ -1,0 +1,9 @@
+{% assign r = include.resource %}
+<article class="source-entry" data-resource data-type="{{ r.type | escape }}" data-topics="{{ r.topics | join: '|' | escape }}" data-search="{{ r.title | append: ' ' | append: r.source | append: ' ' | append: r.author | append: ' ' | append: r.reason | escape }}">
+  <div class="content-meta"><span class="label-external">外部精选</span><span>{{ r.type }}</span></div>
+  <h3><a href="{{ r.external_url | escape }}" target="_blank" rel="noopener">{{ r.title }} <span aria-hidden="true">↗</span></a></h3>
+  <p>{{ r.reason }}</p>
+  <div class="source-credit">{{ r.author | default: r.source }}{% if r.published == '持续更新' %} · 原文持续更新{% elsif r.published %} · 发布 {{ r.published }}{% endif %}</div>
+  {% unless include.compact %}<div class="source-date">收录 {{ r.date | date: "%Y-%m-%d" }}</div>{% endunless %}
+  <div class="source-topic-links">{% for slug in r.topics %}{% assign linked_topic = site.topics | where: "slug", slug | first %}{% if linked_topic %}<a href="{{ linked_topic.url | relative_url }}">关联课题：{{ linked_topic.title }} →</a>{% endif %}{% endfor %}</div>
+</article>

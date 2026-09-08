@@ -7,8 +7,8 @@ permalink: /articles/
   <div class="wrap">
     <div class="section-head">
       <div class="num">02 / ARTICLES</div>
-      <h2>技术文章</h2>
-      <p class="desc">研究课题的完整版长文：完整攻击面测量、全部提取路径、实测证据与防御基线，先于全平台首发或同步刊登于此。</p>
+      <h1>原创文章</h1>
+      <p class="desc">从实际问题出发，记录技术分析、测量方法与工程实践。</p>
     </div>
 
     {% assign articles = site.articles | sort: date | reverse %}
@@ -40,7 +40,7 @@ permalink: /articles/
     {% else %}
     <div class="placeholder-box">
       <div class="glyph">文</div>
-      文章模块已就绪，运行 scripts/publish_article.py 发布第一篇
+      暂无文章。
     </div>
     {% endif %}
   </div>

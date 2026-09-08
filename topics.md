@@ -7,18 +7,18 @@ permalink: /topics/
   <div class="wrap wrap-wide">
     <div class="section-head">
       <div class="num">01 / RESEARCH</div>
-      <h2>研究课题</h2>
-      <p class="desc">研究 AI 如何安全地进入真实工作：技术拆解、实测复现与落地方法。每个课题长期维护，按道、法、术、器四层组织，聚合原创成果、精选外部资料与持续更新的情报。</p>
+      <h1>研究课题</h1>
+      <p class="desc">围绕 AI 应用、身份与供应链，记录原理、方法、实践与工具。已结题标记阶段性成果，结论仍需随版本与新证据修订。</p>
     </div>
 
-    {% assign topics = site.topics | sort: date | reverse %}
-    {% assign cats = "AI安全,身份安全,云安全,供应链安全,检测与响应,数据安全,运维安全" | split: "," %}
+    {% assign topics = site.topics | sort: "updated" | reverse %}
+    {% assign cats = site.topics | map: "categories" | join: "|" | split: "|" | uniq %}
 
     <div class="topics-layout">
       <aside class="topics-side">
         <div class="side-search">
           <span class="icon">⌕</span>
-          <input id="topic-search" type="text" placeholder="搜索课题 / 关键词 / 简介…" autocomplete="off">
+          <input id="topic-search" type="search" aria-label="搜索研究课题" placeholder="搜索课题 / 关键词…" autocomplete="off">
         </div>
         <nav class="side-nav" id="cat-nav">
           <div class="side-nav-title">课题分类</div>
@@ -60,7 +60,7 @@ permalink: /topics/
 
       <div class="topics-main">
         <div class="topics-toolbar">
-          <span class="tb-label" id="topic-count-label">全部课题 · {{ topics.size }} 个</span>
+          <span class="tb-label" id="topic-count-label" role="status">全部课题 · {{ topics.size }} 个</span><span class="quiet">按最近修订排序</span>
         </div>
         <div class="bento" id="topic-list">
           {% for t in topics %}
@@ -84,10 +84,10 @@ permalink: /topics/
     {% if resources.size > 0 %}
     <section class="block res-block">
       <h2>精选外部资料</h2>
-      <p class="block-note">只收核验过的来源：标注原作者、出处与推荐理由，以链接和自己的摘要为主，完整转载需取得授权。</p>
+      <p class="block-note">原始规范、标准框架与工程实践。<a href="{{ '/resources/' | relative_url }}">搜索全部 {{ resources.size }} 条资料 →</a></p>
       <div class="resource-grid">
         {% for r in resources limit: 6 %}
-        <a class="resource-card" href="{{ r.url }}" target="_blank" rel="noopener">
+        <a class="resource-card" href="{{ r.external_url | escape }}" target="_blank" rel="noopener">
           <div class="rc-top">
             <span class="badge res-type">{{ r.type }}</span>
             <span class="rc-source">{{ r.source }}</span>
@@ -137,11 +137,16 @@ permalink: /topics/
   var tiles = Array.prototype.slice.call(list.querySelectorAll('.tile'));
   var catLinks = Array.prototype.slice.call(document.querySelectorAll('#cat-nav .side-link'));
   var statusLinks = Array.prototype.slice.call(document.querySelectorAll('#status-nav .side-link'));
-  var state = { cat: '全部', status: '全部', q: '' };
+  var params = new URLSearchParams(window.location.search);
+  var requestedCat = params.get('category') || '全部';
+  var state = { cat: catLinks.some(function (b) { return b.dataset.cat === requestedCat; }) ? requestedCat : '全部', status: '全部', q: params.get('q') || '' };
+  if (search) search.value = state.q;
 
   function norm(s) { return (s || '').toLowerCase().trim(); }
 
   function apply() {
+    catLinks.forEach(function (b) { var active = b.dataset.cat === state.cat; b.classList.toggle('active', active); b.setAttribute('aria-pressed', String(active)); });
+    statusLinks.forEach(function (b) { var active = b.dataset.status === state.status; b.classList.toggle('active', active); b.setAttribute('aria-pressed', String(active)); });
     var total = 0;
     tiles.forEach(function (t) {
       var cats = (t.getAttribute('data-cats') || '').split('|');

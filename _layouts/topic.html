@@ -22,26 +22,40 @@ layout: default
         <span>公众号回复</span><span class="badge keyword">{{ page.keyword }}</span>
       {% endif %}
     </div>
+    <nav class="topic-jump" aria-label="课题目录">
+      {% if page.reading_path or page.links %}<a href="#start">从这里开始</a>{% endif %}
+      {% if page.findings %}<a href="#findings">结论与待验证</a>{% endif %}
+      {% if page.dao or page.fa or page.shu or page.qi %}<a href="#research">道法术器</a>{% endif %}
+      <a href="{{ '/resources/' | relative_url }}?topic={{ page.slug | url_encode }}">关联资料</a>
+      {% if page.changelog %}<a href="#changelog">维护记录</a>{% endif %}
+    </nav>
   </div>
 
+  {% if page.reading_path or page.links %}
+  <section class="topic-start" id="start">
+    <h2>从这里开始</h2>
+    {% if page.links %}<div class="story-links">{% for l in page.links %}{% if l.url %}<a href="{{ l.url }}"{% if l.url contains '://' %} target="_blank" rel="noopener"{% endif %}>{{ l.platform }} · {{ l.form }} →</a>{% endif %}{% endfor %}</div>{% endif %}
+    {% if page.reading_path %}<ol class="reading-path">{% for step in page.reading_path %}<li>{{ step }}</li>{% endfor %}</ol>{% endif %}
+  </section>
+  {% endif %}
+
+  {% if page.findings %}
+  <section class="topic-findings" id="findings">
+    <h2>结论与待验证事项</h2>
+    <div class="findings">
+      {% if page.findings.known %}<div class="finding-col known"><h4>当前研究结论</h4><ul>{% for k in page.findings.known %}<li>{{ k }}</li>{% endfor %}</ul></div>{% endif %}
+      {% if page.findings.open %}<div class="finding-col open"><h4>尚待验证</h4><ul>{% for o in page.findings.open %}<li>{{ o }}</li>{% endfor %}</ul></div>{% endif %}
+    </div>
+  </section>
+  {% endif %}
+
   {% if page.dao or page.fa or page.shu or page.qi %}
-  <div class="df-stack">
+  <div class="df-stack" id="research">
     {% include df-layer.html zi="道" cls="dao" name="第一性思考" note="最根本的思考，从第一性原理出发的分析" summary=page.dao_summary items=page.dao %}
     {% include df-layer.html zi="法" cls="fa" name="方法论" note="结合现实问题的思考，抽象层面的方法与思路" summary=page.fa_summary items=page.fa %}
     {% include df-layer.html zi="术" cls="shu" name="落地方法" note="解决具体落地问题的方式方法" summary=page.shu_summary items=page.shu %}
     {% include df-layer.html zi="器" cls="qi" name="工具与资源" note="具体使用的工具、规范与外部资源" summary=page.qi_summary items=page.qi %}
   </div>
-  {% endif %}
-
-  {% if page.reading_path %}
-  <section class="block">
-    <h2>入门路径</h2>
-    <ol class="reading-path">
-      {% for step in page.reading_path %}
-      <li>{{ step }}</li>
-      {% endfor %}
-    </ol>
-  </section>
   {% endif %}
 
   {% if page.links %}
@@ -120,10 +134,10 @@ layout: default
   {% if topic_res.size > 0 %}
   <section class="block">
     <h2>精选外部资料</h2>
-    <p class="block-note">只收核验过的来源：标注原作者、出处与推荐理由，以链接和自己的摘要为主，完整转载需取得授权；原创、编译、推荐、复现分别标注。</p>
+    <p class="block-note">规范、框架与工程实践。<a href="{{ '/resources/' | relative_url }}?topic={{ page.slug | url_encode }}">在资料库中查看本课题来源 →</a></p>
     <div class="resource-list">
       {% for r in topic_res %}
-      <a class="resource-card" href="{{ r.url }}" target="_blank" rel="noopener">
+      <a class="resource-card" href="{{ r.external_url | escape }}" target="_blank" rel="noopener">
         <div class="rc-top">
           <span class="badge res-type">{{ r.type }}</span>
           <span class="rc-source">{{ r.source }}</span>
@@ -139,36 +153,8 @@ layout: default
   </section>
   {% endif %}
 
-  {% if page.findings %}
-  <section class="block">
-    <h2>当前结论</h2>
-    <div class="findings">
-      {% if page.findings.known %}
-      <div class="finding-col known">
-        <h4>已经知道</h4>
-        <ul>
-          {% for k in page.findings.known %}
-          <li>{{ k }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-      {% endif %}
-      {% if page.findings.open %}
-      <div class="finding-col open">
-        <h4>仍有争议 · 待验证</h4>
-        <ul>
-          {% for o in page.findings.open %}
-          <li>{{ o }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-      {% endif %}
-    </div>
-  </section>
-  {% endif %}
-
   {% if page.changelog %}
-  <section class="block">
+  <section class="block" id="changelog">
     <h2>维护记录</h2>
     {% assign logs = page.changelog %}
     <div class="table-shell">

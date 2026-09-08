@@ -6,7 +6,7 @@ date: 2026-09-07
 published: "2026-05-25"
 type: 工程实践
 topics: [ai-agent-governance]
-url: https://www.anthropic.com/engineering/how-we-contain-claude
+external_url: https://www.anthropic.com/engineering/how-we-contain-claude
 reason: 一线厂商公开的 Agent 遏制机制工程叙述：隔离层级、权限边界与失效假设，适合与我们的实测结果交叉验证。
 ---
 

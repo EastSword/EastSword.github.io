@@ -6,7 +6,7 @@ date: 2026-09-07
 published: 持续更新
 type: 社区清单
 topics: [ai-agent-governance, mcp-supply-chain]
-url: https://github.com/slowmist/MCP-Security-Checklist/blob/main/README_CN.md
+external_url: https://github.com/slowmist/MCP-Security-Checklist/blob/main/README_CN.md
 reason: 社区维护的中文 MCP 服务安全自检清单，适合作为 MCP 准入评审的快速核对表，与官方 Best Practices 互补。
 ---
 

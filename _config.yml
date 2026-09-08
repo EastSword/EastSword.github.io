@@ -1,9 +1,9 @@
 title: 东方隐侠安全团队
-tagline: 东方隐侠安全团队 · 话题中枢站
-description: AI 安全 / 身份安全 / 软件供应链——每个研究主题的全平台资源索引
+tagline: 研究 AI 如何安全地进入真实工作
+description: 千里与东方隐侠安全团队的研究档案：AI 应用安全、身份与软件供应链的原创研究、工程方法与精选外部资料。
 url: https://eastsword.github.io
 
-exclude: [scripts]  # 工具脚本（资讯同步/文章发布/编辑器/登记表）不进站点产物
+exclude: [scripts, docs, README.md]  # 编辑、验证脚本与内部内容规划不进入公开产物
 
 plugins:
   - jekyll-sitemap   # 自动生成 sitemap.xml（GitHub Pages 原生支持）
