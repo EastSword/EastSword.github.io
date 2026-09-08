@@ -1,13 +1,13 @@
 ---
 layout: default
-title: 千里与团队
+title: 关于我们
 permalink: /about/
 ---
 <section id="about">
   <div class="wrap">
     <div class="section-head">
-      <div class="num">04 / ABOUT</div>
-      <h1>千里与东方隐侠</h1>
+      <div class="num">06 / ABOUT</div>
+      <h1>关于我们</h1>
       <p class="desc">研究 AI 如何安全地进入真实工作。</p>
     </div>
     <div class="about">

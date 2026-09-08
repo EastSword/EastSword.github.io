@@ -6,7 +6,7 @@ permalink: /news/
 <section id="news">
   <div class="wrap">
     <div class="section-head">
-      <div class="num">03 / INTEL</div>
+      <div class="num">04 / INTEL</div>
       <h2>安全资讯</h2>
       <p class="desc">直连内网情报聚合服务，覆盖 CISA、Mandiant、MSRC、FreeBuf 等全球安全源与 AI 安全源，每日 10:00 自动同步，全量归档无上限积累。数据存放于独立归档仓库，本页按需动态加载：下滑自动翻越更早月份，输入关键词自动全量检索历史。英文条目附机翻中文标题，内容标签由规则引擎自动标注。</p>
     </div>

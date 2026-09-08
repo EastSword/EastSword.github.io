@@ -5,7 +5,7 @@ permalink: /resources/
 abstract: AI 安全、身份与供应链的外部资料索引：原始规范、工程实践、标准框架与社区清单，附来源、推荐理由与关联研究。
 ---
 <section class="editorial-section library-page"><div class="wrap">
-  <div class="editorial-heading"><div><p class="eyebrow">READING DESK / CURATED SOURCES</p><h1>精选资料</h1></div><a class="text-link" href="{{ '/topics/' | relative_url }}">研究课题 →</a></div>
+  <div class="editorial-heading"><div><p class="eyebrow">03 / RESOURCES</p><h1>精选资料</h1></div><a class="text-link" href="{{ '/topics/' | relative_url }}">研究课题 →</a></div>
   <p class="page-intro">规范提供边界，研究提供证据。收录 AI 应用、身份与供应链的原始资料，并记录它们与本站研究的关系。</p>
   <form class="library-filters" role="search" onsubmit="return false">
     <label class="search-field" for="resource-search">搜索资料<input id="resource-search" type="search" placeholder="标题、作者或关键词，例如 MCP" autocomplete="off"></label>

@@ -38,7 +38,7 @@
         <a href="{{ '/resources/' | relative_url }}"{% if page.url contains '/resources/' %} aria-current="page"{% endif %}>精选资料</a>
         <a href="{{ '/news/' | relative_url }}"{% if page.url contains '/news/' %} aria-current="page"{% endif %}>安全资讯</a>
         <a href="{{ '/tools/' | relative_url }}"{% if page.url contains '/tools/' %} aria-current="page"{% endif %}>兵器谱</a>
-        <a href="{{ '/about/' | relative_url }}"{% if page.url contains '/about/' %} aria-current="page"{% endif %}>千里与团队</a>
+        <a href="{{ '/about/' | relative_url }}"{% if page.url contains '/about/' %} aria-current="page"{% endif %}>关于我们</a>
       </div>
     </div>
   </nav>
@@ -73,12 +73,12 @@
           © 2026 东方隐侠安全团队
         </div>
       </div>
-      <div class="stats">
+      <div class="stats" id="site-stats" data-host="{{ site.analytics_host | escape }}" hidden>
         <span class="stat-label">江湖足迹</span>
         <span class="sep">/</span>
         <span id="busuanzi_container_site_pv">总访问量 <b id="busuanzi_value_site_pv"></b> 次</span>
         <span class="sep">/</span>
-        <span id="busuanzi_container_site_uv">到访侠客 <b id="busuanzi_value_site_uv"></b> 人</span>
+        <span id="busuanzi_container_site_uv">访客记录 <b id="busuanzi_value_site_uv"></b> 人次</span>
       </div>
     </div>
   </footer>
@@ -189,6 +189,6 @@
     });
   })();
   </script>
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <script src="{{ '/assets/site-stats.js' | relative_url }}" defer></script>
 </body>
 </html>

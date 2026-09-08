@@ -2038,11 +2038,12 @@ footer.site .wx-link:hover { color: var(--teal-glow); }
 
 /* ---------- 板块说明 / 尾注 ---------- */
 .block-note {
-  margin: -10px 0 18px;
+  margin: 16px 0 18px;
   font-size: 13px;
   color: var(--paper-dim);
   line-height: 1.8;
 }
+section.block > h2 + .block-note { margin-top: -10px; }
 .block-note a {
   color: var(--teal-glow);
   text-decoration: none;

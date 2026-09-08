@@ -6,7 +6,7 @@ permalink: /tools/
 <section id="tools">
   <div class="wrap">
     <div class="section-head">
-      <div class="num">04 / ARSENAL</div>
+      <div class="num">05 / ARSENAL</div>
       <h2>AI 与安全兵器谱</h2>
       <p class="desc">只收录试炼过的兵器：空间测绘、威胁情报、AI 安全、AI 提效四大门类，按天 / 地 / 玄 分级。FOFA 与 Shodan 两大测绘引擎首录，其余兵器正逐一试炼入库，长期维护。</p>
     </div>

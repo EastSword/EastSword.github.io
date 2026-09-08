@@ -1,6 +1,6 @@
 ---
 layout: default
-title: 技术文章
+title: 原创文章
 permalink: /articles/
 ---
 <section id="articles">
