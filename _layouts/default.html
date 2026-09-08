@@ -38,6 +38,7 @@
         <a href="{{ '/resources/' | relative_url }}"{% if page.url contains '/resources/' %} aria-current="page"{% endif %}>精选资料</a>
         <a href="{{ '/news/' | relative_url }}"{% if page.url contains '/news/' %} aria-current="page"{% endif %}>安全资讯</a>
         <a href="{{ '/tools/' | relative_url }}"{% if page.url contains '/tools/' %} aria-current="page"{% endif %}>兵器谱</a>
+        <a href="{{ '/wall/' | relative_url }}"{% if page.url contains '/wall/' %} aria-current="page"{% endif %}>江湖留名</a>
         <a href="{{ '/about/' | relative_url }}"{% if page.url contains '/about/' %} aria-current="page"{% endif %}>关于我们</a>
       </div>
     </div>
@@ -53,8 +54,6 @@
           DFYX-SEC · {{ site.tagline }}
         </div>
         <div class="social">
-          <a href="{{ '/wall/' | relative_url }}">江湖留名 / 纠错</a>
-          <span class="sep">/</span>
           <a href="{{ '/feed/articles.xml' | relative_url }}">RSS</a>
           <span class="sep">/</span>
           <a href="https://wittpeng.blog.csdn.net/" target="_blank" rel="noopener">CSDN</a>
