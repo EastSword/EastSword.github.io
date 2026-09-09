@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S python3 -E
 """安全资讯同步：内网 EchoMind 情报聚合服务 -> news-archive 数据仓库 -> git push
 
 数据流：GET /api/channels（渠道分类映射）+ GET /api/articles（文章）
@@ -17,7 +17,11 @@
   feed.json             最近 24 条（首页/资讯页首屏快照）
   index.json            月度索引 + facets（分类/级别/标签/来源全量计数）
 
-用法：python3 scripts/sync_news.py [--no-push] [--backfill]
+用法：bash scripts/sync_news.sh [--no-push] [--backfill]
+  或直接执行：scripts/sync_news.py [--no-push] [--backfill]
+  注意：不要用 `python3 scripts/sync_news.py` 直接跑。本脚本靠 shebang 的
+  `python3 -E` 忽略 PYTHON* 环境变量（TRAE 沙箱会注入指向错误标准库的
+  PYTHONHOME/PYTHONPATH，导致解释器启动即崩溃），显式调用 python3 会绕过这层保护。
 """
 import html
 import json

@@ -395,14 +395,30 @@ def publish(data):
 
 def task(fn, *args):
     key = secrets.token_hex(8)
-    JOBS[key] = {'status': 'running'}
+    release = fn.__name__ in ('release_check', 'publish')
+    def update(value):
+        JOBS[key] = value
+        if release:
+            atomic(STATE / 'last-release.json', json_text(dict(value, job=key, stage=fn.__name__,
+                   updated_at=datetime.datetime.now().isoformat(timespec='seconds'))))
+    update({'status': 'running'})
     def work():
         try:
-            JOBS[key] = {'status': 'complete', 'result': fn(*args)}
+            update({'status': 'complete', 'result': fn(*args)})
         except Exception as error:
-            JOBS[key] = {'status': 'failed', 'error': str(error)}
+            update({'status': 'failed', 'error': str(error)})
     threading.Thread(target=work, daemon=True).start()
     return {'job': key}
+
+
+def last_release():
+    file = STATE / 'last-release.json'
+    if not file.exists():
+        return None
+    result = json.loads(file.read_text())
+    if result['status'] == 'running' and result['job'] not in JOBS:
+        result.update(status='failed', error='服务已重启，上次任务结果未知。请先检查本地提交和部署状态，再决定是否重试。')
+    return result
 
 
 def media():
@@ -439,7 +455,7 @@ def handle(handler, path, method):
             elif path.startswith('/api/admin/document/'):
                 result = document(path.removeprefix('/api/admin/document/'))
             elif path == '/api/admin/changes':
-                result = {'files': changes(), 'ahead': run(['git', 'log', '@{upstream}..HEAD', '--oneline']).strip(), 'branch': run(['git', 'branch', '--show-current']).strip()}
+                result = {'files': changes(), 'ahead': run(['git', 'log', '@{upstream}..HEAD', '--oneline']).strip(), 'branch': run(['git', 'branch', '--show-current']).strip(), 'last_release': last_release()}
             elif path == '/api/admin/media':
                 result = media()
             elif path.startswith('/api/admin/job/'):

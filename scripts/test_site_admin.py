@@ -89,6 +89,26 @@ class AdminTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             admin.reviewed_paths({'files': selected})
 
+    def test_release_error_survives_restart(self):
+        class ImmediateThread:
+            def __init__(self, target, **kwargs):
+                self.target = target
+            def start(self):
+                self.target()
+        def publish():
+            raise ValueError('模拟推送失败')
+        with patch.object(admin.threading, 'Thread', ImmediateThread):
+            job = admin.task(publish)
+        admin.JOBS.pop(job['job'])
+        self.assertEqual(admin.last_release()['error'], '模拟推送失败')
+        self.assertEqual(admin.last_release()['status'], 'failed')
+
+    def test_interrupted_release_is_not_reported_as_success(self):
+        admin.atomic(admin.STATE / 'last-release.json', admin.json_text({
+            'job': 'old-process', 'status': 'running', 'stage': 'publish'}))
+        self.assertEqual(admin.last_release()['status'], 'failed')
+        self.assertIn('结果未知', admin.last_release()['error'])
+
 
 if __name__ == '__main__':
     unittest.main()
