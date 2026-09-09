@@ -41,6 +41,13 @@ class AdminTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             admin.save_draft(old)
 
+    def test_editor_dates_remain_yaml_dates_for_topic_sorting(self):
+        meta = {'updated': '2026-09-10', 'title': 'Test'}
+        rendered = admin.serialize(meta, 'Body')
+        parsed, _ = admin.frontmatter(rendered)
+        self.assertEqual(parsed['updated'], admin.datetime.date(2026, 9, 10))
+        self.assertEqual(meta['updated'], '2026-09-10')
+
     def test_delete_draft_preserves_backup_and_rejects_stale_delete(self):
         doc = admin.create({'group': 'articles', 'slug': 'test', 'title': 'Draft'})
         doc['body'] = 'Latest writing'

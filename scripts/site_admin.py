@@ -52,6 +52,12 @@ def frontmatter(text):
 
 
 def serialize(meta, body=None):
+    meta = dict(meta)
+    # Restore date types lost in the JSON editor round trip.
+    for key in ('date', 'updated'):
+        value = meta.get(key)
+        if isinstance(value, str) and re.fullmatch(r'\d{4}-\d{2}-\d{2}', value):
+            meta[key] = datetime.date.fromisoformat(value)
     text = yaml.safe_dump(meta, allow_unicode=True, sort_keys=False, width=120)
     return text if body is None else '---\n' + text + '---\n\n' + body.rstrip() + '\n'
 

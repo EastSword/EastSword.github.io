@@ -34,7 +34,7 @@ layout: default
   {% if page.reading_path or page.links %}
   <section class="topic-start" id="start">
     <h2>从这里开始</h2>
-    {% if page.links %}<div class="story-links">{% for l in page.links %}{% if l.url %}<a href="{{ l.url }}"{% if l.url contains '://' %} target="_blank" rel="noopener"{% endif %}>{{ l.platform }} · {{ l.form }} →</a>{% endif %}{% endfor %}</div>{% endif %}
+    {% if page.links %}<div class="story-links">{% for l in page.links %}{% if l.url %}<a href="{{ l.url }}"{% if l.url contains '://' %} target="_blank" rel="noopener"{% endif %}>{{ l.platform }} · {{ l.title | default: l.form }} →</a>{% endif %}{% endfor %}</div>{% endif %}
     {% if page.reading_path %}<ol class="reading-path">{% for step in page.reading_path %}<li>{{ step }}</li>{% endfor %}</ol>{% endif %}
   </section>
   {% endif %}
@@ -70,7 +70,8 @@ layout: default
           <td>{{ l.form }}</td>
           <td>
             {% if l.url %}
-              <a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.note | default: '前往阅读' }}</a>
+              <a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.title | default: l.note | default: '前往阅读' }}</a>
+              {% if l.title and l.note %}<p>{{ l.note }}</p>{% endif %}
             {% else %}
               <span class="todo">{{ l.note | default: '待上线' }}</span>
             {% endif %}
