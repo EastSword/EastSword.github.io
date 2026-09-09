@@ -130,7 +130,21 @@ def document(key):
     result['draft'] = path.exists()
     result['conflict'] = result['version'] != base_document(item)['version']
     result['revision'] = digest(path.read_bytes()) if path.exists() else ''
+    result['deletable'] = path.exists() and not item.get('registered') and not source(item)[0].exists()
     return result
+
+
+def delete_draft(data):
+    with LOCK:
+        current = document(data['id'])
+        if not current['deletable']:
+            raise ValueError('只能删除尚未写入官网文件的新草稿')
+        if data.get('revision') != current['revision']:
+            raise ValueError('草稿已在其他窗口修改，请重新加载后再删除')
+        stamp = datetime.datetime.now().strftime('%Y%m%d-%H%M%S-%f')
+        atomic(STATE / 'history' / ('deleted-' + stamp + '.json'), json_text(current))
+        draft_path(current['id']).unlink()
+        return {'ok': True}
 
 
 def validate(doc):
@@ -484,6 +498,8 @@ def handle(handler, path, method):
                 result = save_draft(data)
             elif path == '/api/admin/new':
                 result = create(data)
+            elif path == '/api/admin/delete':
+                result = delete_draft(data)
             elif path == '/api/admin/discard':
                 record(data['id'])
                 draft_path(data['id']).unlink(missing_ok=True)

@@ -41,6 +41,25 @@ class AdminTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             admin.save_draft(old)
 
+    def test_delete_draft_preserves_backup_and_rejects_stale_delete(self):
+        doc = admin.create({'group': 'articles', 'slug': 'test', 'title': 'Draft'})
+        doc['body'] = 'Latest writing'
+        saved = admin.save_draft(doc)
+        with self.assertRaises(ValueError):
+            admin.delete_draft(doc)
+        admin.delete_draft(saved)
+        self.assertFalse(admin.draft_path(doc['id']).exists())
+        backup = next((admin.STATE / 'history').glob('deleted-*.json'))
+        self.assertEqual(json.loads(backup.read_text())['body'], 'Latest writing')
+        self.assertNotIn(doc['id'], [r['id'] for r in admin.records()])
+
+    def test_delete_rejects_existing_site_content(self):
+        doc = self.draft()
+        with self.assertRaises(ValueError):
+            admin.delete_draft(doc)
+        self.assertTrue(admin.draft_path('home').exists())
+        self.assertTrue((self.root / '_data/editorial.yml').exists())
+
     def test_external_edit_prevents_apply(self):
         self.draft()
         admin.atomic(self.root / '_data/editorial.yml', 'title: External\n')
