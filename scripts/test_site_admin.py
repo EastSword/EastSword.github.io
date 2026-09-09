@@ -47,6 +47,19 @@ class AdminTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, '冲突'):
             admin.materialize(['home'])
 
+    def test_live_preview_does_not_save_or_apply(self):
+        saved = self.draft()
+        live = dict(saved, meta={'title': 'Unsaved preview'})
+        before = admin.draft_path('home').read_bytes()
+        def build(root, output):
+            self.assertIn('Unsaved preview', (root / '_data/editorial.yml').read_text())
+            output.mkdir()
+            return 'ok'
+        with patch.object(admin, 'jekyll', side_effect=build), patch.object(admin, 'start_preview', return_value='http://localhost:1234'):
+            admin.preview([], live)
+        self.assertEqual(admin.draft_path('home').read_bytes(), before)
+        self.assertIn('Before', (self.root / '_data/editorial.yml').read_text())
+
     def test_failed_apply_restores_files_and_keeps_draft(self):
         self.draft()
         def fail(doc, root, real=False):

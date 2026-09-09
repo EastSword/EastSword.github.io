@@ -1344,7 +1344,7 @@ footer.site .wx-link:hover { color: var(--teal-glow); }
 }
 .article-abstract {
   max-width: 860px;
-  margin: 26px 0 0;
+  margin: 26px auto 0;
   padding: 22px 26px;
   border: 1px solid rgba(212, 175, 106, 0.28);
   border-left: 3px solid var(--gold);

@@ -1,14 +1,22 @@
 ---
 layout: default
 ---
+{% assign topic = nil %}
+{% if page.topic and page.topic != empty %}
 {% assign topic = site.topics | where_exp: "t", "t.url contains page.topic" | first %}
+{% endif %}
 
 <article class="article">
   <div class="wrap">
+    <div class="article-reading-layout">
+    <div class="article-reading-main">
     <div class="topic-hero article-hero">
       <div class="crumb">
-        <a href="{{ '/topics/' | relative_url }}">研究课题</a>
-        {% if topic %} / <a href="{{ topic.url | relative_url }}">{{ topic.title }}</a>{% endif %}
+        {% if topic %}
+        <a href="{{ '/topics/' | relative_url }}">研究课题</a> / <a href="{{ topic.url | relative_url }}">{{ topic.title }}</a>
+        {% else %}
+        <a href="{{ '/articles/' | relative_url }}">原创文章</a>
+        {% endif %}
       </div>
       <h1>{{ page.title }}</h1>
       {% if page.subtitle %}<div class="sub">{{ page.subtitle }}</div>{% endif %}
@@ -123,5 +131,14 @@ layout: default
     </div>
 
     {% include comments.html width="article" %}
+    </div>
+    <aside class="article-jump-sidebar" hidden>
+      <details class="article-jump-menu">
+        <summary>本文目录</summary>
+        <nav aria-label="文章章节"><ol class="article-jump-links"></ol></nav>
+      </details>
+    </aside>
+    </div>
   </div>
 </article>
+<script src="{{ '/assets/article-navigation.js' | relative_url }}" defer></script>

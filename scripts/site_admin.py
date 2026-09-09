@@ -245,7 +245,7 @@ def apply_document(doc, root, real=False):
         atomic(root / item['path'], serialize(doc['meta'], doc['body']))
 
 
-def preview(keys):
+def preview(keys, live=None):
     with LOCK:
         STATE.mkdir(parents=True, exist_ok=True)
         root = Path(tempfile.mkdtemp(prefix='preview-', dir=STATE))
@@ -253,6 +253,12 @@ def preview(keys):
             shutil.copytree(SITE, root, dirs_exist_ok=True, ignore=shutil.ignore_patterns('.git', '_site', '__pycache__', '.DS_Store'))
             for key in keys:
                 apply_document(document(key), root)
+            if live is not None:
+                item = record(live['id'])
+                doc = base_document(item)
+                doc.update(meta=live['meta'], body=live.get('body'))
+                validate(doc)
+                apply_document(doc, root)
             output = root / '_site'
             log = jekyll(root, output)
             target = STATE / 'preview'
@@ -409,8 +415,8 @@ def media():
 
 
 def handle(handler, path, method):
-    if method == 'GET' and path in ('/', '/admin.css', '/admin.js'):
-        name = {'/': 'admin_ui.html', '/admin.css': 'admin.css', '/admin.js': 'admin.js'}[path]
+    if method == 'GET' and path in ('/', '/admin.css', '/admin.js', '/admin_format.js'):
+        name = {'/': 'admin_ui.html', '/admin.css': 'admin.css', '/admin.js': 'admin.js', '/admin_format.js': 'admin_format.js'}[path]
         return handler._bytes((SITE / 'scripts' / name).read_bytes(), mimetypes.guess_type(name)[0] or 'text/plain') or True
     if path.startswith('/assets/') and method == 'GET':
         file = (SITE / path.lstrip('/')).resolve()
@@ -468,6 +474,8 @@ def handle(handler, path, method):
                 result = {'ok': True}
             elif path == '/api/admin/preview':
                 result = task(preview, data.get('ids', []))
+            elif path == '/api/admin/live-preview':
+                result = task(preview, [], data)
             elif path == '/api/admin/apply':
                 result = task(materialize, data.get('ids', []))
             elif path == '/api/admin/check':

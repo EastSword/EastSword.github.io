@@ -1,0 +1,13 @@
+const assert=require('node:assert/strict');
+const {formatSelection:f}=require('./admin_format.js');
+assert.equal(f('前文字后',1,3,'bold').value,'前**文字**后');
+assert.equal(f('前**文字**后',3,5,'bold').value,'前文字后');
+assert.equal(f('甲\n乙\n丙',0,4,'ordered').value,'1. 甲\n2. 乙\n丙');
+assert.equal(f('## 标题\n正文',0,5,'heading','3').value,'### 标题\n正文');
+assert.equal(f('## 标题',0,5,'heading','').value,'标题');
+assert.equal(f('- 甲\n- 乙',0,7,'unordered').value,'甲\n乙');
+assert.equal(f('链接',0,2,'link','https://example.com').value,'[链接](https://example.com)');
+assert.ok(f('```',0,3,'block').value.includes('````'));
+assert.equal(f('',0,0,'unordered').value,'- ');
+assert.equal(f('\n正文',0,0,'quote').value,'> \n正文');
+console.log('格式转换检查通过');

@@ -175,6 +175,29 @@ section.editorial-section { padding-block: 42px; margin: 0; border-bottom: 1px s
 .about h2 span { font-size: 16px; color: var(--paper-dim); }
 .about .team-logo { width: 100px; }
 .contact-card { border-radius: 4px; }
+.article-reading-layout { display: grid; grid-template-columns: minmax(0, 860px) minmax(180px, 1fr); gap: 32px; align-items: start; }
+.article-reading-main { min-width: 0; }
+.article-reading-main .article-body { margin-inline: 0; }
+.article-reading-main .article-abstract { margin-inline: 0; }
+.article-jump-sidebar { position: sticky; top: 100px; padding-top: 8px; min-width: 0; }
+.article-jump-sidebar[hidden] { display: none; }
+.article-jump-menu { border-left: 1px solid var(--line); padding-left: 18px; }
+.article-jump-menu summary { color: var(--gold); font-size: 14px; font-weight: 600; cursor: pointer; padding-bottom: 14px; }
+.article-jump-links { list-style: none; margin: 0; padding: 0; max-height: calc(100vh - 190px); overflow-y: auto; }
+.article-jump-links li { margin: 0; }
+.article-jump-links a { display: block; padding: 7px 0; font-size: 12px; line-height: 1.6; color: var(--paper-dim); overflow-wrap: anywhere; text-decoration: none; }
+.article-jump-links .level-3 { padding-left: 12px; }
+.article-jump-links .level-4 { padding-left: 24px; }
+.article-jump-links a:hover, .article-jump-links a[aria-current] { color: var(--teal-glow); }
+.has-jump-navigation .article-reading-main > .article-toc { display: none; }
+@media (max-width: 1099px) {
+  .article-reading-layout { display: flex; flex-direction: column; gap: 20px; }
+  .article-reading-main { width: 100%; }
+  .article-jump-sidebar { order: -1; position: sticky; top: var(--article-nav-offset, 90px); width: 100%; z-index: 4; background: var(--ink); padding: 10px 0 0; border-bottom: 1px solid var(--line); }
+  .has-jump-navigation .article-body :is(h2,h3,h4) { scroll-margin-top: calc(var(--article-nav-offset, 90px) + 64px); }
+  .article-jump-menu { border: 0; padding-left: 0; }
+  .article-jump-links { max-height: 45vh; padding-bottom: 12px; }
+}
 .article-body pre, .article-body .highlight { max-width: 100%; }
 .article-body table { display: block; overflow-x: auto; max-width: 100%; }
 footer.site { margin-top: 0; background: #101313; }
