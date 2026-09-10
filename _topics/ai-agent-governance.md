@@ -133,6 +133,11 @@ links:
   form: GitSpawn 案例分析
   url: /articles/gitspawn-context-review/
   note: 信任确认前发生了什么：启动阶段的执行权限与审计。
+- platform: 公众号
+  title: AI 助手还在问你是否信任项目，程序怎么已经跑起来了？
+  form: GitSpawn 图文解读
+  url: https://mp.weixin.qq.com/s/YlDuWzXaOQS410utaJyJ-w
+  note: 从 Claude Code、Qwen Code 的演示截图讲起，解释确认前为何会启动程序，并结合 Cursor 与 Goose 案例讨论如何检查和限制这些操作。
 research_notes: 企业员工使用AI_Agent的安全管控与监控技术研究.md
 reading_path:
 - 先读「核心问题」：员工授权 Agent 读代码、连 MCP、装 Skill 之后，公司要限制什么、发现什么、证明什么
@@ -152,6 +157,8 @@ findings:
   - Hook 阻断的绕过面（超时语义、IDE 与 CLI 事件集差异）目前只完成静态分析，动态绕过测试待补
   - D0-D3 数据等级与 A0-A3 动作等级的分级矩阵在真实企业的适配度，等待首批落地反馈
 changelog:
+- date: '2026-09-10'
+  action: 补充 GitSpawn 公众号已发布版本的标题、内容概括与阅读链接。
 - date: '2026-09-10'
   action: 收录 GitSpawn 启动阶段执行权限案例；按最新文章标题更新企业治理文章入口，并补充两篇文章的内容概括。
 - date: '2026-09-07'
