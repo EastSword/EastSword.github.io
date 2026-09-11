@@ -10,13 +10,14 @@
   <meta property="og:url" content="{{ page.url | absolute_url }}">
   <meta property="og:title" content="{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title }}{% endif %}">
   <meta property="og:description" content="{{ page.abstract | default: site.description | strip_newlines | truncate: 200 }}">
-  {% if page.cover %}
+  {% assign social_cover = page.cover | default: '' | strip %}
+  {% if social_cover != '' %}
   <meta property="og:type" content="article">
-  <meta property="og:image" content="{{ page.cover | absolute_url }}">
+  <meta property="og:image" content="{{ social_cover | absolute_url }}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ page.title | escape }}">
   <meta name="twitter:description" content="{{ page.abstract | default: site.description | strip_newlines | truncate: 200 }}">
-  <meta name="twitter:image" content="{{ page.cover | absolute_url }}">
+  <meta name="twitter:image" content="{{ social_cover | absolute_url }}">
   {% else %}
   <meta property="og:type" content="website">
   <meta property="og:image" content="{{ '/assets/logo-mark.png' | absolute_url }}">

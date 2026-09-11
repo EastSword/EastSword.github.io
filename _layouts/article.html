@@ -32,9 +32,10 @@ layout: default
       </div>
     </div>
 
-    {% if page.cover %}
+    {% assign article_cover = page.cover | default: '' | strip %}
+    {% if article_cover != '' %}
     <figure class="article-cover">
-      <img src="{{ page.cover | relative_url }}" alt="{{ page.title | escape }} 封面">
+      <img src="{{ article_cover | relative_url }}" alt="{{ page.title | escape }} 封面">
     </figure>
     {% endif %}
 
