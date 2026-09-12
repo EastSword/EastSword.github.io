@@ -87,7 +87,7 @@ qi:
     url: https://t.zsxq.com/5FkZD
     desc: Tag 治理完整资产包 v1.1：脚本、监控、基线与评审材料整包
     stars: 4
-updated: 2026-08-26
+updated: 2026-09-12
 links:
   - platform: 公众号
     form: 上篇《六条绕过代码审核的攻击路径》
@@ -110,6 +110,19 @@ assets:
     desc: 五套 CI 脚本整包（含 Monorepo 模块化版本线、TeamCity 六坑全解）、监控三件套、检测基线矩阵、评审会十问
     location: 知识星球
     url: https://t.zsxq.com/5FkZD
+findings:
+  known:
+  - tag 是名字寻址而供应链信任建立在内容寻址（SHA）上，这道裂缝是六条攻击路径的共同根源；tj-actions 事件（15 小时、23,000 个仓库）证明了未治理 tag 权限的杀伤力
+  - L0-L3 四级成熟度模型可定位企业现状，自评的价值在暴露「下一步该收敛哪个口子」
+  - 权限收敛解决「不该发生」、监控三件套解决「发生了能知道」，两层缺一不可
+  open:
+  - L3 之后的路径——commit / tag 签名与来源证明（Sigstore、provenance）在企业管线的落地成本与信任收益
+  - CI 的 tag 触发面收敛：自动化管线与 Agent 触发时代，「谁能让 CI 以发布身份跑起来」的权限模型
+  - 自建 GitLab、Gitee 等其他平台的保护规则映射与差异
+  - L0-L3 自评在企业真实环境的分布数据——目前只有模型，没有样本
+changelog:
+- date: '2026-09-12'
+  action: 课题定位调整为可持续研究域：补研究议程，签名与来源证明、自动化管线的 tag 权限列为 L0-L3 之后的延伸方向。
 ---
 
 ## 核心问题

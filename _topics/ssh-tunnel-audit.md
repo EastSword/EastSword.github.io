@@ -2,9 +2,9 @@
 published: true
 layout: topic
 title: SSH隧道机中转与审计
-subtitle: 运维没搞清原理就上线的中转方案——把 SSH 端口转发的机制、准入收敛与日志审计一次补齐
+subtitle: 运维没搞清原理就上线的中转方案——SSH 端口转发的机制、准入收敛与日志审计
 date: 2026-09-02
-updated: 2026-09-03
+updated: 2026-09-12
 status: 已结题
 categories: [运维安全, 检测与响应]
 tags: [运维安全, 安全审计, 检测工程]
@@ -116,6 +116,17 @@ assets:
     url: https://eastsword.github.io/assets/files/ssh-tunnel-audit-manual.docx
     location: docx 直接下载 · eastsword.github.io/assets/files/ssh-tunnel-audit-manual.docx
 research_notes: SSH隧道机运维与审计技术研究报告.html
+findings:
+  known:
+  - SSH 转发天然把证据拆成两半——登录侧证明「谁连上了」，连接侧来源永远是跳板机 IP；session.id 同公式双向生成可把证据重新缝合，方案已在真实环境跑通
+  - 共享账号是结构问题不是查询问题，一人一号是审计的前提；四类最小审计事件加匹配降级策略，把不完美变成可度量的
+  open:
+  - 远程开发与 Agent 场景下的端口转发审计——云 IDE 自动转发、远程 MCP 服务器、Agent 触发的内网访问，形态已超出「人用 Core Tunnel 连跳板机」的假设
+  - 托管接入（Bastion 服务、身份感知代理）替代自建跳板时，session.id 缝合方法的适配与取证差异
+  - 会话录制与元数据审计的隐私边界在企业实际落地中的取舍反馈
+changelog:
+- date: '2026-09-12'
+  action: 课题定位说明为可延伸研究域：副题去掉「一次补齐」的交付式表述，补研究议程（远程开发与 Agent 场景的端口转发审计、托管接入替代方案的取证差异）。
 ---
 
 ## 核心问题

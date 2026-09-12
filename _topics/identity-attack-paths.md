@@ -1,10 +1,10 @@
 ---
 published: true
 layout: topic
-title: 身份攻击七路径与ITDR
+title: 身份攻击路径与ITDR
 subtitle: 密码对，MFA通过，零告警——合法认证身份的攻击面全景与检测之道
 date: 2026-08-25
-updated: 2026-08-29
+updated: 2026-09-12
 status: 已结题
 keyword: ITDR
 categories: [身份安全, 检测与响应]
@@ -27,8 +27,8 @@ dao:
     type: 原创
     platform: 本课题
 fa:
-  - title: 七条攻击路径全景枚举
-    text: AiTM 反向代理、Infostealer、MFA 疲劳与注册劫持、SaaS 本地账号、签名密钥伪造、OAuth 恶意授权、恢复流程劫持——每条带技术拆解与 ATT&CK 映射，构成合法认证身份攻击面的完整清单。
+  - title: 攻击路径全景枚举
+    text: AiTM 反向代理、Infostealer、MFA 疲劳与注册劫持、SaaS 本地账号、签名密钥伪造、OAuth 恶意授权、恢复流程劫持——首期枚举七条，每条带技术拆解与 ATT&CK 映射；路径清单随攻击面演化持续扩充，不封顶。
     type: 原创
     platform: 本课题
   - title: ITDR 检测方法论
@@ -111,6 +111,18 @@ videos:
     form: 《身份认证安全问题探讨》
     url: https://weixin.qq.com/sph/AHY0zVteg
     note: 已发布 2026-08-29（微信内打开）
+findings:
+  known:
+  - 凭证分 L1-L6 六个层级，攻击者偷到哪层 MFA 就从哪层失效——AiTM 双 TLS 中继使 MFA 全程「本人」参与仍然失效
+  - 传统四类检测（暴力破解、异地登录、设备信任、进程检测）对「合法登录」集体失效；四类数据源关联出的九个信号可覆盖首期七条路径，五条 KQL 可直接落地 Microsoft Sentinel
+  - Healsecurity 统计约 117 万条 Infostealer 日志同时包含登录凭证与活体会话 Cookie，重放即入
+  open:
+  - NHI 与 Agent 委托身份的攻击路径——非人类身份成为新的「合法凭证」持有者，正文已观察（VPN 出口识别 AI 客户端、Skills 与 MCP 配置扫描），待系统化枚举与检测设计
+  - passkey 普及后 AiTM 的形态演化：无密码认证把攻击推到会话令牌与设备绑定层，检测信号需要重验
+  - 九信号在非 Sentinel 平台（Splunk、Elastic）的可移植性与规则改写
+changelog:
+- date: '2026-09-12'
+  action: 课题定位调整为可持续研究域：标题去掉「七」字数字锚定（路径清单随攻击面演化持续扩充），补研究议程，NHI 与 Agent 委托身份列为下一个研究方向。
 ---
 
 ## 核心问题

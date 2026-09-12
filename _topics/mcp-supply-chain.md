@@ -1,10 +1,10 @@
 ---
 published: true
 layout: topic
-title: MCP 供应链攻击第一枪
-subtitle: filesystem-pro-plus 事件复盘——当 AI Agent 的能力扩展层成为攻击面
+title: MCP 与扩展层供应链安全
+subtitle: 当 AI Agent 的能力扩展层成为攻击面——准入治理、事件复盘与持续观测
 date: 2026-08-22
-updated: 2026-09-07
+updated: 2026-09-12
 status: 待开始
 keyword: MCP
 categories: [AI安全, 供应链安全]
@@ -32,13 +32,23 @@ qi:
     stars: 5
 links:
   - platform: 公众号
-    form: 长文（东方隐侠安全团队）
+    form: 完整版长文 · 第一个案例（filesystem-pro-plus 事件复盘）
     url:
-    note: 待发布
+    note: 待发布，完成事件来源核查后上线
 assets:
   - name: MCP / Skills 安全扫描流程
     desc: 企业内 AI 客户端（Skills / MCP）的提交-扫描-准入工作流
     location: 工作实践，待整理
+findings:
+  known: []
+  open:
+  - filesystem-pro-plus 事件的完整时间线与来源核查——立项后的第一项工作，核查完成前不发布事件结论
+  - 企业内 AI 客户端（Skills / MCP）提交-扫描-准入治理工作流的实际有效性验证
+  - 扩展层漏洞向框架层迁移的路径测绘，与「Agent 框架安全」课题交叉（该课题已证实控制面与凭据维度的方法论）
+  - MCP 生态的持续观测：新增 CVE、恶意服务器样本与官方规范演化的跟踪机制
+changelog:
+- date: '2026-09-12'
+  action: 课题定位调整：标题从单一事件命名（MCP 供应链攻击第一枪）改为问题域命名（MCP 与扩展层供应链安全），filesystem-pro-plus 复盘调整为第一个案例，补研究议程。
 ---
 
 研究进行中，本页为占位。正式内容随首发同步上线。
