@@ -4,7 +4,7 @@ layout: topic
 title: Agent 框架安全
 subtitle: 沙箱、审批、权限与控制面——检验 Agent 框架自身的约束体系是否经得起被控主体和不可信内容
 date: 2026-09-12
-updated: 2026-09-12
+updated: 2026-09-13
 status: 研讨中
 keyword: AGENT
 categories: [AI安全]
@@ -72,6 +72,13 @@ shu:
     text: 还原从社区报告到 CVE 编号的时间线，核对维护者回应、安全通报质量、修复版本的分发滞后。对使用方的实际影响是一条，订阅仓库公告能不能提醒你升级。
     type: 原创
     platform: 本课题
+  - title: 公众号图文版
+    publication: true
+    text: 第一个案例的公众号传播版，压缩技术细节，保留完整逃逸链条与使用者四步自查清单。
+    type: 原创
+    platform: 公众号
+    url: https://mp.weixin.qq.com/s/Lt5SlXK0nEkrFL4jKFq47g
+    desc: 被沙箱关住的 AI 智能体，用一条命令把自己放了出来，2026-09-13 发布
 qi:
   - title: OX Security 漏洞分析
     text: CVE-2026-82533 的首发技术分析，含逃逸链、会话日志与对照实验证据。
@@ -113,6 +120,10 @@ links:
     form: 完整版长文 · 第一个案例
     url: /articles/deepseek-harness-sandbox-escape/
     note: 被沙箱关住的 AI 智能体，竟然实现了逃逸？以 CVE-2026-82533 为样本的完整链条还原、修复评估与自查清单
+  - platform: 公众号
+    form: 图文版《被沙箱关住的 AI 智能体，用一条命令把自己放了出来》
+    url: https://mp.weixin.qq.com/s/Lt5SlXK0nEkrFL4jKFq47g
+    note: 已发布 2026-09-13，结尾附官网完整版阅读入口
 assets:
   - name: 框架信任边界评估单
     desc: 检验任意 Agent 框架沙箱、审批、控制面与配置面的固定问题清单
@@ -137,6 +148,8 @@ findings:
   - 能力扩展层（MCP / Skill / 插件）漏洞向框架层迁移的路径测绘，与 MCP 供应链课题交叉
   - 提示注入的落点测绘：不同框架被诱导后究竟能调用什么，哪些调用可以工程化收敛
 changelog:
+- date: '2026-09-13'
+  action: 补充第一个案例公众号发布版本的阅读入口，术层发布条目与全平台阅读入口同步收录。
 - date: '2026-09-12'
   action: 调整课题定位，从单一漏洞复盘扩展为 Agent 框架安全的研究纲领，道法术器按可积累的研究维度重写，首发长文调整为第一个案例。
 - date: '2026-09-12'
