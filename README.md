@@ -18,6 +18,7 @@
 | 研究课题 | `topics.md` | 分类与状态组合搜索、最近修订排序、精选资料 |
 | 精选资料 | `resources.md` | 原作者、收录与发布时间、推荐理由、组合筛选、关联课题 |
 | 技术文章 | `articles.md` | 长文列表页，渲染 `_articles/` 集合 |
+| 知识图谱 | `graph.md` | 课题/文章/概念关联网络：ECharts 力导向图，纯前端加载 `assets/graph/graph-data.json`，点击课题与文章直达详情页 |
 | 安全资讯 | `news.md` | 纯前端动态加载 `news-archive` 仓库数据：无限滚动按月懒加载 + 关键词全量检索 |
 | 江湖留名 | `wall.md` | giscus 签名墙（GitHub Discussion #1） |
 | 关于团队 | `about.md` | 团队介绍 + 联系方式卡片 |
@@ -37,6 +38,8 @@
 **新增课题**：复制 `_topics/` 下任一文件，front-matter 里 `status` 三选一（`drafting` / `publishing` / `published`），`category` 填领域分类（身份安全 / AI安全 / 供应链安全 / 网络安全…，分类 chips 自动生成），`keyword` 填公众号关键词，`links` / `videos` / `assets` 数组按需增删。
 
 **安全资讯同步**：`python3 scripts/sync_news.py`（每日 10:00 由定时任务自动执行）。拉取内网 EchoMind 情报聚合服务（默认 192.168.1.7:10010，多 IP 自动探测；收录 security + ai-security 共 83 源，脚本顶部 `CATEGORIES` 可改）→ 合并去重写入 `_data/news.json` → 有变化自动 commit + push。手动跑加 `--no-push` 只写文件。
+
+**知识图谱提炼**：`python3 scripts/kb_distill.py`（每周日 09:00 由 launchd 定时任务 `com.qianli.kb-distill` 自动执行）。扫内网 Neo4j 知识库（192.168.1.7:7475）的课题/文章标签命中与领域核心概念 → 过滤抽取噪音（模板句伪概念）→ 按相关性排序截断 → 产出两份结果：`assets/graph/graph-data.json`（官网图谱数据，有变化自动 commit + push）与候选清单（写入 8971 端口管理服务 `~/.local/share/eastsword-admin/<指纹>/distill/`，供人工审核选题）。手动跑加 `--graph-only` 只更新图谱数据，`--no-push` 只写文件不推送。
 
 **团队微信 / 公众号**：真实 ID 已填入 `_layouts/default.html` 的 `#modal-wechat`（DFYX_SEC_TEAM）和 `#modal-gzh`（dfyx_sec）两个弹窗，如需修改直接改 `<code>` 内容和 `data-copy` 属性。
 

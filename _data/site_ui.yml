@@ -15,6 +15,12 @@ navigation:
     url: /articles/
     visible: true
     description: 从实际问题出发，记录技术分析、测量方法与工程实践。
+  - key: graph
+    title: 知识图谱
+    english: KNOWLEDGE GRAPH
+    url: /graph/
+    visible: true
+    description: 研究课题、原创文章与安全概念的关联网络——工作站知识库的公开切片，每周日自动提炼更新。
   - key: resources
     title: 精选资料
     english: RESOURCES
