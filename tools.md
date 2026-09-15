@@ -203,10 +203,32 @@ permalink: /tools/
   }
 
   /* ---- 卡片：试炼兵器完整卡 / 公开收录紧凑卡 ---- */
+  /* favicon 三级容错：favicon.im → Google s2 → 站名首字水墨占位 */
+  window.__icoErr = function (img) {
+    if (img.getAttribute('data-fb') === '1') {
+      var span = document.createElement('span');
+      span.className = 'tool-ico ico-fallback';
+      span.textContent = img.getAttribute('data-letter') || '站';
+      if (img.parentNode) img.parentNode.replaceChild(span, img);
+      else img.remove();
+    } else {
+      img.setAttribute('data-fb', '1');
+      img.src = 'https://www.google.com/s2/favicons?domain=' + img.getAttribute('data-host') + '&sz=64';
+    }
+  };
+  function icoHtml(t) {
+    var h = host(t.url);
+    var letter = String(t.name || h || '站').trim().charAt(0).toUpperCase() || '站';
+    return '<img class="tool-ico" src="https://favicon.im/' + esc(h) + '?larger=true" alt="" width="20" height="20" ' +
+      'loading="lazy" decoding="async" referrerpolicy="no-referrer" ' +
+      'data-host="' + esc(h) + '" data-letter="' + esc(letter) + '" onerror="__icoErr(this)">';
+  }
   function cardHtml(t) {
+    var ico = icoHtml(t);
     if (!t.curated) {
       return '<a class="tool-card plain" href="' + esc(t.url) + '" target="_blank" rel="noopener">' +
         '<div class="tool-head">' +
+          ico +
           '<span class="tool-name">' + esc(t.name) + '</span>' +
           '<span class="tool-sub">' + esc(host(t.url)) + '</span>' +
           '<span class="tool-arrow">↗</span>' +
@@ -218,6 +240,7 @@ permalink: /tools/
     return '<a class="tool-card curated" href="' + esc(t.url) + '" target="_blank" rel="noopener" title="' + esc(RANK_LABEL[t.rank] || '') + '">' +
       '<div class="tool-head">' +
         '<span class="tool-rank ' + esc(t.rank) + '">' + (RANK_CHAR[t.rank] || '玄') + '</span>' +
+        ico +
         '<span class="tool-name">' + esc(t.name) + '</span>' +
         '<span class="tool-sub">' + esc(t.sub || '') + '</span>' +
         '<span class="tool-arrow">↗</span>' +

@@ -814,6 +814,31 @@ body::after {
 .tool-card:hover::before { opacity: .2; }
 
 .tool-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+/* 站点 favicon 占位（藏经阁卡片） */
+.tool-ico {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  border: 1px solid rgba(154, 163, 173, 0.22);
+  background: rgba(10, 12, 16, 0.45);
+  flex-shrink: 0;
+  object-fit: contain;
+  transition: opacity .25s, border-color .25s;
+}
+.tool-card:hover .tool-ico { border-color: rgba(212, 175, 106, 0.4); }
+.tool-card.curated .tool-ico { width: 22px; height: 22px; }
+/* 兜底：站名首字水墨占位 */
+.ico-fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 11.5px;
+  color: var(--gold);
+  background: rgba(212, 175, 106, 0.07);
+}
+.tool-card.plain .ico-fallback { font-size: 10.5px; }
 /* 兵器谱分级徽记：天 / 地 / 玄 */
 .tool-rank {
   font-family: var(--serif);
