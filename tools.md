@@ -1,61 +1,108 @@
 ---
 layout: default
-title: AI 与安全兵器谱
+title: 安全藏经阁
 permalink: /tools/
 ---
 <section id="tools">
-  <div class="wrap">
+  <div class="wrap wrap-wide">
     {% include section-head.html key="tools" %}
 
-    <div class="filter-bar">
-      <div class="search-box">
-        <span class="icon">⌕</span>
-        <input id="tool-search" type="text" placeholder="搜索兵器 / 用途 / 标签…" autocomplete="off">
-      </div>
-      <div class="chips-rows">
-        <div class="chips-row">
-          <span class="chips-label">门类</span>
-          <div class="tag-chips" id="tool-chips"></div>
+    <div class="topics-layout">
+      <aside class="topics-side">
+        <div class="side-search">
+          <span class="icon">⌕</span>
+          <input id="tool-search" type="search" aria-label="搜索资源" placeholder="搜索资源 / 描述 / 标签…" autocomplete="off">
+        </div>
+        <nav class="side-nav" id="cat-nav" aria-label="藏经分类">
+          <div class="side-nav-title">藏经分类</div>
+          <div id="tool-cat-links"></div>
+        </nav>
+        <nav class="side-nav" id="rank-nav" aria-label="试炼筛选">
+          <div class="side-nav-title">试炼筛选</div>
+          <div id="tool-rank-links"></div>
+        </nav>
+        <div class="side-note">
+          带 <b>天 / 地 / 玄</b> 徽标的是本站试炼过的兵器，附实战心得：<b>天</b> 必备主力 ／ <b>地</b> 场景利器 ／ <b>玄</b> 备选兵器；其余为公开收录资源。<br>
+          SRC 名录、漏洞平台等挖洞核心分类置顶；接码、匿名邮箱等灰色资源置底备查。<br>
+          公开资源主要整理自 <a href="https://dh.aabyss.cn" target="_blank" rel="noopener">大海导航</a>，向原作者致谢。
+        </div>
+      </aside>
+
+      <div class="topics-main">
+        <div class="tool-stats" id="tool-stats" role="status" aria-label="收录统计"></div>
+        <div class="topics-toolbar">
+          <span class="tb-label" id="tool-count-label"></span>
+          <span class="quiet">试炼兵器在前 · 按分类归档</span>
+        </div>
+        <div class="tool-grid" id="tool-grid"></div>
+        <div class="empty-result" id="tool-empty" hidden>
+          <div class="glyph">藏</div>
+          <span id="tool-empty-text">没有匹配的资源，换个关键词试试</span>
+        </div>
+        <div class="tool-more-wrap" id="tool-more-wrap" hidden>
+          <button class="tool-more" id="tool-more" type="button">继续展开</button>
+          <div class="tool-sentinel" id="tool-sentinel" aria-hidden="true"></div>
         </div>
       </div>
     </div>
 
-    <div class="tool-grid" id="tool-grid"></div>
-
-    <div class="empty-result" id="tool-empty" hidden>
-      <div class="glyph">兵</div>
-      <span id="tool-empty-text">没有匹配的兵器，换个关键词试试</span>
-    </div>
-
-    <div class="tool-note">
-      兵器谱持续试炼收录 · 分级：<b>天</b> 必备主力 ／ <b>地</b> 场景利器 ／ <b>玄</b> 备选兵器 · 欢迎推荐候选
-    </div>
+    <section class="block suggest-block">
+      <h2>收录意见</h2>
+      <p class="block-note">
+        举荐好资源、纠正收录信息、催更某个分类，都欢迎在下面留言——GitHub 登录即可发言，被采纳的候选将试炼后上墙。
+        <a class="admin-link" href="https://github.com/EastSword/EastSword.github.io/discussions" target="_blank" rel="noopener" title="仓库所有者可在 GitHub 上管理留言">留言管理</a>
+      </p>
+      <div class="wall-frame suggest-frame">
+        <div class="wall-hint">GITHUB 留言 · 实时显示 · 支持表情回应</div>
+        <div id="arsenal-giscus" class="giscus-mount"></div>
+        <div class="wall-loading" id="suggest-loading"><span class="glyph">荐</span><span>意见箱展开中…</span></div>
+      </div>
+    </section>
   </div>
 </section>
 
 <script>
 /* ============================================================
-   兵器谱维护入口：日常维护只改下面两个常量，其余全自动
-   1) CATS  —— 门类骨架；新增门类加一行 key: '中文名'
-   2) TOOLS —— 兵器条目；往数组追加对象即可上墙
-   卡片、门类筛选、计数、搜索全部自动生成，无需动 HTML / CSS
-   字段：name 名称 / sub 一句话别名 / url 官网 / cat 门类key
-         rank 分级 s|a|b / access 访问门槛 / tags 标签 / desc 试炼心得
+   藏经阁维护入口：日常维护只改 _data/tools.yml，其余全自动
+   1) groups     —— 分组骨架（顺序即侧边栏顺序；灰色资源置底）
+   2) categories —— 分类 key -> {name, group}
+   3) items      —— 资源条目；试炼条目带 rank/date/access/tags/curated
+   侧边栏分组导航、统计条、卡片、筛选、搜索、分页全部自动生成
+   支持 URL 直达筛选：/tools/?cat=src_platform&group=hunt&rank=curated&q=src
    ============================================================ */
 (function () {
+  var GROUPS = {{ site.data.tools.groups | jsonify }};
   var CATS = {{ site.data.tools.categories | jsonify }};
   var TOOLS = {{ site.data.tools.items | jsonify }};
 
   var RANK_CHAR = { s: '天', a: '地', b: '玄' };
   var RANK_LABEL = { s: '天字级 · 必备主力', a: '地字级 · 场景利器', b: '玄字级 · 备选兵器' };
+  var PAGE_SIZE = 60;
 
   var grid = document.getElementById('tool-grid');
   if (!grid) return;
   var search = document.getElementById('tool-search');
-  var chipsBox = document.getElementById('tool-chips');
+  var catBox = document.getElementById('tool-cat-links');
+  var rankBox = document.getElementById('tool-rank-links');
+  var statsBox = document.getElementById('tool-stats');
+  var label = document.getElementById('tool-count-label');
   var empty = document.getElementById('tool-empty');
   var emptyText = document.getElementById('tool-empty-text');
-  var state = { q: '', cat: '__all' };
+  var moreWrap = document.getElementById('tool-more-wrap');
+  var moreBtn = document.getElementById('tool-more');
+
+  var params = new URLSearchParams(window.location.search);
+  var state = {
+    q: params.get('q') || '',
+    cat: params.get('cat') || '__all',
+    group: params.get('group') || '__all',
+    rank: params.get('rank') || '__all',
+    page: 1
+  };
+  if (!CATS[state.cat]) state.cat = '__all';
+  if (!GROUPS[state.group]) state.group = '__all';
+  if (['curated', 's', 'a', 'b'].indexOf(state.rank) === -1) state.rank = '__all';
+  if (search) search.value = state.q;
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -65,74 +112,269 @@ permalink: /tools/
   function host(u) {
     try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return u; }
   }
+  function countBy(arr, fn) {
+    var m = {};
+    arr.forEach(function (x) { var k = fn(x); m[k] = (m[k] || 0) + 1; });
+    return m;
+  }
+  function shortDate(d) {
+    d = String(d || '');
+    return d.length >= 10 ? d.slice(5).replace('-', '/') : '';
+  }
 
-  function renderChips() {
-    var counts = {};
-    TOOLS.forEach(function (t) { counts[t.cat] = (counts[t.cat] || 0) + 1; });
-    var html = '<button class="chip active" data-cat="__all">全部 <i>' + TOOLS.length + '</i></button>';
-    Object.keys(CATS).forEach(function (k) {
-      html += '<button class="chip" data-cat="' + esc(k) + '">' + esc(CATS[k]) +
-        (counts[k] ? ' <i>' + counts[k] + '</i>' : '') + '</button>';
+  /* ---- FOFA 风格统计条：总量 / 试炼 / 分类 / SRC / 最近收录 ---- */
+  function renderStats() {
+    if (!statsBox) return;
+    var curated = TOOLS.filter(function (t) { return t.curated; }).length;
+    var srcN = TOOLS.filter(function (t) { return t.cat === 'src_platform'; }).length;
+    var latest = '';
+    TOOLS.forEach(function (t) { var d = String(t.date || ''); if (d > latest) latest = d; });
+    statsBox.innerHTML =
+      '<div class="ts-cell ts-hero"><span class="ts-num">' + TOOLS.length + '</span><span class="ts-label">已藏资源</span></div>' +
+      '<div class="ts-cell"><span class="ts-num rank-s">' + curated + '</span><span class="ts-label">试炼兵器 · 附心得</span></div>' +
+      '<div class="ts-cell"><span class="ts-num rank-a">' + srcN + '</span><span class="ts-label">SRC 平台名录</span></div>' +
+      '<div class="ts-cell"><span class="ts-num">' + Object.keys(CATS).length + '</span><span class="ts-label">藏经分类</span></div>' +
+      '<div class="ts-cell"><span class="ts-num">' + Object.keys(GROUPS).length + '</span><span class="ts-label">资源分组</span></div>' +
+      '<div class="ts-cell"><span class="ts-num ts-date">' + (shortDate(latest) || '—') + '</span><span class="ts-label">最近收录</span></div>';
+  }
+
+  /* ---- 侧边栏：分组导航（组标题可点整组筛选，分类缩进带计数） ---- */
+  function renderNav() {
+    if (!catBox) return;
+    var cn = countBy(TOOLS, function (t) { return t.cat; });
+    var gn = countBy(TOOLS, function (t) { return CATS[t.cat] ? CATS[t.cat].group : ''; });
+    var html = '<button class="side-link active" data-cat="__all" type="button"><span>全部资源</span><span class="side-count">' + TOOLS.length + '</span></button>';
+    Object.keys(GROUPS).forEach(function (gk) {
+      if (!gn[gk]) return;
+      html += '<button class="side-group' + (gk === 'gray' ? ' gray-group' : '') + '" data-group="' + esc(gk) + '" type="button">' +
+        '<span>' + esc(GROUPS[gk]) + '</span><span class="side-count">' + gn[gk] + '</span></button>';
+      Object.keys(CATS).forEach(function (ck) {
+        if (CATS[ck].group !== gk || !cn[ck]) return;
+        html += '<button class="side-link sub" data-cat="' + esc(ck) + '" type="button"><span>' + esc(CATS[ck].name) + '</span><span class="side-count">' + cn[ck] + '</span></button>';
+      });
     });
-    chipsBox.innerHTML = html;
+    catBox.innerHTML = html;
+
+    if (rankBox) {
+      var rn = countBy(TOOLS, function (t) { return t.curated ? (t.rank || '') : ''; });
+      var curatedN = TOOLS.filter(function (t) { return t.curated; }).length;
+      var rh = '<button class="side-link active" data-rank="__all" type="button"><span>全部资源</span><span class="side-count">' + TOOLS.length + '</span></button>';
+      rh += '<button class="side-link" data-rank="curated" type="button" title="本站亲自试炼过的兵器"><span>试炼精选</span><span class="side-count">' + curatedN + '</span></button>';
+      ['s', 'a', 'b'].forEach(function (r) {
+        rh += '<button class="side-link" data-rank="' + r + '" type="button" title="' + esc(RANK_LABEL[r] || '') + '"><span>' + RANK_CHAR[r] + '字级</span><span class="side-count">' + (rn[r] || 0) + '</span></button>';
+      });
+      rankBox.innerHTML = rh;
+    }
+  }
+
+  function syncNav() {
+    if (catBox) {
+      catBox.querySelectorAll('.side-link').forEach(function (b) {
+        b.classList.toggle('active', b.getAttribute('data-cat') === state.cat);
+      });
+      catBox.querySelectorAll('.side-group').forEach(function (b) {
+        var gk = b.getAttribute('data-group');
+        var on = state.group === gk && state.cat === '__all';
+        b.classList.toggle('active', on);
+      });
+    }
+    if (rankBox) {
+      rankBox.querySelectorAll('.side-link').forEach(function (b) {
+        b.classList.toggle('active', b.getAttribute('data-rank') === state.rank);
+      });
+    }
   }
 
   function matches(t) {
     if (state.cat !== '__all' && t.cat !== state.cat) return false;
+    if (state.group !== '__all') {
+      var meta = CATS[t.cat];
+      if (!meta || meta.group !== state.group) return false;
+    }
+    if (state.rank === 'curated' && !t.curated) return false;
+    if (state.rank !== '__all' && state.rank !== 'curated' && t.rank !== state.rank) return false;
     if (state.q) {
-      var hay = [t.name, t.sub, t.desc, t.access, CATS[t.cat], (t.tags || []).join(' ')]
+      var meta2 = CATS[t.cat] || {};
+      var hay = [t.name, t.sub, t.desc, t.access, meta2.name, (t.tags || []).join(' ')]
         .join(' ').toLowerCase();
       if (hay.indexOf(state.q.trim().toLowerCase()) === -1) return false;
     }
     return true;
   }
 
-  function render() {
-    var items = TOOLS.filter(matches);
-    grid.innerHTML = items.map(function (t) {
-      return '<a class="tool-card" href="' + esc(t.url) + '" target="_blank" rel="noopener" title="' + esc(RANK_LABEL[t.rank] || '') + '">' +
+  /* ---- 卡片：试炼兵器完整卡 / 公开收录紧凑卡 ---- */
+  function cardHtml(t) {
+    if (!t.curated) {
+      return '<a class="tool-card plain" href="' + esc(t.url) + '" target="_blank" rel="noopener">' +
         '<div class="tool-head">' +
-          '<span class="tool-rank ' + esc(t.rank) + '">' + (RANK_CHAR[t.rank] || '玄') + '</span>' +
           '<span class="tool-name">' + esc(t.name) + '</span>' +
-          '<span class="tool-sub">' + esc(t.sub || '') + '</span>' +
+          '<span class="tool-sub">' + esc(host(t.url)) + '</span>' +
           '<span class="tool-arrow">↗</span>' +
         '</div>' +
-        '<p class="tool-desc">' + esc(t.desc) + '</p>' +
-        '<div class="tool-tags">' + (t.tags || []).map(function (g) {
-          return '<span class="mini-tag">' + esc(g) + '</span>';
-        }).join('') + '</div>' +
-        '<div class="tool-foot">' +
-          '<span class="badge cat-badge">' + esc(CATS[t.cat] || '') + '</span>' +
-          '<span class="tool-access">' + esc(t.access || '') + '</span>' +
-          '<span class="tool-host">' + esc(host(t.url)) + '</span>' +
-        '</div>' +
+        (t.desc ? '<p class="tool-desc">' + esc(t.desc) + '</p>' : '') +
       '</a>';
-    }).join('');
+    }
+    var d = shortDate(t.date);
+    return '<a class="tool-card curated" href="' + esc(t.url) + '" target="_blank" rel="noopener" title="' + esc(RANK_LABEL[t.rank] || '') + '">' +
+      '<div class="tool-head">' +
+        '<span class="tool-rank ' + esc(t.rank) + '">' + (RANK_CHAR[t.rank] || '玄') + '</span>' +
+        '<span class="tool-name">' + esc(t.name) + '</span>' +
+        '<span class="tool-sub">' + esc(t.sub || '') + '</span>' +
+        '<span class="tool-arrow">↗</span>' +
+      '</div>' +
+      '<p class="tool-desc">' + esc(t.desc) + '</p>' +
+      '<div class="tool-tags">' + (t.tags || []).map(function (g) {
+        return '<span class="mini-tag">' + esc(g) + '</span>';
+      }).join('') + '</div>' +
+      '<div class="tool-foot">' +
+        '<span class="badge cat-badge">' + esc((CATS[t.cat] || {}).name || '') + '</span>' +
+        '<span class="tool-access">' + esc(t.access || '') + '</span>' +
+        (d ? '<span class="tool-date">' + d + ' 入谱</span>' : '') +
+        '<span class="tool-host">' + esc(host(t.url)) + '</span>' +
+      '</div>' +
+    '</a>';
+  }
+
+  /* ---- 渲染：筛选 + 分页（每页 60，滚动到底自动展开） ---- */
+  function render(reset) {
+    if (reset) state.page = 1;
+    var items = TOOLS.filter(matches);
+    var shown = items.slice(0, state.page * PAGE_SIZE);
+    grid.innerHTML = shown.map(cardHtml).join('');
+
+    if (label) {
+      var parts = [];
+      if (state.cat !== '__all') parts.push((CATS[state.cat] || {}).name || state.cat);
+      else if (state.group !== '__all') parts.push(GROUPS[state.group] || '');
+      else parts.push('全部资源');
+      if (state.rank === 'curated') parts.push('试炼精选');
+      else if (state.rank !== '__all') parts.push(RANK_CHAR[state.rank] + '字级');
+      if (state.q) parts.push('「' + state.q + '」');
+      label.textContent = parts.join(' · ') + ' · ' + items.length + ' 条' +
+        (shown.length < items.length ? '（已展开 ' + shown.length + '）' : '');
+    }
 
     var noMatch = items.length === 0;
     empty.hidden = !noMatch;
     if (noMatch) {
-      emptyText.textContent = state.cat !== '__all'
-        ? '「' + (CATS[state.cat] || '') + '」门类兵器整理入库中，敬请期待'
-        : '没有匹配的兵器，换个关键词试试';
+      emptyText.textContent = (state.cat !== '__all' || state.group !== '__all' || state.rank !== '__all')
+        ? '该条件下暂无资源，换个分类或筛选试试'
+        : '没有匹配的资源，换个关键词试试';
+    }
+
+    if (moreWrap) {
+      moreWrap.hidden = shown.length >= items.length;
+      if (moreBtn) {
+        var rest = items.length - shown.length;
+        moreBtn.textContent = rest > 0 ? '继续展开 · 还剩 ' + rest + ' 条' : '已全部展开';
+      }
     }
   }
 
-  if (search) {
-    search.addEventListener('input', function () { state.q = search.value; render(); });
-  }
-  if (chipsBox) {
-    chipsBox.addEventListener('click', function (e) {
-      var b = e.target.closest('.chip');
-      if (!b) return;
-      chipsBox.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('active'); });
-      b.classList.add('active');
-      state.cat = b.getAttribute('data-cat');
-      render();
-    });
+  function loadMore() {
+    var items = TOOLS.filter(matches);
+    if (state.page * PAGE_SIZE >= items.length) return;
+    state.page++;
+    render();
   }
 
-  renderChips();
-  render();
+  if (search) {
+    search.addEventListener('input', function () { state.q = search.value; render(true); });
+  }
+  if (catBox) {
+    catBox.addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      if (b.classList.contains('side-group')) {
+        state.group = b.getAttribute('data-group');
+        state.cat = '__all';
+      } else {
+        state.cat = b.getAttribute('data-cat');
+        if (state.cat === '__all') state.group = '__all';
+      }
+      syncNav();
+      render(true);
+    });
+  }
+  if (rankBox) {
+    rankBox.addEventListener('click', function (e) {
+      var b = e.target.closest('.side-link');
+      if (!b) return;
+      state.rank = b.getAttribute('data-rank');
+      syncNav();
+      render(true);
+    });
+  }
+  if (moreBtn) {
+    moreBtn.addEventListener('click', loadMore);
+  }
+
+  renderStats();
+  renderNav();
+  syncNav();
+  render(true);
+
+  /* ---- 滚动到底自动展开下一页 ---- */
+  var sentinel = document.getElementById('tool-sentinel');
+  if (sentinel && 'IntersectionObserver' in window) {
+    var busy = false;
+    var io = new IntersectionObserver(function (entries) {
+      if (!entries.some(function (e) { return e.isIntersecting; }) || busy) return;
+      busy = true;
+      loadMore();
+      setTimeout(function () { busy = false; }, 250);
+    }, { rootMargin: '400px' });
+    io.observe(sentinel);
+  }
+})();
+
+/* ---- 收录意见箱：giscus 独立讨论串，滚动到可视区再加载 ---- */
+(function () {
+  var mount = document.getElementById('arsenal-giscus');
+  if (!mount) return;
+  var loaded = false;
+
+  function loadBox() {
+    if (loaded) return;
+    loaded = true;
+    var s = document.createElement('script');
+    s.src = 'https://giscus.app/client.js';
+    s.async = true;
+    s.crossOrigin = 'anonymous';
+    s.setAttribute('data-repo', 'EastSword/EastSword.github.io');
+    s.setAttribute('data-repo-id', 'R_kgDOINsDXg');
+    s.setAttribute('data-category', 'General');
+    s.setAttribute('data-category-id', 'DIC_kwDOINsDXs4DEYFm');
+    s.setAttribute('data-mapping', 'specific');
+    s.setAttribute('data-term', '藏经阁 · 收录意见');
+    s.setAttribute('data-strict', '1');
+    s.setAttribute('data-reactions-enabled', '1');
+    s.setAttribute('data-emit-metadata', '0');
+    s.setAttribute('data-input-position', 'top');
+    s.setAttribute('data-theme', 'https://eastsword.github.io/assets/giscus-theme.css');
+    s.setAttribute('data-lang', 'zh-CN');
+    mount.appendChild(s);
+
+    var timer = setInterval(function () {
+      if (mount.querySelector('iframe')) {
+        clearInterval(timer);
+        var l = document.getElementById('suggest-loading');
+        if (l) l.remove();
+      }
+    }, 400);
+    setTimeout(function () { clearInterval(timer); }, 30000);
+  }
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      if (entries.some(function (e) { return e.isIntersecting; })) {
+        io.disconnect();
+        loadBox();
+      }
+    }, { rootMargin: '300px' });
+    io.observe(mount);
+  } else {
+    loadBox();
+  }
 })();
 </script>

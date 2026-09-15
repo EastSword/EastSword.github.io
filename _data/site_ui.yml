@@ -34,12 +34,12 @@ navigation:
     visible: true
     description: 全球安全与 AI 安全资讯，每日同步，持续归档。按来源、分类和关键词检索历史条目，保留原文链接。
   - key: tools
-    title: AI 与安全兵器谱
-    nav_title: 兵器谱
-    english: ARSENAL
+    title: 安全藏经阁
+    nav_title: 藏经阁
+    english: LIBRARY
     url: /tools/
     visible: true
-    description: 只收录试炼过的兵器：空间测绘、威胁情报、AI 安全、AI 提效四大门类，按天 / 地 / 玄 分级。FOFA 与 Shodan 两大测绘引擎首录，其余兵器正逐一试炼入库，长期维护。
+    description: 汇集全网公开安全资源：SRC 名录、漏洞平台、众测靶场、情报兵器与开源项目，七组分类归档检索；本站试炼过的兵器另附天地玄分级与实战心得。
   - key: wall
     title: 江湖留名
     english: GUESTBOOK
