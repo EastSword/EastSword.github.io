@@ -1,8 +1,8 @@
 hero:
   title: 东方隐侠安全团队
   eyebrow: DFYX-SEC / AI & SECURITY RESEARCH
-  purpose: 研究 AI 如何安全地进入真实工作。
-  description: 从身份、权限到执行边界，积累可核查的研究、工程方法与精选资料。
+  purpose: AI 正在进入真实工作，我们盯着它别出事。
+  description: 身份、权限、供应链、执行边界，一条一条测过去，测过的才写上来。
   art: /assets/images/hero/warrior-original.webp
   alt: 水墨群山间，白衣斗笠侠客持剑立于山岩，衣袍迎风舒展
   feather: 35
@@ -16,22 +16,22 @@ sections:
   title: 当前重点研究
   visible: true
 - key: articles
-  title: 原创研究与实践
+  title: 原创研究
   visible: true
 - key: sources
-  title: 值得细读的外部资料
+  title: 外部精选资料
   visible: true
 - key: news
   title: 安全动态
   visible: true
 - key: author
-  title: 千里 · 从业务现场出发
+  title: 千里 · 一线安全 BP
   visible: true
 focus:
   topic: ai-agent-governance
   title: 员工都在用 AI Agent，企业安全该怎么管？
   evidence: 静态分析 · 工程设计
-  summary: 从 Kiro 插件样本出发，梳理对话、Skill、MCP、工具执行与身份的控制边界。哪些可以强制约束，哪些仍需验证？
+  summary: 拆了一批 Kiro 插件样本，对话、Skill、MCP、工具执行、身份，一层一层过控制边界。能强制约束的写清楚，管不住的地方如实记着。
   article: /articles/ai-agent-governance/
   image: /assets/images/ai-agent-governance/01-enterprise-architecture.png
 routes:
@@ -44,7 +44,7 @@ routes:
   description: 暴露面测量、提取路径与防御清单。
   url: /topics/llm-api-key-security/
 - label: 身份安全基础
-  question: 正常登录背后，如何识别身份滥用？
+  question: 正常登录的用户，怎么分辨是不是本人？
   description: 身份攻击路径与 ITDR 检测思路。
   url: /topics/identity-attack-paths/
 featured_resources:

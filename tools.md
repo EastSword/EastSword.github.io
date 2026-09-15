@@ -22,9 +22,9 @@ permalink: /tools/
           <div id="tool-rank-links"></div>
         </nav>
         <div class="side-note">
-          带 <b>天 / 地 / 玄</b> 徽标的是本站试炼过的兵器，附实战心得：<b>天</b> 必备主力 ／ <b>地</b> 场景利器 ／ <b>玄</b> 备选兵器；其余为公开收录资源。<br>
-          SRC 名录、漏洞平台等挖洞核心分类置顶；接码、匿名邮箱等灰色资源置底备查。<br>
-          公开资源主要整理自 <a href="https://dh.aabyss.cn" target="_blank" rel="noopener">大海导航</a>，向原作者致谢。
+          带 <b>天 / 地 / 玄</b> 徽标的是本站试炼过的兵器，附实战心得：<b>天</b> 天天用的主力 ／ <b>地</b> 特定场景好用 ／ <b>玄</b> 备着；不带徽标的是公开收录，没有逐一测过。<br>
+          SRC 名录、漏洞平台这些挖洞核心分类置顶；接码、匿名邮箱这类灰色资源置底备查。<br>
+          公开资源主要整理自 <a href="https://dh.aabyss.cn" target="_blank" rel="noopener">大海导航</a>，感谢原作者。
         </div>
       </aside>
 
@@ -76,7 +76,7 @@ permalink: /tools/
   var TOOLS = {{ site.data.tools.items | jsonify }};
 
   var RANK_CHAR = { s: '天', a: '地', b: '玄' };
-  var RANK_LABEL = { s: '天字级 · 必备主力', a: '地字级 · 场景利器', b: '玄字级 · 备选兵器' };
+  var RANK_LABEL = { s: '天字级 · 天天用的主力', a: '地字级 · 特定场景好用', b: '玄字级 · 备着' };
   var PAGE_SIZE = 60;
 
   var grid = document.getElementById('tool-grid');

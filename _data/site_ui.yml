@@ -1,6 +1,6 @@
 brand: 东方隐侠安全团队
 logo: /assets/logo-mark.png
-tagline: 研究 AI 如何安全地进入真实工作
+tagline: AI 正在进入真实工作，我们盯着它别出事
 copyright: 东方隐侠安全团队
 navigation:
   - key: topics
@@ -8,50 +8,50 @@ navigation:
     english: RESEARCH
     url: /topics/
     visible: true
-    description: 围绕 AI 应用、身份与供应链，记录原理、方法、实践与工具。已结题标记阶段性成果，结论仍需随版本与新证据修订。
+    description: AI 应用、身份、供应链，一个课题一个课题做。结题的给阶段性结论；版本变了、证据变了，回来改。
   - key: articles
     title: 原创文章
     english: ARTICLES
     url: /articles/
     visible: true
-    description: 从实际问题出发，记录技术分析、测量方法与工程实践。
+    description: 实际工作中碰到的安全问题，怎么分析、怎么测、怎么修，一篇一篇写下来。
   - key: graph
     title: 知识图谱
     english: KNOWLEDGE GRAPH
     url: /graph/
     visible: true
-    description: 研究课题、原创文章与安全概念的关联网络——工作站知识库的公开切片，每周日自动提炼更新。
+    description: 课题、文章、安全概念连成一张网，数据出自工作站知识库，每周日自动更新。
   - key: resources
     title: 精选资料
     english: RESOURCES
     url: /resources/
     visible: true
-    description: 规范提供边界，研究提供证据。收录 AI 应用、身份与供应链的原始资料，并记录它们与本站研究的关系。
+    description: AI 应用、身份、供应链的原始资料：规范、论文、漏洞报告。哪份资料支撑了哪条结论，都标了出来。
   - key: news
     title: 安全资讯
     english: INTEL
     url: /news/
     visible: true
-    description: 全球安全与 AI 安全资讯，每日同步，持续归档。按来源、分类和关键词检索历史条目，保留原文链接。
+    description: 全球安全与 AI 安全资讯，每日同步，原文链接全保留，按来源、分类、关键词检索。
   - key: tools
     title: 安全藏经阁
     nav_title: 藏经阁
     english: LIBRARY
     url: /tools/
     visible: true
-    description: 汇集全网公开安全资源：SRC 名录、漏洞平台、众测靶场、情报兵器与开源项目，七组分类归档检索；本站试炼过的兵器另附天地玄分级与实战心得。
+    description: 全网公开安全资源：SRC 名录、漏洞平台、众测靶场、情报兵器、开源项目，七组分类。本站试炼过的兵器，另附天地玄分级与实战心得。
   - key: wall
     title: 江湖留名
     english: GUESTBOOK
     url: /wall/
     visible: true
-    description: 路过即缘分。以 GitHub 身份签下你的 ID 和一句话，签名实时上墙；路过他人的签名，也可以点个表情回应。
+    description: 用 GitHub 身份签名上墙，ID 加一句话即可。别人的签名，可以点个表情回应。
   - key: about
     title: 关于我们
     english: ABOUT
     url: /about/
     visible: true
-    description: 研究 AI 如何安全地进入真实工作。
+    description: AI 正在进入真实工作，我们盯着它别出事。
 footer_links:
   - title: RSS
     url: /feed/articles.xml
