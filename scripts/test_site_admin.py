@@ -135,6 +135,47 @@ class AdminTests(unittest.TestCase):
         self.assertEqual(admin.last_release()['status'], 'failed')
         self.assertIn('结果未知', admin.last_release()['error'])
 
+    def test_distill_index_defaults_and_sorts_reports(self):
+        self.assertEqual(admin.distill_index(), {'reports': [], 'updated': None})
+        distill = admin.STATE / 'distill'
+        distill.mkdir(parents=True)
+        admin.atomic(distill / 'index.json', admin.json_text({
+            'updated': '2026-09-14T09:00:00', 'reports': [
+                {'date': '2026-09-07', 'total': 2, 'open': 0},
+                {'date': '2026-09-14', 'total': 1, 'open': 1}]}))
+        index = admin.distill_index()
+        self.assertEqual(index['updated'], '2026-09-14T09:00:00')
+        self.assertEqual([r['date'] for r in index['reports']], ['2026-09-14', '2026-09-07'])
+
+    def test_distill_report_validates_date_and_reads_file(self):
+        distill = admin.STATE / 'distill'
+        distill.mkdir(parents=True)
+        admin.atomic(distill / 'candidates-20260914.json', admin.json_text({
+            'date': '2026-09-14', 'stats': {'topics': 8},
+            'candidates': [{'id': 'a-1', 'type': 'new-concept', 'title': 'T',
+                            'detail': 'D', 'priority': 'high', 'status': 'open'}]}))
+        report = admin.distill_report('2026-09-14')
+        self.assertEqual(report['candidates'][0]['id'], 'a-1')
+        with self.assertRaises(ValueError):
+            admin.distill_report('abc')
+        with self.assertRaises(ValueError):
+            admin.distill_report('2026-01-01')
+
+    def test_distill_status_persists_and_validates_input(self):
+        with self.assertRaises(ValueError):
+            admin.distill_status({})
+        with self.assertRaises(ValueError):
+            admin.distill_status({'id': 'a-1', 'status': 'bogus'})
+        self.assertTrue(admin.distill_status({'id': 'a-1', 'status': 'processed'})['ok'])
+        admin.distill_status({'id': 'b-2', 'status': 'open'})
+        store = json.loads((admin.STATE / 'distill' / 'status.json').read_text(encoding='utf-8'))
+        self.assertEqual(store['a-1']['status'], 'processed')
+        self.assertEqual(store['b-2']['status'], 'open')
+
+    def test_distill_run_requires_script(self):
+        with self.assertRaises(ValueError):
+            admin.distill_run()
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,7 +1,7 @@
 'use strict';
 const $ = id => document.getElementById(id);
 const state = {token:'', records:[], drafts:[], doc:null, dirty:false, raw:false, group:'home', width:1440, previewURL:'', files:[], selected:new Set(), proof:null};
-const groups = [['home','首页编排','⌂'],['topics','研究课题','◇'],['articles','原创文章','文'],['resources','精选资料','▤'],['tools','兵器谱','⚒'],['about','关于我们','人'],['global','导航与页脚','☷'],['pages','栏目页面','▣'],['media','素材库','▧'],['operations','资讯与留言','◎'],['release','发布中心','↗']];
+const groups = [['home','首页编排','⌂'],['topics','研究课题','◇'],['articles','原创文章','文'],['resources','精选资料','▤'],['tools','兵器谱','⚒'],['about','关于我们','人'],['global','导航与页脚','☷'],['pages','栏目页面','▣'],['media','素材库','▧'],['operations','资讯与留言','◎'],['distill','知识提炼','◈'],['release','发布中心','↗']];
 const labels = {hero:'首页首屏',title:'标题',eyebrow:'栏目标识',purpose:'主张',description:'介绍',art:'侠客图片',alt:'图片描述',feather:'边缘羽化',height:'首屏高度',author:'作者',role:'身份',action_title:'入口文字',action_url:'入口链接',sections:'首页板块',key:'标识',visible:'显示',focus:'重点研究',topic:'关联课题',evidence:'研究方法',summary:'摘要',article:'文章链接',image:'图片',routes:'问题入口',label:'名称',question:'问题',url:'链接',featured_resources:'首页精选资料',brand:'站点名称',logo:'标志',tagline:'页脚介绍',copyright:'版权所有者',navigation:'导航与栏目',english:'英文标识',nav_title:'导航简称',footer_links:'页脚快捷入口',modal:'弹窗标识',paragraphs:'个人介绍',team_title:'团队名称',team_description:'团队介绍',research_links:'研究入口',contacts:'联系方式',glyph:'标记',categories:'分类',items:'工具条目',name:'名称',sub:'一句话介绍',cat:'所属门类',rank:'分级',access:'访问门槛',tags:'标签',desc:'说明',subtitle:'副标题',abstract:'导语摘要',keyword:'公众号关键词',cover:'封面',published:'公开状态 / 发布日期',date:'首次日期',updated:'修订日期',status:'研究状态',layout:'页面模板',permalink:'页面地址',body_class:'页面样式',source:'来源',type:'类型',topics:'关联课题',external_url:'原文链接',reason:'推荐理由',dao:'道 · 原理',fa:'法 · 方法',shu:'术 · 实践',qi:'器 · 资料与工具',dao_summary:'道 · 概述',fa_summary:'法 · 概述',shu_summary:'术 · 概述',qi_summary:'器 · 概述',text:'正文说明',platform:'平台',form:'内容形态',publication:'文章或工具成果发布',stars:'推荐级别',links:'成果入口',changelog:'维护记录',action:'维护动作',findings:'研究结论',reading_paths:'阅读路径',assets:'附件',reading_time:'阅读分钟',toc:'目录',id:'锚点',children:'子条目',anchor:'锚点',kind:'类别',note:'备注',highlight:'重点',owner:'负责人',version:'版本'};
 const templates = {sections:{key:'',title:'',visible:true},routes:{label:'',question:'',description:'',url:''},footer_links:{title:'',url:'',modal:''},contacts:{title:'',description:'',url:'',modal:'',glyph:''},research_links:{title:'',url:''},items:{name:'',sub:'',url:'',cat:'cyberspace',rank:'b',access:'',tags:[],desc:''},links:{title:'',platform:'官网',form:'',url:'',note:''},changelog:{date:new Date().toISOString().slice(0,10),action:''},dao:{title:'',text:'',url:'',publication:false,type:'原创',platform:''},fa:{title:'',text:'',url:'',publication:false,type:'原创',platform:''},shu:{title:'',text:'',url:'',publication:false,type:'原创',platform:''},qi:{title:'',text:'',url:'',publication:false,type:'转载',platform:''},findings:{title:'',text:''},assets:{title:'',url:'',desc:''}};
 function el(tag, props={}, ...children){const node=document.createElement(tag);for(const [k,v] of Object.entries(props)){if(k==='class')node.className=v;else if(k.startsWith('on'))node.addEventListener(k.slice(2),v);else if(k==='text')node.textContent=v;else node.setAttribute(k,v);}for(const c of children)if(c!=null)node.append(c instanceof Node?c:document.createTextNode(c));return node;}
@@ -149,9 +149,60 @@ async function releasePage(){const root=$('special');root.replaceChildren(el('p'
   root.append(button('查看部署状态',async()=>{try{const runs=await api('deployments');modal('GitHub Pages 部署',el('div',{},...runs.map(r=>el('p',{},el('a',{href:r.url,target:'_blank',rel:'noopener'},r.displayTitle),' · '+r.status+' / '+(r.conclusion||'进行中')))));}catch(e){toast(e.message,true);}}));
 }
 function operationsPage(){const root=$('special');root.replaceChildren(el('div',{class:'special-head'},el('h2',{},'资讯与留言')),el('div',{class:'notice'},'资讯由独立归档仓库同步，留言保存在 GitHub Discussions。'),el('div',{class:'release-actions'},el('a',{href:'https://github.com/EastSword/EastSword.github.io/discussions/1',target:'_blank',rel:'noopener'},'管理江湖留名 ↗'),el('a',{href:'http://127.0.0.1:4018/news/',target:'_blank',rel:'noopener'},'查看资讯归档 ↗')),button('编辑资讯页面',()=>{location.hash='pages';setTimeout(()=>select('pages/news'),100);}));}
+const distillLabels={type:{'article-orphan':'文章未挂课题','topic-overlap':'课题交叉点','topic-gap':'课题概念缺口','new-concept':'新入库概念','practice-link':'实践反哺'},priority:{high:'高',medium:'中',low:'低'}};
+async function distillPage(date){
+  const root=$('special');root.replaceChildren(el('p',{class:'muted'},'正在读取知识库提炼结果…'));
+  const index=await api('distill-index');
+  root.replaceChildren(
+    el('div',{class:'special-head'},el('h2',{},'知识提炼'),button('刷新',()=>distillPage(state.distillDate))),
+    el('div',{class:'notice',role:'status'},el('strong',{},'工作站知识库 → 官网选题'),
+      el('p',{},'每周日 09:00 由定时任务 com.qianli.kb-distill 自动扫描内网 Neo4j 知识库，比对官网课题与文章结构，产出候选清单与图谱数据。标记「已处理」会保留到下一期。'),
+      el('small',{},index.updated?'最近扫描：'+index.updated:'尚未运行过扫描')),
+    el('div',{class:'release-actions'},
+      el('a',{href:'https://eastsword.github.io/graph/',target:'_blank',rel:'noopener'},'查看线上知识图谱 ↗'),
+      el('a',{href:'#pages',onclick:()=>setTimeout(()=>select('pages/graph'),100)},'编辑图谱页面'),
+      button('立即扫描提炼',()=>busy(async()=>{await job('distill-run',{});toast('提炼完成：图谱数据已更新（发布前请在发布中心确认），候选清单已刷新');await distillPage();}),'primary')));
+  if(!index.reports.length){root.append(el('p',{class:'empty'},'还没有提炼报告。点击「立即扫描提炼」生成第一份。'));return;}
+  const current=date||state.distillDate||index.reports[0].date;
+  state.distillDate=current;
+  const pick=el('select',{'aria-label':'选择报告期次'});
+  for(const r of index.reports){const option=el('option',{value:r.date},r.date+' · 候选 '+r.total+' / 待处理 '+r.open);option.selected=r.date===current;pick.append(option);}
+  pick.onchange=()=>distillPage(pick.value);
+  const report=await api('distill-report/'+current);
+  const s=report.stats||{};
+  root.append(pick,el('div',{class:'distill-stats'},
+    ...[['课题',s.topics],['文章',s.articles],['安全概念',s.concepts],['实践笔记',s.practices],['领域',s.domains],['知识源',s.sources]]
+      .map(([label,value])=>el('div',{class:'distill-stat'},el('strong',{},value==null?'—':String(value)),el('span',{},label)))));
+  if(!state.distillFilter)state.distillFilter='all';
+  const byType=(report.summary&&report.summary.by_type)||{};
+  const bar=el('div',{class:'release-actions',role:'group','aria-label':'按类型筛选'});
+  const list=el('div',{class:'distill-list'});
+  const render=()=>{
+    bar.replaceChildren(...[['all','全部']].concat(Object.entries(distillLabels.type).filter(([t])=>byType[t]))
+      .map(([key,label])=>button(label+' ('+(key==='all'?report.candidates.length:byType[key])+')',
+        ()=>{state.distillFilter=key;render();},state.distillFilter===key?'primary':'')));
+    const items=report.candidates.filter(c=>state.distillFilter==='all'||c.type===state.distillFilter);
+    list.replaceChildren(...items.map(c=>{
+      const toggle=button(c.status==='processed'?'重新打开':'标记已处理',async()=>{
+        try{const next=c.status==='processed'?'open':'processed';await api('distill-status',{id:c.id,status:next});c.status=next;render();toast(next==='processed'?'已标记为已处理':'已重新打开');}catch(e){toast(e.message,true);}});
+      return el('div',{class:'distill-card'+(c.status==='processed'?' processed':'')},
+        el('div',{class:'distill-card-head'},
+          el('span',{class:'pill'},distillLabels.type[c.type]||c.type),
+          el('span',{class:'pill distill-pri-'+(c.priority||'low')},(distillLabels.priority[c.priority]||c.priority)+'优先'),
+          c.status==='processed'?el('span',{class:'pill'},'已处理'):null),
+        el('h3',{},c.title),
+        el('p',{},c.detail),
+        c.action?el('p',{class:'distill-action'},'建议动作：'+c.action):null,
+        el('div',{class:'release-actions'},el('small',{class:'muted'},c.id),toggle));
+    }));
+    if(!items.length)list.append(el('p',{class:'empty'},'该类型暂无候选'));
+  };
+  render();
+  root.append(bar,list);
+}
 function newDocument(){const slug=el('input',{'aria-label':'路径标识',placeholder:'例如 agent-runtime-security'});const title=el('input',{'aria-label':'新内容标题',placeholder:'内容标题'});const createButton=button('创建草稿',async()=>{createButton.disabled=true;try{const d=await api('new',{group:state.group,slug:slug.value,title:title.value});$('modal').close();await refresh();await load(d.id);}catch(e){toast(e.message,true);createButton.disabled=false;}},'primary');modal('新建'+(groups.find(g=>g[0]===state.group)?.[1]||'内容'),el('div',{},el('label',{class:'field'},el('span',{},'标题'),title),el('label',{class:'field'},el('span',{},'路径标识'),slug),createButton));}
 async function route(){const [routeGroup,query='']=location.hash.slice(1).split('?');let group=routeGroup||'home';const requestedId=new URLSearchParams(query).get('doc');if(!groups.some(g=>g[0]===group))group='home';if(state.dirty){const previous=state.group;confirmAction('切换栏目','当前修改尚未保存，确认后放弃编辑器内修改。',async()=>{state.dirty=false;await showGroup(group,requestedId);});history.replaceState(null,'','#'+previous+(state.doc?'?doc='+encodeURIComponent(state.doc.id):''));return;}await showGroup(group,requestedId);}
-async function showGroup(group,requestedId=null){documentLoadGeneration++;state.group=group;history.replaceState(null,'','#'+group);nav();$('page-title').textContent=groups.find(g=>g[0]===group)[1];const special=['media','release','operations'].includes(group);$('workspace').hidden=special;$('special').hidden=!special;$('doc-actions').hidden=special;$('record-panel').hidden=['home','global','about','tools'].includes(group);$('search').value='';try{if(group==='media')await mediaPage();else if(group==='release')await releasePage();else if(group==='operations')operationsPage();else{renderRecords();let rememberedId;try{rememberedId=localStorage.getItem('eastsword-admin-selected-'+group);}catch{}const candidates=state.records.filter(r=>r.group===group);const first=candidates.find(r=>r.id===requestedId)||candidates.find(r=>r.id===rememberedId)||candidates[0];if(first)await load(first.id);else{state.doc=null;$('form').replaceChildren();$('doc-actions').hidden=true;$('preview-frame').src='about:blank';$('preview-viewport').hidden=true;$('preview-empty').hidden=false;}}}catch(e){toast(e.message,true);}}
+async function showGroup(group,requestedId=null){documentLoadGeneration++;state.group=group;history.replaceState(null,'','#'+group);nav();$('page-title').textContent=groups.find(g=>g[0]===group)[1];const special=['media','release','operations','distill'].includes(group);$('workspace').hidden=special;$('special').hidden=!special;$('doc-actions').hidden=special;$('record-panel').hidden=['home','global','about','tools'].includes(group);$('search').value='';try{if(group==='media')await mediaPage();else if(group==='release')await releasePage();else if(group==='operations')operationsPage();else if(group==='distill')await distillPage();else{renderRecords();let rememberedId;try{rememberedId=localStorage.getItem('eastsword-admin-selected-'+group);}catch{}const candidates=state.records.filter(r=>r.group===group);const first=candidates.find(r=>r.id===requestedId)||candidates.find(r=>r.id===rememberedId)||candidates[0];if(first)await load(first.id);else{state.doc=null;$('form').replaceChildren();$('doc-actions').hidden=true;$('preview-frame').src='about:blank';$('preview-viewport').hidden=true;$('preview-empty').hidden=false;}}}catch(e){toast(e.message,true);}}
 $('save').onclick=()=>busy(async()=>{await save();toast('草稿已保存');});$('preview').onclick=()=>busy(buildPreview);$('apply').textContent='准备发布';$('apply').title='保存到本地官网文件，随后进入发布中心确认发布';$('apply').onclick=()=>busy(async()=>{if(state.dirty)await save();if(state.doc.draft){$('save-state').textContent='正在检查并准备…';await job('apply',{ids:[state.doc.id]});}await refresh();state.dirty=false;await showGroup('release');toast('请在发布中心核对清单并确认发布');});
 $('delete-draft').onclick=()=>{const doc=state.doc;confirmAction('删除草稿',`确定删除《${doc.meta.title||doc.record.title}》？草稿将从列表移除，未保存的修改也会丢弃。后台会保留删除前的已保存副本。`,()=>busy(async()=>{await api('delete',{id:doc.id,revision:doc.revision});state.dirty=false;state.doc=null;await refresh();await showGroup(state.group);toast('草稿已删除');}));};
 $('discard').onclick=()=>confirmAction('恢复磁盘版本','放弃当前内容的草稿和未保存修改。',async()=>{const id=state.doc.id;await api('discard',{id});state.dirty=false;await refresh();const next=state.records.find(r=>r.id===id)||state.records.find(r=>r.group===state.group);if(next)await load(next.id);else{state.doc=null;$('form').replaceChildren();renderRecords();}});

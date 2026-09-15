@@ -25,7 +25,7 @@ JOBS = {}
 PREVIEW_URL = None
 SINGLE = {'home': '_data/editorial.yml', 'global': '_data/site_ui.yml',
           'tools': '_data/tools.yml', 'about': '_data/about.yml'}
-PAGES = ['topics', 'articles', 'resources', 'news', 'tools', 'wall', 'about']
+PAGES = ['topics', 'articles', 'resources', 'news', 'tools', 'wall', 'about', 'graph']
 
 
 def digest(value):
@@ -175,7 +175,7 @@ def validate(doc):
         nav = doc['meta'].get('navigation', [])
         keys = [n.get('key') for n in nav]
         if sorted(keys) != sorted(PAGES):
-            raise ValueError('导航必须保留七个栏目的唯一标识；可调整顺序和显示状态')
+            raise ValueError('导航必须保留全部栏目页的唯一标识（含 graph 知识图谱）；可调整顺序和显示状态')
     if doc['id'] == 'home':
         for key, low, high in [('feather', 0, 100), ('height', 280, 500)]:
             value = doc['meta'].get('hero', {}).get(key, 35 if key == 'feather' else 350)
@@ -450,6 +450,58 @@ def media():
     return files
 
 
+def distill_index():
+    """kb_distill.py 产出的报告索引（最近 KEEP_REPORTS 期）。"""
+    file = STATE / 'distill' / 'index.json'
+    if not file.exists():
+        return {'reports': [], 'updated': None}
+    index = json.loads(file.read_text(encoding='utf-8'))
+    index.setdefault('reports', [])
+    index['reports'].sort(key=lambda r: r.get('date', ''), reverse=True)
+    return index
+
+
+def distill_report(date):
+    stamp = str(date).replace('-', '')
+    if not stamp.isdigit():
+        raise ValueError('日期格式不合法')
+    file = STATE / 'distill' / ('candidates-' + stamp + '.json')
+    if not file.is_file():
+        raise ValueError('没有 ' + str(date) + ' 的提炼报告')
+    return json.loads(file.read_text(encoding='utf-8'))
+
+
+def distill_status(data):
+    """把候选标记为 已处理/待处理，写入 status.json 供下一期 kb_distill 沿用。"""
+    cid = str(data.get('id') or '').strip()
+    status = data.get('status')
+    if not cid or status not in ('open', 'processed'):
+        raise ValueError('候选标识或状态不合法')
+    with LOCK:
+        file = STATE / 'distill' / 'status.json'
+        store = {}
+        if file.exists():
+            try:
+                store = json.loads(file.read_text(encoding='utf-8'))
+            except Exception:
+                store = {}
+        store[cid] = {'status': status, 'updated_at': datetime.datetime.now().isoformat(timespec='seconds')}
+        atomic(file, json_text(store))
+    return {'ok': True, 'id': cid, 'status': status}
+
+
+def distill_run(push=False):
+    """手动触发一次知识提炼（默认不推送：图谱数据改动进入发布中心人工确认）。"""
+    script = SITE / 'scripts' / 'kb_distill.py'
+    if not script.is_file():
+        raise ValueError('kb_distill.py 不存在')
+    args = ['/usr/bin/python3', str(script)]
+    if push:
+        args.append('--push-graph')
+    log = run(args, timeout=600)
+    return {'ok': True, 'log': (log or '')[-4000:]}
+
+
 def handle(handler, path, method):
     if method == 'GET' and path in ('/', '/admin.css', '/admin.js', '/admin_format.js'):
         name = {'/': 'admin_ui.html', '/admin.css': 'admin.css', '/admin.js': 'admin.js', '/admin_format.js': 'admin_format.js'}[path]
@@ -478,6 +530,10 @@ def handle(handler, path, method):
                 result = {'files': changes(), 'ahead': run(['git', 'log', '@{upstream}..HEAD', '--oneline']).strip(), 'branch': run(['git', 'branch', '--show-current']).strip(), 'last_release': last_release()}
             elif path == '/api/admin/media':
                 result = media()
+            elif path == '/api/admin/distill-index':
+                result = distill_index()
+            elif path.startswith('/api/admin/distill-report/'):
+                result = distill_report(path.split('/')[-1])
             elif path.startswith('/api/admin/job/'):
                 result = JOBS.get(path.split('/')[-1], {'status': 'failed', 'error': '任务不存在，请重试'})
             elif path == '/api/admin/deployments':
@@ -510,6 +566,10 @@ def handle(handler, path, method):
                 record(data['id'])
                 draft_path(data['id']).unlink(missing_ok=True)
                 result = {'ok': True}
+            elif path == '/api/admin/distill-status':
+                result = distill_status(data)
+            elif path == '/api/admin/distill-run':
+                result = task(distill_run, bool(data.get('push')))
             elif path == '/api/admin/preview':
                 result = task(preview, data.get('ids', []))
             elif path == '/api/admin/live-preview':
