@@ -1,11 +1,14 @@
 logo: /assets/logo-full.png
-author: 千里
-role: 东方隐侠创始人
-paragraphs:
-  - 安全 BP，Web 安全和业务安全做了很多年，现在转向 AI 应用安全：身份、委托权限、供应链、执行边界。站里的课题从选题、实验到成文都是我一个人做的。
-  - AI 能读代码、连业务系统、替人执行任务，出事的环节各不相同。测试跟着实际工作流走，遇到什么测什么。
 team_title: 东方隐侠安全团队
-team_description: 主线是 AI 安全，底子在身份、供应链和工程实践。站内内容都标了来源：原创、外部精选，或是资讯。
+paragraphs:
+  - 从 Web 安全和业务安全做起，现在集中在 AI 应用安全：身份、委托权限、供应链、执行边界。站里的课题从选题、实验到成文，全部在团队内完成。
+  - AI 能读代码、连业务系统、替人执行任务，出事的环节各不相同。测试跟着实际工作流走，遇到什么测什么。
+team_description: 站内内容都标了来源：原创、外部精选，或是资讯。
+members_title: 成员
+members:
+  - name: 千里
+    role: 创始人 · 安全 BP
+    bio: Web 安全和业务安全做了很多年，现在负责本站的课题研究和内容。
 research_links:
   - title: Agent 安全研究
     url: /topics/ai-agent-governance/
@@ -20,7 +23,7 @@ contacts:
     glyph: 微
     tone: gold
   - title: 视频号
-    description: 千里Trace-东方隐侠安全团队
+    description: 安全研究与实测演示
     modal: modal-sph
     glyph: 频
     tone: teal

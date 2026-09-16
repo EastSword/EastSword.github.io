@@ -9,11 +9,12 @@ permalink: /about/
     {% assign about = site.data.about %}
     <div class="about">
       <img class="team-logo" src="{{ about.logo | relative_url }}" alt="{{ about.team_title | escape }}">
-      <h2 id="qianli">{{ about.author | escape }} <span> / {{ about.role | escape }}</span></h2>
-      {% for paragraph in about.paragraphs %}<p>{{ paragraph | escape }}</p>{% endfor %}
       <h2>{{ about.team_title | escape }}</h2>
+      {% for paragraph in about.paragraphs %}<p>{{ paragraph | escape }}</p>{% endfor %}
       <p>{{ about.team_description | escape }}</p>
       <div class="story-links">{% for link in about.research_links %}<a class="text-link" href="{{ link.url | relative_url }}">{{ link.title | escape }} →</a>{% endfor %}</div>
+      <h2 id="qianli">{{ about.members_title | escape }}</h2>
+      {% for m in about.members %}<p>{{ m.name | escape }} <span>/ {{ m.role | escape }}</span> — {{ m.bio | escape }}</p>{% endfor %}
     </div>
     <div class="contact-grid">{% for contact in about.contacts %}
       {% if contact.modal %}<button class="contact-card" type="button" data-modal="{{ contact.modal | escape }}">{% else %}<a class="contact-card" href="{{ contact.url | relative_url }}" target="_blank" rel="noopener">{% endif %}

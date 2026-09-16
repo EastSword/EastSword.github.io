@@ -1,14 +1,12 @@
 hero:
   title: 东方隐侠安全团队
   eyebrow: DFYX-SEC / AI & SECURITY RESEARCH
-  purpose: 员工开始用 AI Agent 干活，我们测它在企业里的安全边界。
-  description: 身份、权限、供应链、执行边界。每个课题都有测试过程和数据。
+  purpose: AI 进了企业工作流，安全边界需要重新测。
+  description: 身份、权限、供应链、执行边界，按课题组织研究，每篇都有测试过程和数据。
   art: /assets/images/hero/warrior-original.webp
   alt: 水墨群山间，白衣斗笠侠客持剑立于山岩，衣袍迎风舒展
   feather: 35
   height: 350
-  author: 千里
-  role: 创始人 · 安全 BP · AI 安全研究
   action_title: 进入研究课题
   action_url: /topics/
 sections:
@@ -25,11 +23,11 @@ sections:
   title: 安全动态
   visible: true
 - key: author
-  title: 关于作者
+  title: 关于团队
   visible: true
 focus:
   topic: ai-agent-governance
-  title: 员工都在用 AI Agent，企业安全该怎么管？
+  title: 企业 Agent 的控制边界
   evidence: 静态分析 · 工程设计
   summary: 拆了一批 Kiro 插件样本，从对话到工具执行逐个环节看控制边界。能强制约束的写成配置，剩下的靠检测。
   article: /articles/ai-agent-governance/

@@ -11,7 +11,7 @@ body_class: home-page
     <p class="masthead-purpose">{{ hero.purpose | escape }}</p>
     <p class="masthead-description">{{ hero.description | escape }}</p>
     <div class="masthead-bottom">
-      <a class="author-line" href="{{ '/about/#qianli' | relative_url }}">{{ hero.author | escape }} <span>{{ hero.role | escape }}</span></a>
+      <a class="author-line" href="{{ '/about/' | relative_url }}">关于团队 <span>DFYX-SEC</span></a>
       <a class="text-link" href="{{ hero.action_url | relative_url }}">{{ hero.action_title | escape }} <span aria-hidden="true">→</span></a>
     </div>
   </div>
