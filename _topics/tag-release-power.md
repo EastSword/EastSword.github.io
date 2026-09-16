@@ -13,11 +13,11 @@ fa_summary: "方法论三步：枚举攻击面 → 成熟度定位 → 两层防
 shu_summary: "落地五分钟可自测：GitLab Protected Tags 与 GitHub Rulesets 逐项配置，讲清保护谁、允许谁、强制什么。\n四套 CI 生产脚本接管打 tag 自动化——GitLab Runner、TeamCity、Jenkins、GitHub Actions，其中 TeamCity 版含五个真实踩坑记录。\n公众号上下篇与 CSDN 自检版分层传播。"
 qi_summary: "外部依据以官方文档为准：GitLab Protected Tags 与 GitHub Rulesets 是双平台权限收敛机制的出处；Git 官方文档定义 tag 与 ref 的语义，以及 lightweight 与 annotated 的信任差异。\n知识星球资产包整包收录五套 CI 脚本与评审材料。"
 dao:
-  - title: Git 历史不可变，tag 可变
+  - title: Git 历史与 Tag 的信任差异
     text: 默认心智模型里"已发布的版本"是固定的，但 Git 的 tag 本质是指针，可以被打、可以被移动、可以被覆盖——供应链信任建立在内容寻址（SHA）上，而 tag 是名字寻址，两套体系之间有一道天然裂缝。
     type: 原创
     platform: 本课题
-  - title: 分支审内容，tag 审意图
+  - title: 分支审查内容与 Tag 审查意图的区分
     text: 企业普遍只配了分支保护（审代码内容），没配 tag 保护（审发布意图）——于是"发布一个版本"的权限实际掌握在每个 Developer 手里。tj-actions 事件用 15 小时和 23,000 个仓库证明了这份无人看守的权限在生产环境的杀伤力。
     type: 原创
     platform: 本课题

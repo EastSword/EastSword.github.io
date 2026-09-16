@@ -13,15 +13,15 @@ fa_summary: "方法论：用一个 ID 缝合两半证据。session.id = SHA1(主
 shu_summary: "落地从配置到采集，全链路给齐。\nsshd 基线含四个要点——VERBOSE 日志、local 转发、PermitOpen 白名单、nologin，外加 ForceCommand 对纯转发不生效的坑。采集侧 Tetragon eBPF 在内核态全量观测内网连接，bcc tcplife 补字节数与时长。\n十秒窗口聚合，防日志撑爆系统。8 章长文配 8 步执行手册（附 docx）。"
 qi_summary: "外部依据收权威实现与采集引擎：OpenSSH 是转发机制与日志语义的出处；Tetragon 承担 eBPF 内核态采集核心；bcc tcplife 补齐连接生命周期观测；Elasticsearch + Filebeat 承载双索引与 Ingest Pipeline。\n每条标注来源与推荐星级。"
 dao:
-  - title: SSH 转发把证据拆成两半
+  - title: SSH 转发导致的证据分离
     text: 登录日志只证明"谁连上了跳板机"；隧道里的流量由 sshd 重新发起 TCP 连接，内网服务看到的来源永远是跳板机 IP，身份归属就此断掉——审计设计的第一性问题是把被协议拆开的证据重新缝起来。
     type: 原创
     platform: 本课题
-  - title: 只给入口，不给通行证
+  - title: 入口收敛与最小权限
     text: 核心原则是给用户一个 SSH 入口，而不是一张内网通行证——`-D` 动态 SOCKS 一旦放开，跳板机就变成内网横向通道，便利性换来的边界崩塌不可逆。
     type: 原创
     platform: 本课题
-  - title: 一人一号是审计的前提
+  - title: 一人一号的审计前提
     text: 共享账号问题是结构问题不是查询问题——多人共用一个账号时，补再多日志也追不到具体的人。权限模型先于日志模型。
     type: 原创
     platform: 本课题
