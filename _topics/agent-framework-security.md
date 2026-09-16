@@ -2,7 +2,7 @@
 published: true
 layout: topic
 title: Agent 框架安全
-subtitle: 沙箱、审批、权限与控制面——检验 Agent 框架自身的约束体系是否经得起被控主体和不可信内容
+subtitle: 评估 Agent 框架在沙箱、审批、权限与控制面上的安全约束
 date: 2026-09-12
 updated: 2026-09-13
 status: 研讨中

@@ -2,7 +2,7 @@
 published: true
 layout: topic
 title: MCP 与扩展层供应链安全
-subtitle: 当 AI Agent 的能力扩展层成为攻击面——准入治理、事件复盘与持续观测
+subtitle: AI Agent 能力扩展层的供应链安全：准入治理、事件复盘与持续观测
 date: 2026-08-22
 updated: 2026-09-12
 status: 待开始

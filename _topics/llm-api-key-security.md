@@ -2,7 +2,7 @@
 published: true
 layout: topic
 title: 公网大模型的密钥泄露
-subtitle: 口令不是关键，公网暴露才是：API Key 的窃取路径、实测证据与防御方法论
+subtitle: API Key 的暴露面测量、窃取路径与防御方法
 date: 2026-08-30
 updated: 2026-09-12
 status: 已结题

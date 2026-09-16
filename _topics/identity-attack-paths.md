@@ -2,7 +2,7 @@
 published: true
 layout: topic
 title: 身份攻击路径与ITDR
-subtitle: 密码对，MFA通过，零告警——合法认证身份的攻击面全景与检测之道
+subtitle: 合法认证身份被冒用后的攻击面，以及 ITDR 的检测方法
 date: 2026-08-25
 updated: 2026-09-12
 status: 已结题

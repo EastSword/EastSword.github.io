@@ -1,8 +1,8 @@
 ---
 published: true
 layout: topic
-title: 公司迁云动作清单
-subtitle: 迁云不是搬机器：从摸家底到割接回滚，安全与稳定两条线的全流程动作
+title: 企业上云迁移实施清单
+subtitle: 覆盖资产盘点、合规前置、割接与回滚的安全与稳定性控制
 date: 2026-09-03
 updated: 2026-09-12
 status: 已结题
