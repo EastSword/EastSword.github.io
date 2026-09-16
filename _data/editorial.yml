@@ -1,8 +1,8 @@
 hero:
   title: 东方隐侠安全团队
   eyebrow: DFYX-SEC / AI & SECURITY RESEARCH
-  purpose: AI 正在进入真实工作，我们盯着它别出事。
-  description: 身份、权限、供应链、执行边界，一条一条测过去，测过的才写上来。
+  purpose: 员工开始用 AI Agent 干活，我们测它在企业里的安全边界。
+  description: 身份、权限、供应链、执行边界。每个课题都有测试过程和数据。
   art: /assets/images/hero/warrior-original.webp
   alt: 水墨群山间，白衣斗笠侠客持剑立于山岩，衣袍迎风舒展
   feather: 35
@@ -25,13 +25,13 @@ sections:
   title: 安全动态
   visible: true
 - key: author
-  title: 千里 · 一线安全 BP
+  title: 关于作者
   visible: true
 focus:
   topic: ai-agent-governance
   title: 员工都在用 AI Agent，企业安全该怎么管？
   evidence: 静态分析 · 工程设计
-  summary: 拆了一批 Kiro 插件样本，对话、Skill、MCP、工具执行、身份，一层一层过控制边界。能强制约束的写清楚，管不住的地方如实记着。
+  summary: 拆了一批 Kiro 插件样本，从对话到工具执行逐个环节看控制边界。能强制约束的写成配置，剩下的靠检测。
   article: /articles/ai-agent-governance/
   image: /assets/images/ai-agent-governance/01-enterprise-architecture.png
 routes:
@@ -44,7 +44,7 @@ routes:
   description: 暴露面测量、提取路径与防御清单。
   url: /topics/llm-api-key-security/
 - label: 身份安全基础
-  question: 正常登录的用户，怎么分辨是不是本人？
+  question: 登录凭据都对，怎么确认是本人？
   description: 身份攻击路径与 ITDR 检测思路。
   url: /topics/identity-attack-paths/
 featured_resources:

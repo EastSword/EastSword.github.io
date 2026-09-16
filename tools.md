@@ -22,7 +22,7 @@ permalink: /tools/
           <div id="tool-rank-links"></div>
         </nav>
         <div class="side-note">
-          带 <b>天 / 地 / 玄</b> 徽标的是本站试炼过的兵器，附实战心得：<b>天</b> 天天用的主力 ／ <b>地</b> 特定场景好用 ／ <b>玄</b> 备着；不带徽标的是公开收录，没有逐一测过。<br>
+          带 <b>天 / 地 / 玄</b> 徽标的经过本站实测，附使用心得：<b>天</b> 长期主力 ／ <b>地</b> 特定场景 ／ <b>玄</b> 备用；不带徽标的是公开收录，没有逐一测过。<br>
           SRC 名录、漏洞平台这些挖洞核心分类置顶；接码、匿名邮箱这类灰色资源置底备查。<br>
           公开资源主要整理自 <a href="https://dh.aabyss.cn" target="_blank" rel="noopener">大海导航</a>，感谢原作者。
         </div>
@@ -49,7 +49,7 @@ permalink: /tools/
     <section class="block suggest-block">
       <h2>收录意见</h2>
       <p class="block-note">
-        举荐好资源、纠正收录信息、催更某个分类，都欢迎在下面留言——GitHub 登录即可发言，被采纳的候选将试炼后上墙。
+        举荐好资源、纠正收录信息、催更某个分类，都欢迎在下面留言——GitHub 登录后可以发言，被采纳的候选实测后收录。
         <a class="admin-link" href="https://github.com/EastSword/EastSword.github.io/discussions" target="_blank" rel="noopener" title="仓库所有者可在 GitHub 上管理留言">留言管理</a>
       </p>
       <div class="wall-frame suggest-frame">
@@ -76,7 +76,7 @@ permalink: /tools/
   var TOOLS = {{ site.data.tools.items | jsonify }};
 
   var RANK_CHAR = { s: '天', a: '地', b: '玄' };
-  var RANK_LABEL = { s: '天字级 · 天天用的主力', a: '地字级 · 特定场景好用', b: '玄字级 · 备着' };
+  var RANK_LABEL = { s: '天字级 · 长期主力', a: '地字级 · 特定场景', b: '玄字级 · 备用' };
   var PAGE_SIZE = 60;
 
   var grid = document.getElementById('tool-grid');
@@ -159,7 +159,7 @@ permalink: /tools/
       var rn = countBy(TOOLS, function (t) { return t.curated ? (t.rank || '') : ''; });
       var curatedN = TOOLS.filter(function (t) { return t.curated; }).length;
       var rh = '<button class="side-link active" data-rank="__all" type="button"><span>全部资源</span><span class="side-count">' + TOOLS.length + '</span></button>';
-      rh += '<button class="side-link" data-rank="curated" type="button" title="本站亲自试炼过的兵器"><span>试炼精选</span><span class="side-count">' + curatedN + '</span></button>';
+      rh += '<button class="side-link" data-rank="curated" type="button" title="经过本站实测的资源"><span>试炼精选</span><span class="side-count">' + curatedN + '</span></button>';
       ['s', 'a', 'b'].forEach(function (r) {
         rh += '<button class="side-link" data-rank="' + r + '" type="button" title="' + esc(RANK_LABEL[r] || '') + '"><span>' + RANK_CHAR[r] + '字级</span><span class="side-count">' + (rn[r] || 0) + '</span></button>';
       });
