@@ -4,7 +4,7 @@ layout: topic
 title: 企业员工使用 AI Agent 的安全管控与监控技术
 subtitle: 从 Kiro 安全插件静态分析出发，建立覆盖对话、Skill、MCP、工具执行、身份凭据与数据外发的企业防护体系
 date: 2026-09-06
-updated: 2026-09-10
+updated: 2026-09-17
 status: 已结题
 categories:
 - AI安全
@@ -86,6 +86,13 @@ shu:
   platform: 官网
   url: /articles/gitspawn-context-review/
   desc: 从 Claude Code、Qwen Code 与 Cursor 的公开案例出发，分析信任确认前的后台执行；结合 Goose 的修复，讨论为什么管控和审计要覆盖模型工作之前的准备阶段。文中区分历史受影响版本、修复状态与不同项目交付条件。
+- title: 人人都是开发之后，“盯住开发”还缺什么
+  publication: true
+  text: 治理对象从研发团队扩展到所有用 AI 产出代码与应用的员工。文章指出人员名单、安全卡口、人员意识三样原有地基失效，梳理数据外流、密钥入码、应用裸奔、幻觉依赖包、代理持生产权限五类场景，并给出按数据流向重划开发边界、轻登记与扫描普遍化的补法。
+  type: 原创
+  platform: 官网
+  url: /articles/citizen-developer-security/
+  desc: 公民开发者使原有的人员名单、安全卡口、人员意识三样治理地基失效；梳理五类风险场景，给出改定义、六件事、轻登记的宣贯补法。
 qi:
 - title: MCP 官方规范
   text: 授权边界、令牌语义与传输安全的权威依据（2025-11-25 版）。
@@ -133,6 +140,11 @@ links:
   form: GitSpawn 案例分析
   url: /articles/gitspawn-context-review/
   note: 信任确认前发生了什么：启动阶段的执行权限与审计。
+- platform: 官网
+  title: 人人都是开发之后，“盯住开发”还缺什么
+  form: 公民开发者与意识宣贯
+  url: /articles/citizen-developer-security/
+  note: 治理对象从研发扩展到所有用 AI 产出代码的人；名单、关口、意识三样地基失效后的宣贯补法与扫描覆盖。
 - platform: 公众号
   title: AI 助手还在问你是否信任项目，程序怎么已经跑起来了？
   form: GitSpawn 图文解读
@@ -157,6 +169,8 @@ findings:
   - Hook 阻断的绕过面（超时语义、IDE 与 CLI 事件集差异）目前只完成静态分析，动态绕过测试待补
   - D0-D3 数据等级与 A0-A3 动作等级的分级矩阵在真实企业的适配度，等待首批落地反馈
 changelog:
+- date: '2026-09-17'
+  action: 收录公民开发者安全意识研究；在术层与关联文章入口挂上《人人都是开发之后，“盯住开发”还缺什么》。
 - date: '2026-09-10'
   action: 补充 GitSpawn 公众号已发布版本的标题、内容概括与阅读链接。
 - date: '2026-09-10'
