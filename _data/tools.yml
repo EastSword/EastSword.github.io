@@ -8,6 +8,7 @@
 #   数据来源：dh.aabyss.cn 公开导航 + 本站试炼收录
 # ============================================================
 groups:
+  self: "隐侠出品"
   hunt: "挖洞核心"
   practice: "实战提升"
   recon: "情报侦察"
@@ -16,6 +17,9 @@ groups:
   ai: "AI 工具"
   gray: "灰色资源"
 categories:
+  self_tools:
+    name: "自研产品"
+    group: "self"
   src_platform:
     name: "SRC 平台"
     group: "hunt"
@@ -158,6 +162,37 @@ categories:
     name: "AI 中转站"
     group: "gray"
 items:
+  # ---------- 隐侠出品 · 自研产品 ----------
+  - name: "PrivacyLens"
+    sub: "本地 AI 隐私滤镜"
+    url: "https://github.com/EastSword/PrivacyLens"
+    cat: "self_tools"
+    rank: "s"
+    date: "2026-06-18"
+    access: "免费版 · Pro ¥5 买断"
+    tags: ["AI 隐私", "文本脱敏", "本地优先", "跨平台"]
+    desc: "文本敏感信息一键脱敏与还原，文件脱敏并导出 PDF。三层识别（规则引擎 + AI NER + 人工复核），纯本地运行、数据不上云，支持 macOS/Windows/Linux。"
+    curated: true
+  - name: "EchoMemory"
+    sub: "AI Agent 共享记忆"
+    url: "https://github.com/EastSword/EchoMemory"
+    cat: "self_tools"
+    rank: "s"
+    date: "2026-06-18"
+    access: "开源免费 · MIT · 本地部署"
+    tags: ["Agent 记忆", "知识库", "MCP", "REST API"]
+    desc: "多 Agent 团队的共享知识库，所有 Agent 通过 API 读写同一份结构化知识，七种知识类型、跨会话跨设备沉淀集体智慧。"
+    curated: true
+  - name: "AgentExtractor"
+    sub: "Agent 配置迁移与融合"
+    url: "https://github.com/EastSword/AgentExtractor"
+    cat: "self_tools"
+    rank: "s"
+    date: "2026-06-18"
+    access: "开源免费 · MIT · Web UI/CLI"
+    tags: ["Agent 配置", "迁移", "能力融合", "多平台"]
+    desc: "跨平台 Agent 配置资产工具，一键扫描 Kiro/Cursor/Claude Code/Trae/Codex 等 8+ 平台配置，三层架构导出迁移与能力画像。"
+    curated: true
   # ---------- 图像模型 ----------
   - name: "CVAT"
     url: "https://github.com/opencv/cvat"
