@@ -91,6 +91,24 @@
       "img_dir": "文章配图",
       "abstract": "现在人人都在用 AI 产出应用，名单、关口、共同语言三样地基同时漏风。五个场景过一遍数据外流、密钥入码、应用裸奔、幻觉包、代理持生产权限，指出宣贯缺的不是课件是对象，并给出改定义、讲六件事、给正路、轻登记的补法。",
       "author": ""
+    },
+    {
+      "slug": "zcode-snapshot-upload",
+      "source": "/Users/qianli/qianli_zone/BeYourself/安全架构/全量Git历史是怎么被静默搬上云的.md",
+      "title": "全量 Git 历史，是怎么被Zcode静默搬上云的",
+      "subtitle": "ZCode 全量快照的链路还原：采集了什么、传给了谁、证据到哪里",
+      "topic": "",
+      "category": "AI安全",
+      "tags": [
+        "AI",
+        "隐私",
+        "数据主权",
+        "AI Coding",
+        "终端安全"
+      ],
+      "keyword": "",
+      "img_dir": "文章配图",
+      "abstract": "ZCode 在登录状态下会把工作区连同完整 .git 历史打包加密直传阿里云 OSS，解密私钥只在服务端，用户侧两个开关都关不住。本文合并 ferstar 与老冯的独立取证，还原从凭证申请到 OSS 直传的完整链路，对照两个月前 Grok 的同类事件，并明确证据边界：传输是实锤，用途没有任何证据。"
     }
   ]
 }
