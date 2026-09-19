@@ -4,7 +4,7 @@ layout: topic
 title: 企业员工使用 AI Agent 的安全管控与监控技术
 subtitle: 从 Kiro 安全插件静态分析出发，建立覆盖对话、Skill、MCP、工具执行、身份凭据与数据外发的企业防护体系
 date: 2026-09-06
-updated: 2026-09-17
+updated: 2026-09-19
 status: 已结题
 categories:
 - AI安全
@@ -150,6 +150,11 @@ links:
   form: GitSpawn 图文解读
   url: https://mp.weixin.qq.com/s/YlDuWzXaOQS410utaJyJ-w
   note: 从 Claude Code、Qwen Code 的演示截图讲起，解释确认前为何会启动程序，并结合 Cursor 与 Goose 案例讨论如何检查和限制这些操作。
+- platform: 公众号
+  title: 不出网的AI隐私滤镜PrivacyLens，白帽集市焕新出发
+  form: 数据脱敏工具
+  url: https://mp.weixin.qq.com/s/pvAbZiy1sLr-UTFTt-txnQ
+  note: 自研数据脱敏工具 PrivacyLens 上线 FreeBuf 白帽集市；文本发给外部 AI 前先在本地脱敏，回答后按任务 ID 一键还原，数据不出网。
 research_notes: 企业员工使用AI_Agent的安全管控与监控技术研究.md
 reading_path:
 - 先读「核心问题」：员工授权 Agent 读代码、连 MCP、装 Skill 之后，公司要限制什么、发现什么、证明什么
@@ -169,8 +174,10 @@ findings:
   - Hook 阻断的绕过面（超时语义、IDE 与 CLI 事件集差异）目前只完成静态分析，动态绕过测试待补
   - D0-D3 数据等级与 A0-A3 动作等级的分级矩阵在真实企业的适配度，等待首批落地反馈
 changelog:
+- date: '2026-09-19'
+  action: 收录自研数据脱敏工具 PrivacyLens 公众号推文；挂到关联文章入口。
 - date: '2026-09-17'
-  action: 收录公民开发者安全意识研究；在术层与关联文章入口挂上《人人都是开发之后，“盯住开发”还缺什么》。
+  action: 收录公民开发者安全意识研究；在术层与关联文章入口挂上《人人都是开发之后，"盯住开发"还缺什么》.
 - date: '2026-09-10'
   action: 补充 GitSpawn 公众号已发布版本的标题、内容概括与阅读链接。
 - date: '2026-09-10'
