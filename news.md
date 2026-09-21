@@ -58,8 +58,9 @@ permalink: /news/
   var monthsQueue = [];    // 未加载月份（倒序，队首最新）
   var loadedMonths = [];   // 已加载月份（倒序）
   var items = [];          // 已加载条目（全局时间倒序）
-  var state = { q: '', cat: new Set(), prio: new Set(), src: new Set(), tag: new Set(), limit: PER_BATCH };
+  var state = { q: '', cat: new Set(), prio: new Set(), src: new Set(), tag: new Set(), time: { mode: 'all' }, limit: PER_BATCH };
   var fullScan = { done: false, running: false, msg: '' };
+  var timeLoad = { pending: 0, msg: '' };  // 时间段筛选所需月份的加载进度
   var loading = false;
   var renderTimer = null;
 
@@ -71,6 +72,23 @@ permalink: /news/
   function safeUrl(u) { return /^https?:\/\//i.test(u || '') ? u : '#'; }
   function norm(s) { return (s || '').toLowerCase(); }
   function tsOf(it) { var t = Date.parse(it.published_at || ''); return isNaN(t) ? 0 : t; }
+
+  // ---------- 时间段筛选 ----------
+  function nextMonthStr(m) { var y = +m.slice(0, 4), mo = +m.slice(5, 7) + 1; if (mo > 12) { mo = 1; y++; } return y + '-' + (mo < 10 ? '0' + mo : '' + mo); }
+  function timeRangeTs(t) {
+    if (t.mode === 'days') return { start: Date.now() - t.days * 864e5, end: Date.now() + 864e5 };
+    if (t.mode === 'months') return { start: Date.parse(t.from + '-01'), end: Date.parse(nextMonthStr(t.to) + '-01') };
+    return null;
+  }
+  function allMonthKeys() { return (idx ? idx.months : []).map(function (x) { return x.month; }); }
+  function monthsInTime(t) {
+    if (!idx || t.mode === 'all') return [];
+    var r = timeRangeTs(t);
+    return allMonthKeys().filter(function (m) {
+      var s = Date.parse(m + '-01'), e = Date.parse(nextMonthStr(m) + '-01');
+      return e > r.start && s < r.end;  // 月份区间与所选时间段有交集
+    });
+  }
 
   function fetchJSON(url) {
     return fetch(url).then(function (r) {
@@ -138,6 +156,8 @@ permalink: /news/
   }
 
   function match(it) {
+    var tr = state.time.mode === 'all' ? null : timeRangeTs(state.time);
+    if (tr && !(it._t >= tr.start && it._t < tr.end)) return false;
     if (state.cat.size && !state.cat.has(it.category)) return false;
     if (state.prio.size && !state.prio.has(it.priority)) return false;
     if (state.src.size && !state.src.has(it.source)) return false;
@@ -190,22 +210,28 @@ permalink: /news/
       : '';
     var parts = [];
     if (state.q) parts.push('关键词 ' + esc(state.q));
+    if (state.time.mode === 'days') parts.push('时间 近 ' + state.time.days + ' 天');
+    else if (state.time.mode === 'months') parts.push('时间 ' + state.time.from + ' ~ ' + state.time.to);
     if (state.cat.size) parts.push('分类 ' + esc(Array.from(state.cat).join('、')));
     if (state.prio.size) parts.push('级别 ' + esc(Array.from(state.prio).join('、')));
     if (state.tag.size) parts.push('标签 ' + esc(Array.from(state.tag).join('、')));
     if (state.src.size) parts.push('来源 ' + esc(Array.from(state.src).join('、')));
-    var hasFilter = state.q || state.cat.size || state.prio.size || state.tag.size || state.src.size;
+    var hasFilter = state.q || state.cat.size || state.prio.size || state.tag.size || state.src.size || state.time.mode !== 'all';
     count.innerHTML = '命中 <b>' + rows.length + '</b> 条' + (parts.length ? ' ｜ ' + parts.join(' · ') : '') + range +
       (hasFilter ? ' ｜ <button class="reset-btn" type="button" id="news-reset">清除筛选</button>' : '');
 
-    if (fullScan.running) {
+    if (fullScan.running || timeLoad.pending > 0) {
       more.hidden = false;
-      moreText.textContent = fullScan.msg;
+      moreText.textContent = fullScan.running ? fullScan.msg : timeLoad.msg;
       return;
     }
     if (rows.length > state.limit) {
       more.hidden = false;
       moreText.textContent = '继续下滑加载更多（' + (rows.length - state.limit) + ' 条已就绪）';
+    } else if (state.time.mode !== 'all') {
+      var remainMonths = monthsQueue.filter(function (m) { return monthsInTime(state.time).indexOf(m) >= 0; }).length;
+      more.hidden = remainMonths === 0;
+      if (remainMonths) moreText.textContent = '下滑加载所选时间段（' + remainMonths + ' 个月待载）…';
     } else if (monthsQueue.length) {
       more.hidden = false;
       moreText.textContent = '下滑加载更早的资讯（可至 ' + monthsQueue[monthsQueue.length - 1] + '）';
@@ -239,9 +265,28 @@ permalink: /news/
     return html + '</div></div>';
   }
 
+  // 时间筛选组：快捷区间 chips + 自定义起止月份下拉
+  function timeGroupHTML() {
+    var quick = [[7, '近 7 天'], [30, '近 30 天'], [90, '近 90 天'], [180, '近半年'], [365, '近一年']];
+    var keys = allMonthKeys();
+    var opts = keys.map(function (m) { return '<option value="' + m + '">' + m + '</option>'; }).join('');
+    return '<div class="facet-group" data-group="time">' +
+      '<div class="facet-head"><span class="facet-title">时间<i>' + keys.length + ' 个月</i></span></div>' +
+      '<div class="facet-body">' +
+      '<button class="chip active" data-val="__all">全部</button>' +
+      quick.map(function (q) { return '<button class="chip" data-val="' + q[0] + 'd">' + q[1] + '</button>'; }).join('') +
+      '</div>' +
+      '<div class="facet-body time-custom" id="time-custom">' +
+      '<select class="time-select" id="time-from" aria-label="起始月份"><option value="">起始月</option>' + opts + '</select>' +
+      '<span class="time-sep">~</span>' +
+      '<select class="time-select" id="time-to" aria-label="结束月份"><option value="">结束月</option>' + opts + '</select>' +
+      '</div></div>';
+  }
+
   function renderFacets() {
     var f = idx.facets || {};
     chipsBox.innerHTML =
+      timeGroupHTML() +
       facetGroup('cat', '分类', f.categories || {}) +
       facetGroup('prio', '级别', f.priorities || {}, ['P0', 'P1', 'P2'], function (k) {
         return k === 'P0' ? 'P0 紧急' : (k === 'P2' ? 'P2 常规' : k);
@@ -252,7 +297,22 @@ permalink: /news/
 
   function syncChips() {
     chipsBox.querySelectorAll('.facet-group').forEach(function (row) {
-      var set = state[row.getAttribute('data-group')];
+      var gKey = row.getAttribute('data-group');
+      if (gKey === 'time') {
+        var cur = state.time.mode === 'days' ? state.time.days + 'd' : (state.time.mode === 'all' ? '__all' : null);
+        row.querySelectorAll('.chip').forEach(function (c) {
+          c.classList.toggle('active', c.getAttribute('data-val') === cur);
+        });
+        var custom = row.querySelector('.time-custom');
+        var fromSel = document.getElementById('time-from'), toSel = document.getElementById('time-to');
+        if (custom) custom.classList.toggle('active', state.time.mode === 'months');
+        if (fromSel && toSel) {
+          fromSel.value = state.time.mode === 'months' ? state.time.from : '';
+          toSel.value = state.time.mode === 'months' ? state.time.to : '';
+        }
+        return;
+      }
+      var set = state[gKey];
       row.querySelectorAll('.chip').forEach(function (c) {
         var v = c.getAttribute('data-val');
         c.classList.toggle('active', v === '__all' ? set.size === 0 : set.has(v));
@@ -260,8 +320,46 @@ permalink: /news/
     });
   }
 
+  // 应用时间段：立即按已加载月份过滤，并按需加载覆盖该时间段的其余归档月份
+  function applyTime(t) {
+    state.time = t;
+    state.limit = PER_BATCH;
+    var need = t.mode === 'all' ? [] : monthsInTime(t).filter(function (m) { return monthsQueue.indexOf(m) >= 0; });
+    syncChips();
+    render();
+    if (need.length) loadTimeMonths(need);
+  }
+
+  function loadTimeMonths(need) {
+    need.forEach(function (m) { var i = monthsQueue.indexOf(m); if (i >= 0) monthsQueue.splice(i, 1); });
+    timeLoad.pending += need.length;
+    var i = 0;
+    function worker() {
+      if (i >= need.length) return Promise.resolve();
+      var m = need[i++];
+      return loadMonth(m).catch(function () {}).then(function () {
+        timeLoad.pending--;
+        timeLoad.msg = timeLoad.pending > 0 ? '加载所选时间段：还剩 ' + timeLoad.pending + ' 个月…' : '';
+        scheduleRender();
+        return worker();
+      });
+    }
+    var ws = [];
+    for (var k = 0; k < CONCURRENCY && k < need.length; k++) ws.push(worker());
+    Promise.all(ws).then(function () { render(); });
+  }
+
+  // 滚动加载时取下一个月：无时间筛选取队首；有时间筛选只取时间段内的月份
+  function takeNextMonth() {
+    if (state.time.mode === 'all') return monthsQueue.length ? monthsQueue.splice(0, 1)[0] : null;
+    var inRange = monthsInTime(state.time);
+    for (var i = 0; i < monthsQueue.length; i++) if (inRange.indexOf(monthsQueue[i]) >= 0) return monthsQueue.splice(i, 1)[0];
+    return null;
+  }
+
   function resetFilters() {
     state.q = ''; state.cat.clear(); state.prio.clear(); state.src.clear(); state.tag.clear();
+    state.time = { mode: 'all' };
     state.limit = PER_BATCH;
     search.value = '';
     syncChips();
@@ -274,9 +372,12 @@ permalink: /news/
     if (rows.length > state.limit) {
       state.limit += PER_BATCH;
       render();
-    } else if (monthsQueue.length && !fullScan.running && !loading) {
-      loading = true;
-      loadMonths(1).then(function () { loading = false; render(); });
+    } else if (monthsQueue.length && !fullScan.running && !loading && timeLoad.pending === 0) {
+      var nm = takeNextMonth();
+      if (nm) {
+        loading = true;
+        loadMonth(nm).catch(function () {}).then(function () { loading = false; render(); });
+      }
     }
   }, { rootMargin: '500px' });
   io.observe(more);
@@ -301,7 +402,13 @@ permalink: /news/
     }
     var b = e.target.closest('.chip');
     if (!b) return;
-    var set = state[b.closest('.facet-group').getAttribute('data-group')];
+    var grp = b.closest('.facet-group').getAttribute('data-group');
+    if (grp === 'time') {
+      var tv = b.getAttribute('data-val');
+      applyTime(tv === '__all' ? { mode: 'all' } : { mode: 'days', days: parseInt(tv, 10) });
+      return;
+    }
+    var set = state[grp];
     var v = b.getAttribute('data-val');
     if (v === '__all') set.clear();
     else if (set.has(v)) set.delete(v);
@@ -309,6 +416,15 @@ permalink: /news/
     state.limit = PER_BATCH;
     syncChips();
     render();
+  });
+
+  chipsBox.addEventListener('change', function (e) {
+    if (e.target.id !== 'time-from' && e.target.id !== 'time-to') return;
+    var from = document.getElementById('time-from').value;
+    var to = document.getElementById('time-to').value;
+    if (!from || !to) return;  // 起止都选好才生效
+    if (from > to) { var tmp = from; from = to; to = tmp; }
+    applyTime({ mode: 'months', from: from, to: to });
   });
 
   count.addEventListener('click', function (e) {
@@ -323,12 +439,20 @@ permalink: /news/
     return loadMonths(2);
   }).then(function () {
     render();
-    var q = new URLSearchParams(location.search).get('q');
+    var params = new URLSearchParams(location.search);
+    var q = params.get('q');
     if (q) {
       search.value = q;
       state.q = q;
       startFullScan();
       render();
+    }
+    var rg = params.get('range');
+    if (rg && /^\d+d$/.test(rg)) {
+      applyTime({ mode: 'days', days: parseInt(rg, 10) });
+    } else {
+      var f = params.get('from'), t2 = params.get('to');
+      if (f && t2) applyTime({ mode: 'months', from: f < t2 ? f : t2, to: f < t2 ? t2 : f });
     }
   }).catch(function () {
     meta.innerHTML = '<span class="badge prio-p0">情报归档服务暂不可达，稍后刷新重试</span>';

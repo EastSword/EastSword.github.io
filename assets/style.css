@@ -607,6 +607,25 @@ body::after {
 /* 折叠态：JS 给第 FACET_TOP 项之后的选项标 .over，默认隐藏 */
 .facet-group.collapsed .chip.over { display: none; }
 
+/* 时间段筛选：快捷区间 + 自定义月份下拉 */
+.time-custom { margin-top: 8px; align-items: center; }
+.time-select {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .5px;
+  color: var(--paper-dim);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: border-color .25s, color .25s;
+}
+.time-select:hover { color: var(--gold-bright); border-color: rgba(212, 175, 106, 0.4); }
+.time-custom.active .time-select { color: var(--gold-bright); border-color: rgba(212, 175, 106, 0.55); }
+.time-sep { font-family: var(--mono); font-size: 11px; color: var(--paper-dim); }
+.time-select option { background: var(--ink-2); color: var(--paper); }
+
 /* 条目卡片：元信息行 + 标题行 + 翻译行 + 标签行 */
 .news-item {
   display: flex;
