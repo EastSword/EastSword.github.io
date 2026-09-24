@@ -74,7 +74,7 @@ def records():
         result.append({'id': key, 'group': key, 'title': labels[key], 'path': path, 'url': '/' if key in ('home', 'global') else '/' + key + '/'})
     registered = {a['slug']: a for a in registry()}
     for group in ('articles', 'topics', 'resources'):
-        names = {p.stem for p in (SITE / ('_' + group)).glob('*.md')}
+        names = {p.stem for p in (SITE / ('_' + group)).glob('*.md') if not p.name.startswith('._')}
         if group == 'articles':
             names.update(registered)
         for slug in sorted(names):
@@ -82,6 +82,12 @@ def records():
             file = SITE / path
             meta = frontmatter(file.read_text())[0] if file.exists() else {}
             cfg = registered.get(slug) if group == 'articles' else None
+            # Migrated packages may contain published articles without external manuscripts.
+            if cfg and file.exists():
+                manuscript = Path(cfg['source'])
+                manuscript = manuscript if manuscript.is_absolute() else SITE / manuscript
+                if not manuscript.is_file():
+                    cfg = None
             result.append({'id': group + '/' + slug, 'group': group, 'title': (cfg or meta).get('title', slug),
                            'path': path, 'url': '/resources/' if group == 'resources' else '/' + group + '/' + slug + '/',
                            'registered': bool(cfg)})
@@ -270,7 +276,7 @@ def preview(keys, live=None):
         STATE.mkdir(parents=True, exist_ok=True)
         root = Path(tempfile.mkdtemp(prefix='preview-', dir=STATE))
         try:
-            shutil.copytree(SITE, root, dirs_exist_ok=True, ignore=shutil.ignore_patterns('.git', '_site', '__pycache__', '.DS_Store'))
+            shutil.copytree(SITE, root, dirs_exist_ok=True, ignore=shutil.ignore_patterns('.git', '_site', '__pycache__', '.DS_Store', '._*'))
             for key in keys:
                 apply_document(document(key), root)
             if live is not None:

@@ -1,49 +1,49 @@
 logo: /assets/logo-full.png
 team_title: 东方隐侠安全团队
 paragraphs:
-  - 从 Web 安全和业务安全做起，现在集中在 AI 应用安全：身份、委托权限、供应链、执行边界。站里的课题从选题、实验到成文，全部在团队内完成。
-  - AI 能读代码、连业务系统、替人执行任务，出事的环节各不相同。测试跟着实际工作流走，遇到什么测什么。
-team_description: 站内内容都标了来源：原创、外部精选，或是资讯。
+- 东方隐侠安全团队关注 Web 安全、业务安全，以及企业使用 AI 时遇到的问题。
+- 这个网站用于整理研究文章、测试记录和参考资料。近期的内容集中在 AI Agent 权限、API Key 泄露和身份安全。
+team_description: 文章中的来源链接和测试条件供读者核对。如有疏漏，欢迎通过留言或 GitHub 联系我们。
 members_title: 成员
 members:
-  - name: 千里
-    role: 创始人 · 安全 BP
-    bio: Web 安全和业务安全做了很多年，现在负责本站的课题研究和内容。
+- name: 千里
+  role: 创始人 · 安全 BP
+  bio: Web 安全和业务安全做了很多年，现在负责本站的课题研究和内容。
 research_links:
-  - title: Agent 安全研究
-    url: /topics/ai-agent-governance/
-  - title: API Key 攻击面
-    url: /topics/llm-api-key-security/
-  - title: 身份攻击与 ITDR
-    url: /topics/identity-attack-paths/
+- title: Agent 安全研究
+  url: /topics/ai-agent-governance/
+- title: API Key 攻击面
+  url: /topics/llm-api-key-security/
+- title: 身份攻击与 ITDR
+  url: /topics/identity-attack-paths/
 contacts:
-  - title: 团队微信
-    description: 添加好友，备注来意
-    modal: modal-wechat
-    glyph: 微
-    tone: gold
-  - title: 视频号
-    description: 安全研究与实测演示
-    modal: modal-sph
-    glyph: 频
-    tone: teal
-  - title: 公众号
-    description: dfyx_sec · 关键词回复获取课题资料
-    modal: modal-gzh
-    glyph: 众
-    tone: purple
-  - title: 知识星球
-    description: 检测基线等付费资产
-    url: https://wx.zsxq.com/group/51115811242514
-    glyph: 星
-    tone: gold
-  - title: GitHub
-    description: EastSword
-    url: https://github.com/EastSword
-    glyph: 码
-    tone: teal
-  - title: Bilibili
-    description: 长视频讲解
-    url: https://space.bilibili.com/1565697864
-    glyph: B
-    tone: purple
+- title: 团队微信
+  description: 添加好友，备注来意
+  modal: modal-wechat
+  glyph: 微
+  tone: gold
+- title: 视频号
+  description: 安全研究与实测演示
+  modal: modal-sph
+  glyph: 频
+  tone: teal
+- title: 公众号
+  description: dfyx_sec · 关键词回复获取课题资料
+  modal: modal-gzh
+  glyph: 众
+  tone: purple
+- title: 知识星球
+  description: 检测基线等付费资产
+  url: https://wx.zsxq.com/group/51115811242514
+  glyph: 星
+  tone: gold
+- title: GitHub
+  description: EastSword
+  url: https://github.com/EastSword
+  glyph: 码
+  tone: teal
+- title: Bilibili
+  description: 长视频讲解
+  url: https://space.bilibili.com/1565697864
+  glyph: B
+  tone: purple

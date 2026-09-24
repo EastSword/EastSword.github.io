@@ -34,6 +34,19 @@ class AdminTests(unittest.TestCase):
         doc['meta']['title'] = 'After'
         return admin.save_draft(doc)
 
+    def test_missing_manuscript_uses_published_article(self):
+        admin.atomic(self.root / 'scripts/articles.json', json.dumps({'articles': [
+            {'slug': 'migrated', 'source': '/missing/manuscript.md', 'title': 'Old title'}]}))
+        admin.atomic(self.root / '_articles/migrated.md', '---\ntitle: Published title\n---\n\nExisting article text\n')
+        (self.root / '_articles/._migrated.md').write_bytes(b'\x00\xff')
+        doc = admin.document('articles/migrated')
+        self.assertFalse(doc['record']['registered'])
+        self.assertEqual(doc['meta']['title'], 'Published title')
+        self.assertIn('Existing article text', doc['body'])
+        doc['body'] = 'Updated locally'
+        admin.apply_document(doc, self.root, real=True)
+        self.assertIn('Updated locally', (self.root / '_articles/migrated.md').read_text())
+
     def test_draft_isolation_and_stale_revision(self):
         old = admin.document('home')
         self.draft()
