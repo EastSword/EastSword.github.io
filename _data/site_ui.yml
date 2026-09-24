@@ -1,69 +1,69 @@
 brand: 东方隐侠安全团队
 logo: /assets/logo-mark.png
-tagline: 安全研究与实践笔记
+tagline: AI 应用安全实测档案
 copyright: 东方隐侠安全团队
 navigation:
-- key: topics
-  title: 研究课题
-  english: RESEARCH
-  url: /topics/
-  visible: true
-  description: 按问题整理的研究笔记、文章与参考资料。
-- key: articles
-  title: 原创文章
-  english: ARTICLES
-  url: /articles/
-  visible: true
-  description: AI 应用、身份安全与运维中的问题记录。
-- key: graph
-  title: 知识图谱
-  english: KNOWLEDGE GRAPH
-  url: /graph/
-  visible: true
-  description: 从文章和课题查看相关的安全概念。
-- key: resources
-  title: 精选资料
-  english: RESOURCES
-  url: /resources/
-  visible: true
-  description: 研究中读过的规范、论文和技术报告，附原文链接。
-- key: news
-  title: 安全资讯
-  english: INTEL
-  url: /news/
-  visible: true
-  description: 汇集安全与 AI 安全资讯，可按来源和关键词查找。
-- key: tools
-  title: 安全藏经阁
-  nav_title: 藏经阁
-  english: LIBRARY
-  url: /tools/
-  visible: true
-  description: 安全平台、靶场和开源项目索引，附使用记录。
-- key: wall
-  title: 江湖留名
-  english: GUESTBOOK
-  url: /wall/
-  visible: true
-  description: 欢迎留言、讨论，也欢迎指出文章里的错误。
-- key: about
-  title: 关于我们
-  english: ABOUT
-  url: /about/
-  visible: true
-  description: 我们做什么，以及在哪里找到我们。
+  - key: topics
+    title: 研究课题
+    english: RESEARCH
+    url: /topics/
+    visible: true
+    description: 按课题组织研究：AI 应用、身份、供应链。结论依据实测证据，并随证据更新。
+  - key: articles
+    title: 原创文章
+    english: ARTICLES
+    url: /articles/
+    visible: true
+    description: 从实际安全问题出发，覆盖分析到测试的完整过程。
+  - key: graph
+    title: 知识图谱
+    english: KNOWLEDGE GRAPH
+    url: /graph/
+    visible: true
+    description: 课题、文章、安全概念的关联图。数据来自工作站知识库，每周日更新。
+  - key: resources
+    title: 精选资料
+    english: RESOURCES
+    url: /resources/
+    visible: true
+    description: 支撑课题结论的原始资料：规范、论文、漏洞报告，和引用它的结论互相链接。
+  - key: news
+    title: 安全资讯
+    english: INTEL
+    url: /news/
+    visible: true
+    description: 安全与 AI 安全资讯，每日同步，原文链接保留，可按来源和关键词检索。
+  - key: tools
+    title: 安全藏经阁
+    nav_title: 藏经阁
+    english: LIBRARY
+    url: /tools/
+    visible: true
+    description: 收录公开安全资源：SRC 名录、漏洞平台、靶场、开源项目等七组。用过的标了天地玄分级，附使用记录。
+  - key: wall
+    title: 江湖留名
+    english: GUESTBOOK
+    url: /wall/
+    visible: true
+    description: GitHub 登录签名，留一句话。看到别人的签名，可以回个表情。
+  - key: about
+    title: 关于我们
+    english: ABOUT
+    url: /about/
+    visible: true
+    description: 团队背景、研究方法与内容来源说明。
 footer_links:
-- title: RSS
-  url: /feed/articles.xml
-- title: CSDN
-  url: https://wittpeng.blog.csdn.net/
-- title: Bilibili
-  url: https://space.bilibili.com/1565697864
-- title: 视频号
-  modal: modal-sph
-- title: 公众号
-  modal: modal-gzh
-- title: 知识星球
-  url: https://wx.zsxq.com/group/51115811242514
-- title: GitHub
-  url: https://github.com/EastSword
+  - title: RSS
+    url: /feed/articles.xml
+  - title: CSDN
+    url: https://wittpeng.blog.csdn.net/
+  - title: Bilibili
+    url: https://space.bilibili.com/1565697864
+  - title: 视频号
+    modal: modal-sph
+  - title: 公众号
+    modal: modal-gzh
+  - title: 知识星球
+    url: https://wx.zsxq.com/group/51115811242514
+  - title: GitHub
+    url: https://github.com/EastSword
