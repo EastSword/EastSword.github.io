@@ -419,9 +419,18 @@ def publish(data):
         return {'ok': True, 'commit': commit, 'log': log, 'actions_url': 'https://github.com/EastSword/EastSword.github.io/actions'}
 
 
+
+def retry_push():
+    with LOCK:
+        commit = run(['git', 'rev-parse', 'HEAD']).strip()
+        log = run(['git', 'push', 'origin', 'HEAD'], timeout=120)
+        return {'ok': True, 'commit': commit, 'log': log,
+                'actions_url': 'https://github.com/EastSword/EastSword.github.io/actions'}
+
+
 def task(fn, *args):
     key = secrets.token_hex(8)
-    release = fn.__name__ in ('release_check', 'publish')
+    release = fn.__name__ in ('release_check', 'publish', 'retry_push')
     def update(value):
         JOBS[key] = value
         if release:
@@ -587,7 +596,7 @@ def handle(handler, path, method):
             elif path == '/api/admin/publish':
                 result = task(publish, data)
             elif path == '/api/admin/retry-push':
-                result = task(lambda: {'ok': True, 'log': run(['git', 'push', 'origin', 'HEAD'], timeout=120)})
+                result = task(retry_push)
             elif path == '/api/admin/diff':
                 paths = reviewed_paths({'files': [data['file']]})
                 file = SITE / paths[0]

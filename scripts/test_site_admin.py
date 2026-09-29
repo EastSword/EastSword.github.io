@@ -142,6 +142,30 @@ class AdminTests(unittest.TestCase):
         self.assertEqual(admin.last_release()['error'], '模拟推送失败')
         self.assertEqual(admin.last_release()['status'], 'failed')
 
+    def test_retry_push_updates_persisted_release_result(self):
+        class ImmediateThread:
+            def __init__(self, target, **kwargs):
+                self.target = target
+            def start(self):
+                self.target()
+        for failure in (False, True):
+            with self.subTest(failure=failure):
+                admin.atomic(admin.STATE / 'last-release.json', admin.json_text({
+                    'status': 'failed', 'error': 'old error'}))
+                effects = ['commit-sha', ValueError('network failed') if failure else 'pushed']
+                with patch.object(admin.threading, 'Thread', ImmediateThread), patch.object(admin, 'run', side_effect=effects):
+                    job = admin.task(admin.retry_push)
+                admin.JOBS.pop(job['job'])
+                saved = admin.last_release()
+                self.assertEqual(saved['stage'], 'retry_push')
+                self.assertEqual(saved['status'], 'failed' if failure else 'complete')
+                if failure:
+                    self.assertEqual(saved['error'], 'network failed')
+                else:
+                    self.assertTrue(saved['result']['ok'])
+                    self.assertEqual(saved['result']['commit'], 'commit-sha')
+                    self.assertNotIn('error', saved)
+
     def test_interrupted_release_is_not_reported_as_success(self):
         admin.atomic(admin.STATE / 'last-release.json', admin.json_text({
             'job': 'old-process', 'status': 'running', 'stage': 'publish'}))
