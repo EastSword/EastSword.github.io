@@ -2,6 +2,7 @@
 title: MemTensor 投毒全链路拆解：import 即执行，发布管道即入口
 date: 2026-09-29
 layout: article
+topic: mcp-supply-chain
 author: 千里
 subtitle: ''
 abstract: 攻击者怎么从 GitHub Actions 发布管道里偷到 token，怎么让恶意包通过官方渠道发布，为什么 `pip install` 之后一次普通的 import 就足够，以及为什么你的 Agent 记忆插件是一个完美的攻击面。最后给到分层的行业建议。

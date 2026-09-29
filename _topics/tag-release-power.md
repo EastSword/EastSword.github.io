@@ -87,8 +87,12 @@ qi:
     url: https://t.zsxq.com/5FkZD
     desc: Tag 治理完整资产包 v1.1：脚本、监控、基线与评审材料整包
     stars: 4
-updated: 2026-09-12
+updated: 2026-09-29
 links:
+  - platform: 官网
+    form: 关联案例 · MemTensor 发布管道投毒
+    url: /articles/memtensor/
+    note: 2026-09-29 发布；对照构建后端、发布脚本与凭据使用位置审查，主归档为 MCP 与扩展层供应链安全
   - platform: 公众号
     form: 上篇《六条绕过代码审核的攻击路径》
     url: https://mp.weixin.qq.com/s/CrNGPlDPP1iy6il1eRzjgQ
@@ -121,6 +125,8 @@ findings:
   - 自建 GitLab、Gitee 等其他平台的保护规则映射与差异
   - L0-L3 自评在企业真实环境的分布数据——目前只有模型，没有样本
 changelog:
+- date: '2026-09-29'
+  action: 补充 MemTensor 发布管道投毒案例入口与研究关联；CI helper 实际触发保留原文证据限定。
 - date: '2026-09-12'
   action: 课题定位调整为可持续研究域：补研究议程，签名与来源证明、自动化管线的 tag 权限列为 L0-L3 之后的延伸方向。
 ---
@@ -137,3 +143,10 @@ Git 的历史不可变，但贴在历史上的标签可变。分支保护审内�
 - **自动化接管**：GitLab Runner / TeamCity / Jenkins / GitHub Actions 四套生产脚本（TeamCity 版含五个真实踩坑记录）
 - **监控兜底**：漂移监控、祖先校验、审计接入三件套
 - **L0-L3 成熟度模型**与评审会十问
+
+
+## 关联案例：MemTensor 发布管道投毒
+
+[MemTensor 完整复盘](/articles/memtensor/)将本课题的发布权限问题延伸到构建后端、发布校验脚本与跨步骤环境变量。结合文章，可在现有 tag 治理检查中继续核对：哪个 ref 的代码进入发布任务、哪个步骤可以改变后续执行环境、凭据在哪一步可用，以及 registry 版本能否与源码和发布记录对应。
+
+文章记录了 PyPI CI helper 实际触发方面的分析分歧，这部分应作为待验证路径，不据此认定 token 捕获已被完整证实。运行时投毒与记忆组件风险的主归档见 [MCP 与扩展层供应链安全](/topics/mcp-supply-chain/)。
