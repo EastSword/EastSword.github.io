@@ -1,5 +1,5 @@
 ---
-title: 自设围栏：授权按次给，不按文档给
+title: 速来了解如何给AI渗透工具设置围栏，白帽保命必备
 date: 2026-09-30
 layout: article
 topic: ''
